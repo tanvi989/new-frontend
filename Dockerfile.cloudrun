@@ -1,0 +1,74 @@
+# Optimized Dockerfile for Cloud Run
+# Uses nginx as reverse proxy to serve frontend and route API requests to backend
+
+FROM node:20-alpine AS frontend-builder
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY vite.config.ts ./
+COPY tsconfig.json ./
+
+RUN npm ci
+
+COPY . .
+
+# Build frontend (API target will be set at runtime via nginx proxy)
+RUN npm run build
+
+# Production stage
+FROM node:20-alpine
+
+# Install nginx and supervisor
+RUN apk add --no-cache nginx supervisor
+
+WORKDIR /app
+
+# Copy backend
+WORKDIR /app/server
+COPY server/package*.json ./
+RUN npm ci --only=production
+COPY server/ ./
+
+# Copy built frontend
+WORKDIR /app
+COPY --from=frontend-builder /app/dist /usr/share/nginx/html
+
+# Copy nginx config template
+COPY nginx.conf /etc/nginx/http.d/default.conf.template
+
+# Copy startup script
+COPY start-nginx.sh /app/start-nginx.sh
+RUN chmod +x /app/start-nginx.sh
+
+# Create supervisor configuration
+RUN echo '[supervisord]\n\
+nodaemon=true\n\
+\n\
+[program:backend]\n\
+command=node /app/server/index.js\n\
+directory=/app/server\n\
+autorestart=true\n\
+stdout_logfile=/dev/stdout\n\
+stdout_logfile_maxbytes=0\n\
+stderr_logfile=/dev/stderr\n\
+stderr_logfile_maxbytes=0\n\
+environment=PORT="5001"\n\
+\n\
+[program:nginx]\n\
+command=/app/start-nginx.sh\n\
+directory=/app\n\
+autorestart=true\n\
+stdout_logfile=/dev/stdout\n\
+stdout_logfile_maxbytes=0\n\
+stderr_logfile=/dev/stderr\n\
+stderr_logfile_maxbytes=0\n\
+' > /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+

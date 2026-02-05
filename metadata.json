@@ -1,0 +1,7 @@
+{
+  "name": "Multifolks Clone",
+  "description": "A high-fidelity recreation of the Multifolks design featuring a beige aesthetic, large profile cards, and refined typography.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

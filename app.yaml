@@ -1,0 +1,44 @@
+# App Engine Configuration (Alternative to Cloud Run)
+runtime: custom
+env: flex
+
+# Automatic scaling
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 10
+  cool_down_period_sec: 120
+  cpu_utilization:
+    target_utilization: 0.6
+
+# Resources
+resources:
+  cpu: 2
+  memory_gb: 2
+  disk_size_gb: 10
+
+# Health check
+readiness_check:
+  path: "/api/health"
+  check_interval_sec: 5
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+  app_start_timeout_sec: 300
+
+liveness_check:
+  path: "/api/health"
+  check_interval_sec: 30
+  timeout_sec: 4
+  failure_threshold: 4
+  success_threshold: 2
+  initial_delay_sec: 300
+
+# Environment variables (set these in GCP Console or via gcloud)
+env_variables:
+  NODE_ENV: production
+  PORT: 8080
+
+
+
+
+

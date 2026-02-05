@@ -1,0 +1,71 @@
+Total rows: 811
+Total columns: 50
+
+COLUMNS:
+1. id
+2. skuid
+3. gender
+4. primarycategory
+5. brand
+6. framecolor
+7. lensmaterial
+8. lenscolor
+9. material
+10. shape
+11. weight
+12. size
+13. price
+14. style
+15. features
+16. description
+17. name
+18. discount percentage
+19. publish
+20. type
+21. secondarycategory
+22. brandalias
+23. materialalias
+24. stylealias
+25. typealias
+26. barcode
+27. shortdescription
+28. gender2
+29. update time
+30. rank
+31. dimensions
+32. frameshapeurl
+33. framestyleurl
+34. brandurl
+35. segment
+36. vto
+37. origin
+38. mfd_by
+39. pkg_by
+40. mktd_by
+41. rm_source
+42. mfg_date
+43. exp_date
+44. no_of_images
+45. is_onsale
+46. Created time
+47. frame_cost
+48. Deal of Day
+49. comfort
+50. naming_system
+
+
+CHECKING FOR SHAPE:
+Shape column found!
+
+Unique shapes: 9
+
+Shape values:
+  - Rectangle: 260 products
+  - Square: 213 products
+  - Round: 151 products
+  - Cateye: 80 products
+  - Oval: 40 products
+  - Aviator: 38 products
+  - Wayfarer: 19 products
+  - Hexagon: 7 products
+  - Semi square: 3 products

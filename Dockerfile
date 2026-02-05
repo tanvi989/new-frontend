@@ -1,0 +1,51 @@
+# Simplified Dockerfile for Cloud Run
+FROM node:20-alpine AS frontend-builder
+
+WORKDIR /app
+
+# Copy and install frontend dependencies
+COPY package*.json ./
+COPY vite.config.ts ./
+COPY tsconfig.json ./
+RUN npm ci
+
+# Copy frontend source and build
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install backend dependencies
+WORKDIR /app/server
+COPY server/package*.json ./
+RUN npm ci --only=production
+COPY server/ ./
+
+# Copy built frontend
+WORKDIR /app
+COPY --from=frontend-builder /app/dist ./public
+
+# Install serve for static files
+RUN npm install -g serve
+
+# Create startup script that runs both services
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'cd /app/server' >> /app/start.sh && \
+    echo 'node index.js &' >> /app/start.sh && \
+    echo 'BACKEND_PID=$!' >> /app/start.sh && \
+    echo 'cd /app' >> /app/start.sh && \
+    echo 'PORT=${PORT:-8080}' >> /app/start.sh && \
+    echo 'serve -s public -l $PORT' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:5001/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+
+CMD ["/app/start.sh"]
+

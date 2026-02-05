@@ -1,0 +1,9000 @@
+[
+  {
+    "id": 54800,
+    "name": "BERG",
+    "brand": "BERG",
+    "style": "Full Frame",
+    "size": "Medium",
+    "price": 139,
+    "colors": [
+      "#FFFFFF",
+      "#000000",
+      "#8B4513",
+      "#FFFDD0",
+      "#808080",
+      "#0000FF",
+      "#800020",
+      "#B0B0B0",
+      "#F5F5F5",
+      "#4169E1",
+      "#FFC0CB"
+    ],
+    "color_names": [
+      "White",
+      "Black",
+      "Brown",
+      "Cream",
+      "Grey",
+      "Blue",
+      "Burgundy",
+      "Grey transparent",
+      "White transparent",
+      "Royal blue",
+      "Pink"
+    ],
+    "image": "/images/products/E19B8501_1.jpg",
+    "skuid": "E19B8501",
+    "category": "eyeglasses",
+    "material": "acetate",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Hinges",
+      "Lightweight",
+      "Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Square",
+    "variants": [
+      {
+        "skuid": "E19B8501",
+        "color_names": [
+          "White"
+        ],
+        "colors": [
+          "#FFFFFF"
+        ],
+        "image": "/images/products/E19B8501_1.jpg"
+      },
+      {
+        "skuid": "E12B8501",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8501_1.jpg"
+      },
+      {
+        "skuid": "E12B8541",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8541_1.jpg"
+      },
+      {
+        "skuid": "E15A8534",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8534_1.jpg"
+      },
+      {
+        "skuid": "E15A8541",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8541_1.jpg"
+      },
+      {
+        "skuid": "E45A8506",
+        "color_names": [
+          "Cream"
+        ],
+        "colors": [
+          "#FFFDD0"
+        ],
+        "image": "/images/products/E45A8506_1.jpg"
+      },
+      {
+        "skuid": "E12A8534",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8534_1.jpg"
+      },
+      {
+        "skuid": "E12A8570",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8570_1.jpg"
+      },
+      {
+        "skuid": "E12A8567",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8567_1.jpg"
+      },
+      {
+        "skuid": "E15A8567",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8567_1.jpg"
+      },
+      {
+        "skuid": "E15B8567",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8567_1.jpg"
+      },
+      {
+        "skuid": "E12A8506",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8506_1.jpg"
+      },
+      {
+        "skuid": "E15A8506",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8506_1.jpg"
+      },
+      {
+        "skuid": "E16A8570",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8570_1.jpg"
+      },
+      {
+        "skuid": "E12A8551",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8551_1.jpg"
+      },
+      {
+        "skuid": "E15A8543",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8543_1.jpg"
+      },
+      {
+        "skuid": "E16A8534",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8534_1.jpg"
+      },
+      {
+        "skuid": "E15A8570",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8570_1.jpg"
+      },
+      {
+        "skuid": "E12A8558",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8558_1.jpg"
+      },
+      {
+        "skuid": "E15A8533",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8533_1.jpg"
+      },
+      {
+        "skuid": "E20A8558",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8558_1.jpg"
+      },
+      {
+        "skuid": "E12A8509",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8509_1.jpg"
+      },
+      {
+        "skuid": "E12A8530",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8530_1.jpg"
+      },
+      {
+        "skuid": "E12B8558",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8558_1.jpg"
+      },
+      {
+        "skuid": "E15A8530",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8530_1.jpg"
+      },
+      {
+        "skuid": "E15A8509",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8509_1.jpg"
+      },
+      {
+        "skuid": "E12A8533",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8533_1.jpg"
+      },
+      {
+        "skuid": "E15B8521",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8521_1.jpg"
+      },
+      {
+        "skuid": "E20A8545",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8545_1.jpg"
+      },
+      {
+        "skuid": "E12A8508",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8508_1.jpg"
+      },
+      {
+        "skuid": "E15B8503",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8503_1.jpg"
+      },
+      {
+        "skuid": "E12B8521",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8521_1.jpg"
+      },
+      {
+        "skuid": "E15A8503",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8503_1.jpg"
+      },
+      {
+        "skuid": "E15A8566",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8566_1.jpg"
+      },
+      {
+        "skuid": "E15A8569",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8569_1.jpg"
+      },
+      {
+        "skuid": "E12A8569",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8569_1.jpg"
+      },
+      {
+        "skuid": "E74A8566",
+        "color_names": [
+          "Burgundy"
+        ],
+        "colors": [
+          "#800020"
+        ],
+        "image": "/images/products/E74A8566_1.jpg"
+      },
+      {
+        "skuid": "E15A8511",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8511_1.jpg"
+      },
+      {
+        "skuid": "E12A8511",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8511_1.jpg"
+      },
+      {
+        "skuid": "E16A8521",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8521_1.jpg"
+      },
+      {
+        "skuid": "E12B8544",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8544_1.jpg"
+      },
+      {
+        "skuid": "E15A8551",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8551_1.jpg"
+      },
+      {
+        "skuid": "E15A8553",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8553_1.jpg"
+      },
+      {
+        "skuid": "E16B8511",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8511_1.jpg"
+      },
+      {
+        "skuid": "E79A8503",
+        "color_names": [
+          "Grey transparent"
+        ],
+        "colors": [
+          "#B0B0B0"
+        ],
+        "image": "/images/products/E79A8503_1.jpg"
+      },
+      {
+        "skuid": "E12A8539",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8539_1.jpg"
+      },
+      {
+        "skuid": "E20A8552",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8552_1.jpg"
+      },
+      {
+        "skuid": "E15A8501",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8501_1.jpg"
+      },
+      {
+        "skuid": "E15B8544",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8544_1.jpg"
+      },
+      {
+        "skuid": "E12B8545",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8545_1.jpg"
+      },
+      {
+        "skuid": "E16A8548",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8548_1.jpg"
+      },
+      {
+        "skuid": "E12A8548",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8548_1.jpg"
+      },
+      {
+        "skuid": "E15A8545",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8545_1.jpg"
+      },
+      {
+        "skuid": "E15A8548",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8548_1.jpg"
+      },
+      {
+        "skuid": "E12A8544",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8544_1.jpg"
+      },
+      {
+        "skuid": "E15B8539",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8539_1.jpg"
+      },
+      {
+        "skuid": "E12B8560",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8560_1.jpg"
+      },
+      {
+        "skuid": "E15B8552",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8552_1.jpg"
+      },
+      {
+        "skuid": "E15B8543",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8543_1.jpg"
+      },
+      {
+        "skuid": "E12B8553",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8553_1.jpg"
+      },
+      {
+        "skuid": "E15B0054",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B0054_1.jpg"
+      },
+      {
+        "skuid": "E20B8508",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8508_1.jpg"
+      },
+      {
+        "skuid": "E15B0056",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B0056_1.jpg"
+      },
+      {
+        "skuid": "E12B0049",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B0049_1.jpg"
+      },
+      {
+        "skuid": "E84A8506",
+        "color_names": [
+          "White transparent"
+        ],
+        "colors": [
+          "#F5F5F5"
+        ],
+        "image": "/images/products/E84A8506_1.jpg"
+      },
+      {
+        "skuid": "E15B8530",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8530_1.jpg"
+      },
+      {
+        "skuid": "E15B8533",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8533_1.jpg"
+      },
+      {
+        "skuid": "E78A8509",
+        "color_names": [
+          "Royal blue"
+        ],
+        "colors": [
+          "#4169E1"
+        ],
+        "image": "/images/products/E78A8509_1.jpg"
+      },
+      {
+        "skuid": "E79A8506",
+        "color_names": [
+          "Grey transparent"
+        ],
+        "colors": [
+          "#B0B0B0"
+        ],
+        "image": "/images/products/E79A8506_1.jpg"
+      },
+      {
+        "skuid": "E15B8549",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8549_1.jpg"
+      },
+      {
+        "skuid": "E15B8550",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8550_1.jpg"
+      },
+      {
+        "skuid": "E12B8550",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8550_1.jpg"
+      },
+      {
+        "skuid": "E12B8556",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8556_1.jpg"
+      },
+      {
+        "skuid": "E12A8503",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8503_1.jpg"
+      },
+      {
+        "skuid": "E15B8553",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8553_1.jpg"
+      },
+      {
+        "skuid": "E12B8549",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8549_1.jpg"
+      },
+      {
+        "skuid": "E20A8554",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8554_1.jpg"
+      },
+      {
+        "skuid": "E12A8554",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8554_1.jpg"
+      },
+      {
+        "skuid": "E12A8566",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8566_1.jpg"
+      },
+      {
+        "skuid": "E20A8569",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8569_1.jpg"
+      },
+      {
+        "skuid": "E20B8556",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8556_1.jpg"
+      },
+      {
+        "skuid": "E23B8543",
+        "color_names": [
+          "Pink"
+        ],
+        "colors": [
+          "#FFC0CB"
+        ],
+        "image": "/images/products/E23B8543_1.jpg"
+      },
+      {
+        "skuid": "E15B8560",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8560_1.jpg"
+      },
+      {
+        "skuid": "E20B8539",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8539_1.jpg"
+      },
+      {
+        "skuid": "E16B8560",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8560_1.jpg"
+      },
+      {
+        "skuid": "E12B8552",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8552_1.jpg"
+      },
+      {
+        "skuid": "E15B8508",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8508_1.jpg"
+      },
+      {
+        "skuid": "E12B0041",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B0041_1.jpg"
+      },
+      {
+        "skuid": "E15A8508",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8508_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#FFFFFF",
+      "#000000",
+      "#8B4513",
+      "#FFFDD0",
+      "#808080",
+      "#0000FF",
+      "#800020",
+      "#B0B0B0",
+      "#F5F5F5",
+      "#4169E1",
+      "#FFC0CB"
+    ],
+    "all_color_names": [
+      "White",
+      "Black",
+      "Brown",
+      "Cream",
+      "Grey",
+      "Blue",
+      "Burgundy",
+      "Grey transparent",
+      "White transparent",
+      "Royal blue",
+      "Pink"
+    ],
+    "all_skuids": [
+      "E19B8501",
+      "E12B8501",
+      "E12B8541",
+      "E15A8534",
+      "E15A8541",
+      "E45A8506",
+      "E12A8534",
+      "E12A8570",
+      "E12A8567",
+      "E15A8567",
+      "E15B8567",
+      "E12A8506",
+      "E15A8506",
+      "E16A8570",
+      "E12A8551",
+      "E15A8543",
+      "E16A8534",
+      "E15A8570",
+      "E12A8558",
+      "E15A8533",
+      "E20A8558",
+      "E12A8509",
+      "E12A8530",
+      "E12B8558",
+      "E15A8530",
+      "E15A8509",
+      "E12A8533",
+      "E15B8521",
+      "E20A8545",
+      "E12A8508",
+      "E15B8503",
+      "E12B8521",
+      "E15A8503",
+      "E15A8566",
+      "E15A8569",
+      "E12A8569",
+      "E74A8566",
+      "E15A8511",
+      "E12A8511",
+      "E16A8521",
+      "E12B8544",
+      "E15A8551",
+      "E15A8553",
+      "E16B8511",
+      "E79A8503",
+      "E12A8539",
+      "E20A8552",
+      "E15A8501",
+      "E15B8544",
+      "E12B8545",
+      "E16A8548",
+      "E12A8548",
+      "E15A8545",
+      "E15A8548",
+      "E12A8544",
+      "E15B8539",
+      "E12B8560",
+      "E15B8552",
+      "E15B8543",
+      "E12B8553",
+      "E15B0054",
+      "E20B8508",
+      "E15B0056",
+      "E12B0049",
+      "E84A8506",
+      "E15B8530",
+      "E15B8533",
+      "E78A8509",
+      "E79A8506",
+      "E15B8549",
+      "E15B8550",
+      "E12B8550",
+      "E12B8556",
+      "E12A8503",
+      "E15B8553",
+      "E12B8549",
+      "E20A8554",
+      "E12A8554",
+      "E12A8566",
+      "E20A8569",
+      "E20B8556",
+      "E23B8543",
+      "E15B8560",
+      "E20B8539",
+      "E16B8560",
+      "E12B8552",
+      "E15B8508",
+      "E12B0041",
+      "E15A8508"
+    ]
+  },
+  {
+    "id": 18905,
+    "name": "MIYAMA",
+    "brand": "MIYAMA",
+    "style": "Rimless",
+    "size": "Medium",
+    "price": 149,
+    "colors": [
+      "#000000",
+      "#C0C0C0",
+      "#808080",
+      "#0000FF",
+      "#8B4513",
+      "#FFD700",
+      "#800020"
+    ],
+    "color_names": [
+      "Black",
+      "Silver",
+      "Grey",
+      "Blue",
+      "Brown",
+      "Gold",
+      "Burgundy",
+      "Golden"
+    ],
+    "image": "/images/products/E12A8722_1.jpg",
+    "skuid": "E12A8722",
+    "category": "eyeglasses",
+    "material": "metallic",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Hinges",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Rectangle",
+    "variants": [
+      {
+        "skuid": "E12A8722",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8722_1.jpg"
+      },
+      {
+        "skuid": "E10B8723",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8723_1.jpg"
+      },
+      {
+        "skuid": "E16C8719",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16C8719_1.jpg"
+      },
+      {
+        "skuid": "E20B8716",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8716_1.jpg"
+      },
+      {
+        "skuid": "E12B8724",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8724_1.jpg"
+      },
+      {
+        "skuid": "E12B8716",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8716_1.jpg"
+      },
+      {
+        "skuid": "E15B8716",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8716_1.jpg"
+      },
+      {
+        "skuid": "E10B8716",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8716_1.jpg"
+      },
+      {
+        "skuid": "E25B8716",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8716_1.jpg"
+      },
+      {
+        "skuid": "E12B8723",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8723_1.jpg"
+      },
+      {
+        "skuid": "E16B8724",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8724_1.jpg"
+      },
+      {
+        "skuid": "E10B8720",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8720_1.jpg"
+      },
+      {
+        "skuid": "E80B8717",
+        "color_names": [
+          "Burgundy"
+        ],
+        "colors": [
+          "#800020"
+        ],
+        "image": "/images/products/E80B8717_1.jpg"
+      },
+      {
+        "skuid": "E20B8717",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8717_1.jpg"
+      },
+      {
+        "skuid": "E12B8721",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8721_1.jpg"
+      },
+      {
+        "skuid": "E25B8720",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8720_1.jpg"
+      },
+      {
+        "skuid": "E20B8720",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8720_1.jpg"
+      },
+      {
+        "skuid": "E20B8722",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8722_1.jpg"
+      },
+      {
+        "skuid": "E25B8721",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8721_1.jpg"
+      },
+      {
+        "skuid": "E25B8718",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8718_1.jpg"
+      },
+      {
+        "skuid": "E25B8723",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8723_1.jpg"
+      },
+      {
+        "skuid": "E15B8722",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8722_1.jpg"
+      },
+      {
+        "skuid": "E10B8718",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8718_1.jpg"
+      },
+      {
+        "skuid": "E10B8719",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8719_1.jpg"
+      },
+      {
+        "skuid": "E38B8719",
+        "color_names": [
+          "Golden"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E38B8719_1.jpg"
+      },
+      {
+        "skuid": "E25B8722",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8722_1.jpg"
+      },
+      {
+        "skuid": "E10B8722",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8722_1.jpg"
+      },
+      {
+        "skuid": "E16A8719",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8719_1.jpg"
+      },
+      {
+        "skuid": "E15B8718",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8718_1.jpg"
+      },
+      {
+        "skuid": "E25A8724",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8724_1.jpg"
+      },
+      {
+        "skuid": "E25B8724",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8724_1.jpg"
+      },
+      {
+        "skuid": "E10A8721",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A8721_1.jpg"
+      },
+      {
+        "skuid": "E12A8720",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8720_1.jpg"
+      },
+      {
+        "skuid": "E10B8721",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8721_1.jpg"
+      },
+      {
+        "skuid": "E10C8721",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10C8721_1.jpg"
+      },
+      {
+        "skuid": "E12B8720",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8720_1.jpg"
+      },
+      {
+        "skuid": "E15B8723",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8723_1.jpg"
+      },
+      {
+        "skuid": "E25A8717",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8717_1.jpg"
+      },
+      {
+        "skuid": "E16B8719",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8719_1.jpg"
+      },
+      {
+        "skuid": "E15A8718",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8718_1.jpg"
+      },
+      {
+        "skuid": "E15A8723",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8723_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#000000",
+      "#C0C0C0",
+      "#808080",
+      "#0000FF",
+      "#8B4513",
+      "#FFD700",
+      "#800020"
+    ],
+    "all_color_names": [
+      "Black",
+      "Silver",
+      "Grey",
+      "Blue",
+      "Brown",
+      "Gold",
+      "Burgundy",
+      "Golden"
+    ],
+    "all_skuids": [
+      "E12A8722",
+      "E10B8723",
+      "E16C8719",
+      "E20B8716",
+      "E12B8724",
+      "E12B8716",
+      "E15B8716",
+      "E10B8716",
+      "E25B8716",
+      "E12B8723",
+      "E16B8724",
+      "E10B8720",
+      "E80B8717",
+      "E20B8717",
+      "E12B8721",
+      "E25B8720",
+      "E20B8720",
+      "E20B8722",
+      "E25B8721",
+      "E25B8718",
+      "E25B8723",
+      "E15B8722",
+      "E10B8718",
+      "E10B8719",
+      "E38B8719",
+      "E25B8722",
+      "E10B8722",
+      "E16A8719",
+      "E15B8718",
+      "E25A8724",
+      "E25B8724",
+      "E10A8721",
+      "E12A8720",
+      "E10B8721",
+      "E10C8721",
+      "E12B8720",
+      "E15B8723",
+      "E25A8717",
+      "E16B8719",
+      "E15A8718",
+      "E15A8723"
+    ]
+  },
+  {
+    "id": 18925,
+    "name": "BERG",
+    "brand": "BERG",
+    "style": "Full Frame",
+    "size": "Small",
+    "price": 139,
+    "colors": [
+      "#B0B0B0",
+      "#000000",
+      "#8B4513",
+      "#FF0000",
+      "#A0522D",
+      "#722F37",
+      "#808080",
+      "#0000FF",
+      "#800020",
+      "#4169E1",
+      "#F5F5F5",
+      "#008000"
+    ],
+    "color_names": [
+      "Grey transparent",
+      "Black",
+      "Brown",
+      "Red",
+      "Reddish brown",
+      "Wine",
+      "Grey",
+      "Blue",
+      "Burgundy",
+      "Royal blue",
+      "White transparent",
+      "Mauve",
+      "Green"
+    ],
+    "image": "/images/products/E79A8516_1.jpg",
+    "skuid": "E79A8516",
+    "category": "eyeglasses",
+    "material": "acetate",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Hinges",
+      "Lightweight",
+      "Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Wayfarer",
+    "variants": [
+      {
+        "skuid": "E79A8516",
+        "color_names": [
+          "Grey transparent"
+        ],
+        "colors": [
+          "#B0B0B0"
+        ],
+        "image": "/images/products/E79A8516_1.jpg"
+      },
+      {
+        "skuid": "E12A8538",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8538_1.jpg"
+      },
+      {
+        "skuid": "E15B8540",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8540_1.jpg"
+      },
+      {
+        "skuid": "E15A8538",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8538_1.jpg"
+      },
+      {
+        "skuid": "E12A8512",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8512_1.jpg"
+      },
+      {
+        "skuid": "E15B8538",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8538_1.jpg"
+      },
+      {
+        "skuid": "E21A8529",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21A8529_1.jpg"
+      },
+      {
+        "skuid": "E12A8529",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8529_1.jpg"
+      },
+      {
+        "skuid": "E77A8538",
+        "color_names": [
+          "Reddish brown"
+        ],
+        "colors": [
+          "#A0522D"
+        ],
+        "image": "/images/products/E77A8538_1.jpg"
+      },
+      {
+        "skuid": "E12A8546",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8546_1.jpg"
+      },
+      {
+        "skuid": "E15A8529",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8529_1.jpg"
+      },
+      {
+        "skuid": "E15A8546",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8546_1.jpg"
+      },
+      {
+        "skuid": "E33A8512",
+        "color_names": [
+          "Wine"
+        ],
+        "colors": [
+          "#722F37"
+        ],
+        "image": "/images/products/E33A8512_1.jpg"
+      },
+      {
+        "skuid": "E15A8512",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8512_1.jpg"
+      },
+      {
+        "skuid": "E12B8512",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8512_1.jpg"
+      },
+      {
+        "skuid": "E12A0071",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A0071_1.jpg"
+      },
+      {
+        "skuid": "E16A8536",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8536_1.jpg"
+      },
+      {
+        "skuid": "E15A8535",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8535_1.jpg"
+      },
+      {
+        "skuid": "E12A8535",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8535_1.jpg"
+      },
+      {
+        "skuid": "E20A8513",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8513_1.jpg"
+      },
+      {
+        "skuid": "E15A8514",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8514_1.jpg"
+      },
+      {
+        "skuid": "E15A8526",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8526_1.jpg"
+      },
+      {
+        "skuid": "E15A8515",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8515_1.jpg"
+      },
+      {
+        "skuid": "E15A8520",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8520_1.jpg"
+      },
+      {
+        "skuid": "E12A8519",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8519_1.jpg"
+      },
+      {
+        "skuid": "E77A8565",
+        "color_names": [
+          "Reddish brown"
+        ],
+        "colors": [
+          "#A0522D"
+        ],
+        "image": "/images/products/E77A8565_1.jpg"
+      },
+      {
+        "skuid": "E74A8520",
+        "color_names": [
+          "Burgundy"
+        ],
+        "colors": [
+          "#800020"
+        ],
+        "image": "/images/products/E74A8520_1.jpg"
+      },
+      {
+        "skuid": "E15C8531",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15C8531_1.jpg"
+      },
+      {
+        "skuid": "E15A0027",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A0027_1.jpg"
+      },
+      {
+        "skuid": "E16A8502",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8502_1.jpg"
+      },
+      {
+        "skuid": "E15A8517",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8517_1.jpg"
+      },
+      {
+        "skuid": "E74A8561",
+        "color_names": [
+          "Burgundy"
+        ],
+        "colors": [
+          "#800020"
+        ],
+        "image": "/images/products/E74A8561_1.jpg"
+      },
+      {
+        "skuid": "E15A8513",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8513_1.jpg"
+      },
+      {
+        "skuid": "E12A8524",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8524_1.jpg"
+      },
+      {
+        "skuid": "E74A8524",
+        "color_names": [
+          "Burgundy"
+        ],
+        "colors": [
+          "#800020"
+        ],
+        "image": "/images/products/E74A8524_1.jpg"
+      },
+      {
+        "skuid": "E15A8524",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8524_1.jpg"
+      },
+      {
+        "skuid": "E16A8504",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8504_1.jpg"
+      },
+      {
+        "skuid": "E12A8515",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8515_1.jpg"
+      },
+      {
+        "skuid": "E12B8515",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8515_1.jpg"
+      },
+      {
+        "skuid": "E12A8514",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8514_1.jpg"
+      },
+      {
+        "skuid": "E15A8547",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8547_1.jpg"
+      },
+      {
+        "skuid": "E15A8505",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8505_1.jpg"
+      },
+      {
+        "skuid": "E15B8528",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8528_1.jpg"
+      },
+      {
+        "skuid": "E20A8507",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8507_1.jpg"
+      },
+      {
+        "skuid": "E20A0018",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A0018_1.jpg"
+      },
+      {
+        "skuid": "E16A8535",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8535_1.jpg"
+      },
+      {
+        "skuid": "E15A8555",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8555_1.jpg"
+      },
+      {
+        "skuid": "E15A0022",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A0022_1.jpg"
+      },
+      {
+        "skuid": "E15A8510",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8510_1.jpg"
+      },
+      {
+        "skuid": "E16A8564",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8564_1.jpg"
+      },
+      {
+        "skuid": "E15A8571",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8571_1.jpg"
+      },
+      {
+        "skuid": "E15B8510",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8510_1.jpg"
+      },
+      {
+        "skuid": "E20A8522",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8522_1.jpg"
+      },
+      {
+        "skuid": "E12A8518",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8518_1.jpg"
+      },
+      {
+        "skuid": "E12A8523",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8523_1.jpg"
+      },
+      {
+        "skuid": "E15A8523",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8523_1.jpg"
+      },
+      {
+        "skuid": "E21A8523",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21A8523_1.jpg"
+      },
+      {
+        "skuid": "E20A8568",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8568_1.jpg"
+      },
+      {
+        "skuid": "E12A8568",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8568_1.jpg"
+      },
+      {
+        "skuid": "E12A8542",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8542_1.jpg"
+      },
+      {
+        "skuid": "E12A8564",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8564_1.jpg"
+      },
+      {
+        "skuid": "E15B8531",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8531_1.jpg"
+      },
+      {
+        "skuid": "E12A8547",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8547_1.jpg"
+      },
+      {
+        "skuid": "E12B8547",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8547_1.jpg"
+      },
+      {
+        "skuid": "E78A8532",
+        "color_names": [
+          "Royal blue"
+        ],
+        "colors": [
+          "#4169E1"
+        ],
+        "image": "/images/products/E78A8532_1.jpg"
+      },
+      {
+        "skuid": "E12A8536",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8536_1.jpg"
+      },
+      {
+        "skuid": "E12A0031",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A0031_1.jpg"
+      },
+      {
+        "skuid": "E15A8507",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8507_1.jpg"
+      },
+      {
+        "skuid": "E20A8542",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8542_1.jpg"
+      },
+      {
+        "skuid": "E15A8502",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8502_1.jpg"
+      },
+      {
+        "skuid": "E12B8514",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8514_1.jpg"
+      },
+      {
+        "skuid": "E84A8559",
+        "color_names": [
+          "White transparent"
+        ],
+        "colors": [
+          "#F5F5F5"
+        ],
+        "image": "/images/products/E84A8559_1.jpg"
+      },
+      {
+        "skuid": "E12A8522",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8522_1.jpg"
+      },
+      {
+        "skuid": "E15A8519",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8519_1.jpg"
+      },
+      {
+        "skuid": "E12A8532",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8532_1.jpg"
+      },
+      {
+        "skuid": "E12A8565",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8565_1.jpg"
+      },
+      {
+        "skuid": "E15A8532",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8532_1.jpg"
+      },
+      {
+        "skuid": "E20A8519",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8519_1.jpg"
+      },
+      {
+        "skuid": "E16A8520",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8520_1.jpg"
+      },
+      {
+        "skuid": "E15A8565",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8565_1.jpg"
+      },
+      {
+        "skuid": "E12A8520",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8520_1.jpg"
+      },
+      {
+        "skuid": "E20A8504",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8504_1.jpg"
+      },
+      {
+        "skuid": "E74A8537",
+        "color_names": [
+          "Burgundy"
+        ],
+        "colors": [
+          "#800020"
+        ],
+        "image": "/images/products/E74A8537_1.jpg"
+      },
+      {
+        "skuid": "E79A8537",
+        "color_names": [
+          "Grey transparent"
+        ],
+        "colors": [
+          "#B0B0B0"
+        ],
+        "image": "/images/products/E79A8537_1.jpg"
+      },
+      {
+        "skuid": "E16A8526",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8526_1.jpg"
+      },
+      {
+        "skuid": "E20A8524",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8524_1.jpg"
+      },
+      {
+        "skuid": "E16A0062",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A0062_1.jpg"
+      },
+      {
+        "skuid": "E15A8563",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8563_1.jpg"
+      },
+      {
+        "skuid": "E12A8559",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8559_1.jpg"
+      },
+      {
+        "skuid": "E73A8564",
+        "color_names": [
+          "Mauve"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E73A8564_1.jpg"
+      },
+      {
+        "skuid": "E15A0042",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A0042_1.jpg"
+      },
+      {
+        "skuid": "E15A0025",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A0025_1.jpg"
+      },
+      {
+        "skuid": "E12A0025",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A0025_1.jpg"
+      },
+      {
+        "skuid": "E12A0027",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A0027_1.jpg"
+      },
+      {
+        "skuid": "E15A8557",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8557_1.jpg"
+      },
+      {
+        "skuid": "E84A8547",
+        "color_names": [
+          "White transparent"
+        ],
+        "colors": [
+          "#F5F5F5"
+        ],
+        "image": "/images/products/E84A8547_1.jpg"
+      },
+      {
+        "skuid": "E84A8535",
+        "color_names": [
+          "White transparent"
+        ],
+        "colors": [
+          "#F5F5F5"
+        ],
+        "image": "/images/products/E84A8535_1.jpg"
+      },
+      {
+        "skuid": "E15A8562",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8562_1.jpg"
+      },
+      {
+        "skuid": "E12A8562",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8562_1.jpg"
+      },
+      {
+        "skuid": "E12A8563",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8563_1.jpg"
+      },
+      {
+        "skuid": "E16A8563",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8563_1.jpg"
+      },
+      {
+        "skuid": "E35A8517",
+        "color_names": [
+          "Green"
+        ],
+        "colors": [
+          "#008000"
+        ],
+        "image": "/images/products/E35A8517_1.jpg"
+      },
+      {
+        "skuid": "E15A8536",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8536_1.jpg"
+      },
+      {
+        "skuid": "E12A0010",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A0010_1.jpg"
+      },
+      {
+        "skuid": "E16A8555",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8555_1.jpg"
+      },
+      {
+        "skuid": "E15A8568",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8568_1.jpg"
+      },
+      {
+        "skuid": "E15A0031",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A0031_1.jpg"
+      },
+      {
+        "skuid": "E12A0007",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A0007_1.jpg"
+      },
+      {
+        "skuid": "E15A0018",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A0018_1.jpg"
+      },
+      {
+        "skuid": "E12A8526",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8526_1.jpg"
+      },
+      {
+        "skuid": "E12A8504",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8504_1.jpg"
+      },
+      {
+        "skuid": "E16A8557",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8557_1.jpg"
+      },
+      {
+        "skuid": "E12A8557",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8557_1.jpg"
+      },
+      {
+        "skuid": "E15A8537",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8537_1.jpg"
+      },
+      {
+        "skuid": "E12A8516",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8516_1.jpg"
+      },
+      {
+        "skuid": "E15A8516",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8516_1.jpg"
+      },
+      {
+        "skuid": "E16A8516",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8516_1.jpg"
+      },
+      {
+        "skuid": "E12A8505",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8505_1.jpg"
+      },
+      {
+        "skuid": "E15B8516",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8516_1.jpg"
+      },
+      {
+        "skuid": "E15A8528",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8528_1.jpg"
+      },
+      {
+        "skuid": "E12A8528",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8528_1.jpg"
+      },
+      {
+        "skuid": "E12A8517",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8517_1.jpg"
+      },
+      {
+        "skuid": "E15A8540",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8540_1.jpg"
+      },
+      {
+        "skuid": "E20A8505",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8505_1.jpg"
+      },
+      {
+        "skuid": "E20A8561",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8561_1.jpg"
+      },
+      {
+        "skuid": "E16A8540",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8540_1.jpg"
+      },
+      {
+        "skuid": "E12A8555",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8555_1.jpg"
+      },
+      {
+        "skuid": "E12A8561",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8561_1.jpg"
+      },
+      {
+        "skuid": "E20A8546",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8546_1.jpg"
+      },
+      {
+        "skuid": "E15A8561",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8561_1.jpg"
+      },
+      {
+        "skuid": "E12A8513",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8513_1.jpg"
+      },
+      {
+        "skuid": "E15B8571",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8571_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#B0B0B0",
+      "#000000",
+      "#8B4513",
+      "#FF0000",
+      "#A0522D",
+      "#722F37",
+      "#808080",
+      "#0000FF",
+      "#800020",
+      "#4169E1",
+      "#F5F5F5",
+      "#008000"
+    ],
+    "all_color_names": [
+      "Grey transparent",
+      "Black",
+      "Brown",
+      "Red",
+      "Reddish brown",
+      "Wine",
+      "Grey",
+      "Blue",
+      "Burgundy",
+      "Royal blue",
+      "White transparent",
+      "Mauve",
+      "Green"
+    ],
+    "all_skuids": [
+      "E79A8516",
+      "E12A8538",
+      "E15B8540",
+      "E15A8538",
+      "E12A8512",
+      "E15B8538",
+      "E21A8529",
+      "E12A8529",
+      "E77A8538",
+      "E12A8546",
+      "E15A8529",
+      "E15A8546",
+      "E33A8512",
+      "E15A8512",
+      "E12B8512",
+      "E12A0071",
+      "E16A8536",
+      "E15A8535",
+      "E12A8535",
+      "E20A8513",
+      "E15A8514",
+      "E15A8526",
+      "E15A8515",
+      "E15A8520",
+      "E12A8519",
+      "E77A8565",
+      "E74A8520",
+      "E15C8531",
+      "E15A0027",
+      "E16A8502",
+      "E15A8517",
+      "E74A8561",
+      "E15A8513",
+      "E12A8524",
+      "E74A8524",
+      "E15A8524",
+      "E16A8504",
+      "E12A8515",
+      "E12B8515",
+      "E12A8514",
+      "E15A8547",
+      "E15A8505",
+      "E15B8528",
+      "E20A8507",
+      "E20A0018",
+      "E16A8535",
+      "E15A8555",
+      "E15A0022",
+      "E15A8510",
+      "E16A8564",
+      "E15A8571",
+      "E15B8510",
+      "E20A8522",
+      "E12A8518",
+      "E12A8523",
+      "E15A8523",
+      "E21A8523",
+      "E20A8568",
+      "E12A8568",
+      "E12A8542",
+      "E12A8564",
+      "E15B8531",
+      "E12A8547",
+      "E12B8547",
+      "E78A8532",
+      "E12A8536",
+      "E12A0031",
+      "E15A8507",
+      "E20A8542",
+      "E15A8502",
+      "E12B8514",
+      "E84A8559",
+      "E12A8522",
+      "E15A8519",
+      "E12A8532",
+      "E12A8565",
+      "E15A8532",
+      "E20A8519",
+      "E16A8520",
+      "E15A8565",
+      "E12A8520",
+      "E20A8504",
+      "E74A8537",
+      "E79A8537",
+      "E16A8526",
+      "E20A8524",
+      "E16A0062",
+      "E15A8563",
+      "E12A8559",
+      "E73A8564",
+      "E15A0042",
+      "E15A0025",
+      "E12A0025",
+      "E12A0027",
+      "E15A8557",
+      "E84A8547",
+      "E84A8535",
+      "E15A8562",
+      "E12A8562",
+      "E12A8563",
+      "E16A8563",
+      "E35A8517",
+      "E15A8536",
+      "E12A0010",
+      "E16A8555",
+      "E15A8568",
+      "E15A0031",
+      "E12A0007",
+      "E15A0018",
+      "E12A8526",
+      "E12A8504",
+      "E16A8557",
+      "E12A8557",
+      "E15A8537",
+      "E12A8516",
+      "E15A8516",
+      "E16A8516",
+      "E12A8505",
+      "E15B8516",
+      "E15A8528",
+      "E12A8528",
+      "E12A8517",
+      "E15A8540",
+      "E20A8505",
+      "E20A8561",
+      "E16A8540",
+      "E12A8555",
+      "E12A8561",
+      "E20A8546",
+      "E15A8561",
+      "E12A8513",
+      "E15B8571"
+    ]
+  },
+  {
+    "id": 72024,
+    "name": "LEON",
+    "brand": "LEON",
+    "style": "Full Frame",
+    "size": "Small",
+    "price": 119,
+    "colors": [
+      "#FFD700",
+      "#C0C0C0",
+      "#000000",
+      "#4A4A4A",
+      "#8B4513",
+      "#0000FF",
+      "#808080",
+      "#3E2723",
+      "#87CEEB"
+    ],
+    "color_names": [
+      "Gold",
+      "Silver",
+      "Black",
+      "Gun",
+      "Brown",
+      "Blue",
+      "Grey",
+      "Dark brown",
+      "Rose gold",
+      "Blue transparent"
+    ],
+    "image": "/images/products/E25Z8830_1.jpg",
+    "skuid": "E25Z8830",
+    "category": "eyeglasses",
+    "material": "stainless steel",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Hinges",
+      "Lightweight",
+      "Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Round",
+    "variants": [
+      {
+        "skuid": "E25Z8830",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25Z8830_1.jpg"
+      },
+      {
+        "skuid": "E10Z8836",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10Z8836_1.jpg"
+      },
+      {
+        "skuid": "E12Z8827",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z8827_1.jpg"
+      },
+      {
+        "skuid": "E25Z8828",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25Z8828_1.jpg"
+      },
+      {
+        "skuid": "E12Z8828",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z8828_1.jpg"
+      },
+      {
+        "skuid": "E12Z8830",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z8830_1.jpg"
+      },
+      {
+        "skuid": "E12Z8839",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z8839_1.jpg"
+      },
+      {
+        "skuid": "E73Z8830",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z8830_1.jpg"
+      },
+      {
+        "skuid": "E15Z8837",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15Z8837_1.jpg"
+      },
+      {
+        "skuid": "E20Z8837",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20Z8837_1.jpg"
+      },
+      {
+        "skuid": "E73Z8837",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z8837_1.jpg"
+      },
+      {
+        "skuid": "E15Z8827",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15Z8827_1.jpg"
+      },
+      {
+        "skuid": "E73Z8839",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z8839_1.jpg"
+      },
+      {
+        "skuid": "E76A8939",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8939_1.jpg"
+      },
+      {
+        "skuid": "E16Z9023",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16Z9023_1.jpg"
+      },
+      {
+        "skuid": "E12Z9019",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z9019_1.jpg"
+      },
+      {
+        "skuid": "E15B8905",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8905_1.jpg"
+      },
+      {
+        "skuid": "E12A8929",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8929_1.jpg"
+      },
+      {
+        "skuid": "E12A8939",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8939_1.jpg"
+      },
+      {
+        "skuid": "E12Z8824",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z8824_1.jpg"
+      },
+      {
+        "skuid": "E73Z8824",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z8824_1.jpg"
+      },
+      {
+        "skuid": "E73Z8823",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z8823_1.jpg"
+      },
+      {
+        "skuid": "E25Z8836",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25Z8836_1.jpg"
+      },
+      {
+        "skuid": "E16Z9024",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16Z9024_1.jpg"
+      },
+      {
+        "skuid": "E73Z9011",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z9011_1.jpg"
+      },
+      {
+        "skuid": "E12A8809",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8809_1.jpg"
+      },
+      {
+        "skuid": "E82A8911",
+        "color_names": [
+          "Dark brown"
+        ],
+        "colors": [
+          "#3E2723"
+        ],
+        "image": "/images/products/E82A8911_1.jpg"
+      },
+      {
+        "skuid": "E16A8901",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8901_1.jpg"
+      },
+      {
+        "skuid": "E16A8821",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8821_1.jpg"
+      },
+      {
+        "skuid": "E15A8912",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8912_1.jpg"
+      },
+      {
+        "skuid": "E15A9002",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A9002_1.jpg"
+      },
+      {
+        "skuid": "E12A8926",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8926_1.jpg"
+      },
+      {
+        "skuid": "E12A8924",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8924_1.jpg"
+      },
+      {
+        "skuid": "E12Z9011",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z9011_1.jpg"
+      },
+      {
+        "skuid": "E73Z8828",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z8828_1.jpg"
+      },
+      {
+        "skuid": "E20A8939",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8939_1.jpg"
+      },
+      {
+        "skuid": "E25Z8823",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25Z8823_1.jpg"
+      },
+      {
+        "skuid": "E25Z8824",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25Z8824_1.jpg"
+      },
+      {
+        "skuid": "E84Z8836",
+        "color_names": [
+          "Rose gold"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E84Z8836_1.jpg"
+      },
+      {
+        "skuid": "E73Z8827",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z8827_1.jpg"
+      },
+      {
+        "skuid": "E20Z8839",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20Z8839_1.jpg"
+      },
+      {
+        "skuid": "E12Z8823",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z8823_1.jpg"
+      },
+      {
+        "skuid": "E25A8929",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8929_1.jpg"
+      },
+      {
+        "skuid": "E86A8904",
+        "color_names": [
+          "Blue transparent"
+        ],
+        "colors": [
+          "#87CEEB"
+        ],
+        "image": "/images/products/E86A8904_1.jpg"
+      },
+      {
+        "skuid": "E12A8918",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8918_1.jpg"
+      },
+      {
+        "skuid": "E20A8925",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8925_1.jpg"
+      },
+      {
+        "skuid": "E16A8925",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8925_1.jpg"
+      },
+      {
+        "skuid": "E15A8905",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8905_1.jpg"
+      },
+      {
+        "skuid": "E12A8905",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8905_1.jpg"
+      },
+      {
+        "skuid": "E12A8901",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8901_1.jpg"
+      },
+      {
+        "skuid": "E20A8924",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8924_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#FFD700",
+      "#C0C0C0",
+      "#000000",
+      "#4A4A4A",
+      "#8B4513",
+      "#0000FF",
+      "#808080",
+      "#3E2723",
+      "#87CEEB"
+    ],
+    "all_color_names": [
+      "Gold",
+      "Silver",
+      "Black",
+      "Gun",
+      "Brown",
+      "Blue",
+      "Grey",
+      "Dark brown",
+      "Rose gold",
+      "Blue transparent"
+    ],
+    "all_skuids": [
+      "E25Z8830",
+      "E10Z8836",
+      "E12Z8827",
+      "E25Z8828",
+      "E12Z8828",
+      "E12Z8830",
+      "E12Z8839",
+      "E73Z8830",
+      "E15Z8837",
+      "E20Z8837",
+      "E73Z8837",
+      "E15Z8827",
+      "E73Z8839",
+      "E76A8939",
+      "E16Z9023",
+      "E12Z9019",
+      "E15B8905",
+      "E12A8929",
+      "E12A8939",
+      "E12Z8824",
+      "E73Z8824",
+      "E73Z8823",
+      "E25Z8836",
+      "E16Z9024",
+      "E73Z9011",
+      "E12A8809",
+      "E82A8911",
+      "E16A8901",
+      "E16A8821",
+      "E15A8912",
+      "E15A9002",
+      "E12A8926",
+      "E12A8924",
+      "E12Z9011",
+      "E73Z8828",
+      "E20A8939",
+      "E25Z8823",
+      "E25Z8824",
+      "E84Z8836",
+      "E73Z8827",
+      "E20Z8839",
+      "E12Z8823",
+      "E25A8929",
+      "E86A8904",
+      "E12A8918",
+      "E20A8925",
+      "E16A8925",
+      "E15A8905",
+      "E12A8905",
+      "E12A8901",
+      "E20A8924"
+    ]
+  },
+  {
+    "id": 18602,
+    "name": "MIYAMA",
+    "brand": "MIYAMA",
+    "style": "Full Frame",
+    "size": "Medium",
+    "price": 149,
+    "colors": [
+      "#4A4A4A",
+      "#FFD700",
+      "#000000",
+      "#8B4513",
+      "#808080",
+      "#800000",
+      "#C0C0C0",
+      "#0000FF",
+      "#FF0000",
+      "#800020"
+    ],
+    "color_names": [
+      "Gun",
+      "Gold",
+      "Black",
+      "Brown",
+      "Grey",
+      "Maroon",
+      "Silver",
+      "Blue",
+      "Red",
+      "Burgundy"
+    ],
+    "image": "/images/products/E76A8615_1.jpg",
+    "skuid": "E76A8615",
+    "category": "eyeglasses",
+    "material": "metallic",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Hinges",
+      "Lightweight",
+      "Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Square",
+    "variants": [
+      {
+        "skuid": "E76A8615",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8615_1.jpg"
+      },
+      {
+        "skuid": "E25A8715",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8715_1.jpg"
+      },
+      {
+        "skuid": "E76A8715",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8715_1.jpg"
+      },
+      {
+        "skuid": "E12A8609",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8609_1.jpg"
+      },
+      {
+        "skuid": "E15B0008",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B0008_1.jpg"
+      },
+      {
+        "skuid": "E12A8607",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8607_1.jpg"
+      },
+      {
+        "skuid": "E15B8603",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8603_1.jpg"
+      },
+      {
+        "skuid": "E16A8714",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8714_1.jpg"
+      },
+      {
+        "skuid": "E15B8626",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8626_1.jpg"
+      },
+      {
+        "skuid": "E12B8629",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8629_1.jpg"
+      },
+      {
+        "skuid": "E46B8629",
+        "color_names": [
+          "Maroon"
+        ],
+        "colors": [
+          "#800000"
+        ],
+        "image": "/images/products/E46B8629_1.jpg"
+      },
+      {
+        "skuid": "E12B8631",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8631_1.jpg"
+      },
+      {
+        "skuid": "E10B8630",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8630_1.jpg"
+      },
+      {
+        "skuid": "E20B8601",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8601_1.jpg"
+      },
+      {
+        "skuid": "E12B8603",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8603_1.jpg"
+      },
+      {
+        "skuid": "E15B8601",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8601_1.jpg"
+      },
+      {
+        "skuid": "E12B8601",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8601_1.jpg"
+      },
+      {
+        "skuid": "E20B8604",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8604_1.jpg"
+      },
+      {
+        "skuid": "E21B8604",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21B8604_1.jpg"
+      },
+      {
+        "skuid": "E20B8602",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8602_1.jpg"
+      },
+      {
+        "skuid": "E20B8608",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8608_1.jpg"
+      },
+      {
+        "skuid": "E12B8605",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8605_1.jpg"
+      },
+      {
+        "skuid": "E16B8607",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8607_1.jpg"
+      },
+      {
+        "skuid": "E12B8612",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8612_1.jpg"
+      },
+      {
+        "skuid": "E25B8616",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8616_1.jpg"
+      },
+      {
+        "skuid": "E12B8619",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8619_1.jpg"
+      },
+      {
+        "skuid": "E16B8621",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8621_1.jpg"
+      },
+      {
+        "skuid": "E16B8609",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8609_1.jpg"
+      },
+      {
+        "skuid": "E12B8611",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8611_1.jpg"
+      },
+      {
+        "skuid": "E15B8635",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8635_1.jpg"
+      },
+      {
+        "skuid": "E15B8708",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8708_1.jpg"
+      },
+      {
+        "skuid": "E12B8714",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8714_1.jpg"
+      },
+      {
+        "skuid": "E20B8714",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8714_1.jpg"
+      },
+      {
+        "skuid": "E12B8712",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8712_1.jpg"
+      },
+      {
+        "skuid": "E20B0031",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B0031_1.jpg"
+      },
+      {
+        "skuid": "E20B0026",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B0026_1.jpg"
+      },
+      {
+        "skuid": "E16A8603",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8603_1.jpg"
+      },
+      {
+        "skuid": "E12A8604",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8604_1.jpg"
+      },
+      {
+        "skuid": "E15A8607",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8607_1.jpg"
+      },
+      {
+        "skuid": "E20B8638",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8638_1.jpg"
+      },
+      {
+        "skuid": "E16A8608",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8608_1.jpg"
+      },
+      {
+        "skuid": "E20B8636",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8636_1.jpg"
+      },
+      {
+        "skuid": "E10B8709",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8709_1.jpg"
+      },
+      {
+        "skuid": "E15A8712",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8712_1.jpg"
+      },
+      {
+        "skuid": "E16A8612",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8612_1.jpg"
+      },
+      {
+        "skuid": "E21A8619",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21A8619_1.jpg"
+      },
+      {
+        "skuid": "E15A8619",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8619_1.jpg"
+      },
+      {
+        "skuid": "E20A8623",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8623_1.jpg"
+      },
+      {
+        "skuid": "E12A8621",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8621_1.jpg"
+      },
+      {
+        "skuid": "E15A8623",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8623_1.jpg"
+      },
+      {
+        "skuid": "E15A8621",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8621_1.jpg"
+      },
+      {
+        "skuid": "E20B8614",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8614_1.jpg"
+      },
+      {
+        "skuid": "E15A8611",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8611_1.jpg"
+      },
+      {
+        "skuid": "E25B8615",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8615_1.jpg"
+      },
+      {
+        "skuid": "E15B8602",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8602_1.jpg"
+      },
+      {
+        "skuid": "E12B8614",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8614_1.jpg"
+      },
+      {
+        "skuid": "E15B8613",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8613_1.jpg"
+      },
+      {
+        "skuid": "E25B8704",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8704_1.jpg"
+      },
+      {
+        "skuid": "E76A8630",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8630_1.jpg"
+      },
+      {
+        "skuid": "E15B8714",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8714_1.jpg"
+      },
+      {
+        "skuid": "E21A8605",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21A8605_1.jpg"
+      },
+      {
+        "skuid": "E76A8631",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8631_1.jpg"
+      },
+      {
+        "skuid": "E12B8626",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8626_1.jpg"
+      },
+      {
+        "skuid": "E15B8705",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8705_1.jpg"
+      },
+      {
+        "skuid": "E20B8727",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8727_1.jpg"
+      },
+      {
+        "skuid": "E20B8621",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8621_1.jpg"
+      },
+      {
+        "skuid": "E25B8630",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8630_1.jpg"
+      },
+      {
+        "skuid": "E20B8635",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8635_1.jpg"
+      },
+      {
+        "skuid": "E12B8636",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8636_1.jpg"
+      },
+      {
+        "skuid": "E16B8637",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8637_1.jpg"
+      },
+      {
+        "skuid": "E21A8609",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21A8609_1.jpg"
+      },
+      {
+        "skuid": "E74A8708",
+        "color_names": [
+          "Burgundy"
+        ],
+        "colors": [
+          "#800020"
+        ],
+        "image": "/images/products/E74A8708_1.jpg"
+      },
+      {
+        "skuid": "E20A8712",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8712_1.jpg"
+      },
+      {
+        "skuid": "E15C8638",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15C8638_1.jpg"
+      },
+      {
+        "skuid": "E12A8727",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8727_1.jpg"
+      },
+      {
+        "skuid": "E15A8727",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8727_1.jpg"
+      },
+      {
+        "skuid": "E15B8727",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8727_1.jpg"
+      },
+      {
+        "skuid": "E15B8636",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8636_1.jpg"
+      },
+      {
+        "skuid": "E12A8613",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8613_1.jpg"
+      },
+      {
+        "skuid": "E15A8637",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8637_1.jpg"
+      },
+      {
+        "skuid": "E12A8713",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8713_1.jpg"
+      },
+      {
+        "skuid": "E15A8614",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8614_1.jpg"
+      },
+      {
+        "skuid": "E12A8715",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8715_1.jpg"
+      },
+      {
+        "skuid": "E10A8615",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A8615_1.jpg"
+      },
+      {
+        "skuid": "E15B0005",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B0005_1.jpg"
+      },
+      {
+        "skuid": "E25A8705",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8705_1.jpg"
+      },
+      {
+        "skuid": "E20A8708",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8708_1.jpg"
+      },
+      {
+        "skuid": "E12A8708",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8708_1.jpg"
+      },
+      {
+        "skuid": "E12B8709",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8709_1.jpg"
+      },
+      {
+        "skuid": "E12B8727",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8727_1.jpg"
+      },
+      {
+        "skuid": "E12A8623",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8623_1.jpg"
+      },
+      {
+        "skuid": "E12A8704",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8704_1.jpg"
+      },
+      {
+        "skuid": "E15A8704",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8704_1.jpg"
+      },
+      {
+        "skuid": "E12A8705",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8705_1.jpg"
+      },
+      {
+        "skuid": "E12A8707",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8707_1.jpg"
+      },
+      {
+        "skuid": "E76A8705",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8705_1.jpg"
+      },
+      {
+        "skuid": "E20A8707",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8707_1.jpg"
+      },
+      {
+        "skuid": "E15A8707",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8707_1.jpg"
+      },
+      {
+        "skuid": "E25A8709",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8709_1.jpg"
+      },
+      {
+        "skuid": "E15A8713",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8713_1.jpg"
+      },
+      {
+        "skuid": "E12A8602",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8602_1.jpg"
+      },
+      {
+        "skuid": "E15A8715",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8715_1.jpg"
+      },
+      {
+        "skuid": "E16B8713",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8713_1.jpg"
+      },
+      {
+        "skuid": "E15B8638",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8638_1.jpg"
+      },
+      {
+        "skuid": "E15A8636",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8636_1.jpg"
+      },
+      {
+        "skuid": "E12B8613",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8613_1.jpg"
+      },
+      {
+        "skuid": "E15A8638",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8638_1.jpg"
+      },
+      {
+        "skuid": "E15B8713",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8713_1.jpg"
+      },
+      {
+        "skuid": "E15B8712",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8712_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#4A4A4A",
+      "#FFD700",
+      "#000000",
+      "#8B4513",
+      "#808080",
+      "#800000",
+      "#C0C0C0",
+      "#0000FF",
+      "#FF0000",
+      "#800020"
+    ],
+    "all_color_names": [
+      "Gun",
+      "Gold",
+      "Black",
+      "Brown",
+      "Grey",
+      "Maroon",
+      "Silver",
+      "Blue",
+      "Red",
+      "Burgundy"
+    ],
+    "all_skuids": [
+      "E76A8615",
+      "E25A8715",
+      "E76A8715",
+      "E12A8609",
+      "E15B0008",
+      "E12A8607",
+      "E15B8603",
+      "E16A8714",
+      "E15B8626",
+      "E12B8629",
+      "E46B8629",
+      "E12B8631",
+      "E10B8630",
+      "E20B8601",
+      "E12B8603",
+      "E15B8601",
+      "E12B8601",
+      "E20B8604",
+      "E21B8604",
+      "E20B8602",
+      "E20B8608",
+      "E12B8605",
+      "E16B8607",
+      "E12B8612",
+      "E25B8616",
+      "E12B8619",
+      "E16B8621",
+      "E16B8609",
+      "E12B8611",
+      "E15B8635",
+      "E15B8708",
+      "E12B8714",
+      "E20B8714",
+      "E12B8712",
+      "E20B0031",
+      "E20B0026",
+      "E16A8603",
+      "E12A8604",
+      "E15A8607",
+      "E20B8638",
+      "E16A8608",
+      "E20B8636",
+      "E10B8709",
+      "E15A8712",
+      "E16A8612",
+      "E21A8619",
+      "E15A8619",
+      "E20A8623",
+      "E12A8621",
+      "E15A8623",
+      "E15A8621",
+      "E20B8614",
+      "E15A8611",
+      "E25B8615",
+      "E15B8602",
+      "E12B8614",
+      "E15B8613",
+      "E25B8704",
+      "E76A8630",
+      "E15B8714",
+      "E21A8605",
+      "E76A8631",
+      "E12B8626",
+      "E15B8705",
+      "E20B8727",
+      "E20B8621",
+      "E25B8630",
+      "E20B8635",
+      "E12B8636",
+      "E16B8637",
+      "E21A8609",
+      "E74A8708",
+      "E20A8712",
+      "E15C8638",
+      "E12A8727",
+      "E15A8727",
+      "E15B8727",
+      "E15B8636",
+      "E12A8613",
+      "E15A8637",
+      "E12A8713",
+      "E15A8614",
+      "E12A8715",
+      "E10A8615",
+      "E15B0005",
+      "E25A8705",
+      "E20A8708",
+      "E12A8708",
+      "E12B8709",
+      "E12B8727",
+      "E12A8623",
+      "E12A8704",
+      "E15A8704",
+      "E12A8705",
+      "E12A8707",
+      "E76A8705",
+      "E20A8707",
+      "E15A8707",
+      "E25A8709",
+      "E15A8713",
+      "E12A8602",
+      "E15A8715",
+      "E16B8713",
+      "E15B8638",
+      "E15A8636",
+      "E12B8613",
+      "E15A8638",
+      "E15B8713",
+      "E15B8712"
+    ]
+  },
+  {
+    "id": 55323,
+    "name": "K+",
+    "brand": "K+",
+    "style": "Full Frame",
+    "size": "Medium",
+    "price": 99,
+    "colors": [
+      "#8B4513",
+      "#000000",
+      "#0000FF",
+      "#4A4A4A",
+      "#FFD700",
+      "#808080",
+      "#FF0000",
+      "#F5F5DC",
+      "#800080",
+      "#FF69B4"
+    ],
+    "color_names": [
+      "Brown",
+      "Black",
+      "Blue",
+      "Gun",
+      "Gold",
+      "Grey",
+      "Red",
+      "Beige",
+      "Purple",
+      "Multicolor"
+    ],
+    "image": "/images/products/E15B9108_1.jpg",
+    "skuid": "E15B9108",
+    "category": "eyeglasses",
+    "material": "acetate",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Hinges",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Women",
+    "shape": "Cateye",
+    "variants": [
+      {
+        "skuid": "E15B9108",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9108_1.jpg"
+      },
+      {
+        "skuid": "E12A9116",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9116_1.jpg"
+      },
+      {
+        "skuid": "E20A9112",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A9112_1.jpg"
+      },
+      {
+        "skuid": "E76A9120",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A9120_1.jpg"
+      },
+      {
+        "skuid": "E25A9116",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A9116_1.jpg"
+      },
+      {
+        "skuid": "E12A9124",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9124_1.jpg"
+      },
+      {
+        "skuid": "E12B9135",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9135_1.jpg"
+      },
+      {
+        "skuid": "E12A9107",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9107_1.jpg"
+      },
+      {
+        "skuid": "E16B9107",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B9107_1.jpg"
+      },
+      {
+        "skuid": "E12B9112",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9112_1.jpg"
+      },
+      {
+        "skuid": "E15B9127",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9127_1.jpg"
+      },
+      {
+        "skuid": "E12B9133",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9133_1.jpg"
+      },
+      {
+        "skuid": "E20B9131",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B9131_1.jpg"
+      },
+      {
+        "skuid": "E21B9131",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21B9131_1.jpg"
+      },
+      {
+        "skuid": "E20B9125",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B9125_1.jpg"
+      },
+      {
+        "skuid": "E15B9128",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9128_1.jpg"
+      },
+      {
+        "skuid": "E20B9120",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B9120_1.jpg"
+      },
+      {
+        "skuid": "E40B9125",
+        "color_names": [
+          "Beige"
+        ],
+        "colors": [
+          "#F5F5DC"
+        ],
+        "image": "/images/products/E40B9125_1.jpg"
+      },
+      {
+        "skuid": "E21B9135",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21B9135_1.jpg"
+      },
+      {
+        "skuid": "E16B9130",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B9130_1.jpg"
+      },
+      {
+        "skuid": "E16B9133",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B9133_1.jpg"
+      },
+      {
+        "skuid": "E15B9130",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9130_1.jpg"
+      },
+      {
+        "skuid": "E15B9134",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9134_1.jpg"
+      },
+      {
+        "skuid": "E20B9127",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B9127_1.jpg"
+      },
+      {
+        "skuid": "E12B9127",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9127_1.jpg"
+      },
+      {
+        "skuid": "E12B9130",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9130_1.jpg"
+      },
+      {
+        "skuid": "E15B9131",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9131_1.jpg"
+      },
+      {
+        "skuid": "E15B9133",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9133_1.jpg"
+      },
+      {
+        "skuid": "E17B9134",
+        "color_names": [
+          "Purple"
+        ],
+        "colors": [
+          "#800080"
+        ],
+        "image": "/images/products/E17B9134_1.jpg"
+      },
+      {
+        "skuid": "E20B9135",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B9135_1.jpg"
+      },
+      {
+        "skuid": "E15B9120",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9120_1.jpg"
+      },
+      {
+        "skuid": "E25B9124",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B9124_1.jpg"
+      },
+      {
+        "skuid": "E15B9107",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9107_1.jpg"
+      },
+      {
+        "skuid": "E25A9112",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A9112_1.jpg"
+      },
+      {
+        "skuid": "E20B9108",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B9108_1.jpg"
+      },
+      {
+        "skuid": "E67B9126",
+        "color_names": [
+          "Multicolor"
+        ],
+        "colors": [
+          "#FF69B4"
+        ],
+        "image": "/images/products/E67B9126_1.jpg"
+      },
+      {
+        "skuid": "E12A9108",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9108_1.jpg"
+      },
+      {
+        "skuid": "E12A9126",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9126_1.jpg"
+      },
+      {
+        "skuid": "E16A9128",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A9128_1.jpg"
+      },
+      {
+        "skuid": "E76A9116",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A9116_1.jpg"
+      },
+      {
+        "skuid": "E12A9134",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9134_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#8B4513",
+      "#000000",
+      "#0000FF",
+      "#4A4A4A",
+      "#FFD700",
+      "#808080",
+      "#FF0000",
+      "#F5F5DC",
+      "#800080",
+      "#FF69B4"
+    ],
+    "all_color_names": [
+      "Brown",
+      "Black",
+      "Blue",
+      "Gun",
+      "Gold",
+      "Grey",
+      "Red",
+      "Beige",
+      "Purple",
+      "Multicolor"
+    ],
+    "all_skuids": [
+      "E15B9108",
+      "E12A9116",
+      "E20A9112",
+      "E76A9120",
+      "E25A9116",
+      "E12A9124",
+      "E12B9135",
+      "E12A9107",
+      "E16B9107",
+      "E12B9112",
+      "E15B9127",
+      "E12B9133",
+      "E20B9131",
+      "E21B9131",
+      "E20B9125",
+      "E15B9128",
+      "E20B9120",
+      "E40B9125",
+      "E21B9135",
+      "E16B9130",
+      "E16B9133",
+      "E15B9130",
+      "E15B9134",
+      "E20B9127",
+      "E12B9127",
+      "E12B9130",
+      "E15B9131",
+      "E15B9133",
+      "E17B9134",
+      "E20B9135",
+      "E15B9120",
+      "E25B9124",
+      "E15B9107",
+      "E25A9112",
+      "E20B9108",
+      "E67B9126",
+      "E12A9108",
+      "E12A9126",
+      "E16A9128",
+      "E76A9116",
+      "E12A9134"
+    ]
+  },
+  {
+    "id": 19176,
+    "name": "LEON",
+    "brand": "LEON",
+    "style": "Half Frame",
+    "size": "Medium",
+    "price": 119,
+    "colors": [
+      "#FFD700",
+      "#000000",
+      "#C0C0C0",
+      "#8B4513",
+      "#0000FF",
+      "#4A4A4A"
+    ],
+    "color_names": [
+      "Gold",
+      "Black",
+      "Silver",
+      "Brown",
+      "Blue",
+      "Gun"
+    ],
+    "image": "/images/products/E25A8853_1.jpg",
+    "skuid": "E25A8853",
+    "category": "eyeglasses",
+    "material": "stainless steel",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Hinges",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Women",
+    "shape": "Rectangle",
+    "variants": [
+      {
+        "skuid": "E25A8853",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8853_1.jpg"
+      },
+      {
+        "skuid": "E12A8855",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8855_1.jpg"
+      },
+      {
+        "skuid": "E12B8805",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8805_1.jpg"
+      },
+      {
+        "skuid": "E12Z9009",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z9009_1.jpg"
+      },
+      {
+        "skuid": "E12A8934",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8934_1.jpg"
+      },
+      {
+        "skuid": "E12A8933",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8933_1.jpg"
+      },
+      {
+        "skuid": "E25A8937",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8937_1.jpg"
+      },
+      {
+        "skuid": "E25B8814",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8814_1.jpg"
+      },
+      {
+        "skuid": "E12B8815",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8815_1.jpg"
+      },
+      {
+        "skuid": "E10B8819",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8819_1.jpg"
+      },
+      {
+        "skuid": "E25B8819",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8819_1.jpg"
+      },
+      {
+        "skuid": "E12B8806",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8806_1.jpg"
+      },
+      {
+        "skuid": "E10B8805",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8805_1.jpg"
+      },
+      {
+        "skuid": "E25B9005",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B9005_1.jpg"
+      },
+      {
+        "skuid": "E15B8934",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8934_1.jpg"
+      },
+      {
+        "skuid": "E15B8930",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8930_1.jpg"
+      },
+      {
+        "skuid": "E12B8930",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8930_1.jpg"
+      },
+      {
+        "skuid": "E20B8933",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8933_1.jpg"
+      },
+      {
+        "skuid": "E20B8937",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8937_1.jpg"
+      },
+      {
+        "skuid": "E12B8937",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8937_1.jpg"
+      },
+      {
+        "skuid": "E20B9005",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B9005_1.jpg"
+      },
+      {
+        "skuid": "E12B8854",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8854_1.jpg"
+      },
+      {
+        "skuid": "E25B8854",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8854_1.jpg"
+      },
+      {
+        "skuid": "E12B8849",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8849_1.jpg"
+      },
+      {
+        "skuid": "E76A8853",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8853_1.jpg"
+      },
+      {
+        "skuid": "E20B8849",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8849_1.jpg"
+      },
+      {
+        "skuid": "E12B8853",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8853_1.jpg"
+      },
+      {
+        "skuid": "E10Z9017",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10Z9017_1.jpg"
+      },
+      {
+        "skuid": "E25A8855",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8855_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#FFD700",
+      "#000000",
+      "#C0C0C0",
+      "#8B4513",
+      "#0000FF",
+      "#4A4A4A"
+    ],
+    "all_color_names": [
+      "Gold",
+      "Black",
+      "Silver",
+      "Brown",
+      "Blue",
+      "Gun"
+    ],
+    "all_skuids": [
+      "E25A8853",
+      "E12A8855",
+      "E12B8805",
+      "E12Z9009",
+      "E12A8934",
+      "E12A8933",
+      "E25A8937",
+      "E25B8814",
+      "E12B8815",
+      "E10B8819",
+      "E25B8819",
+      "E12B8806",
+      "E10B8805",
+      "E25B9005",
+      "E15B8934",
+      "E15B8930",
+      "E12B8930",
+      "E20B8933",
+      "E20B8937",
+      "E12B8937",
+      "E20B9005",
+      "E12B8854",
+      "E25B8854",
+      "E12B8849",
+      "E76A8853",
+      "E20B8849",
+      "E12B8853",
+      "E10Z9017",
+      "E25A8855"
+    ]
+  },
+  {
+    "id": 55210,
+    "name": "LEON",
+    "brand": "LEON",
+    "style": "Full Frame",
+    "size": "Medium",
+    "price": 119,
+    "colors": [
+      "#000000",
+      "#FFD700",
+      "#C0C0C0",
+      "#8B4513",
+      "#0000FF",
+      "#4A4A4A",
+      "#808080",
+      "#722F37",
+      "#800000"
+    ],
+    "color_names": [
+      "Black",
+      "Golden",
+      "Silver",
+      "Brown",
+      "Blue",
+      "Gun",
+      "Gold",
+      "Black and gold",
+      "Grey",
+      "Wine",
+      "Maroon"
+    ],
+    "image": "/images/products/E12B8938_1.jpg",
+    "skuid": "E12B8938",
+    "category": "eyeglasses",
+    "material": "stainless steel",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Rectangle",
+    "variants": [
+      {
+        "skuid": "E12B8938",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8938_1.jpg"
+      },
+      {
+        "skuid": "E38B9001",
+        "color_names": [
+          "Golden"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E38B9001_1.jpg"
+      },
+      {
+        "skuid": "E10A8935",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A8935_1.jpg"
+      },
+      {
+        "skuid": "E15Z8832",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15Z8832_1.jpg"
+      },
+      {
+        "skuid": "E20Z8825",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20Z8825_1.jpg"
+      },
+      {
+        "skuid": "E73Z8832",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z8832_1.jpg"
+      },
+      {
+        "skuid": "E25A8938",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8938_1.jpg"
+      },
+      {
+        "skuid": "E20Z9008",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20Z9008_1.jpg"
+      },
+      {
+        "skuid": "E15Z9018",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15Z9018_1.jpg"
+      },
+      {
+        "skuid": "E12Z9018",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z9018_1.jpg"
+      },
+      {
+        "skuid": "E90Z9013",
+        "color_names": [
+          "Black and gold"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E90Z9013_1.jpg"
+      },
+      {
+        "skuid": "E25Z9010",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25Z9010_1.jpg"
+      },
+      {
+        "skuid": "E25A9006",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A9006_1.jpg"
+      },
+      {
+        "skuid": "E76A9001",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A9001_1.jpg"
+      },
+      {
+        "skuid": "E16A8927",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8927_1.jpg"
+      },
+      {
+        "skuid": "E76A8810",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8810_1.jpg"
+      },
+      {
+        "skuid": "E76A8850",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8850_1.jpg"
+      },
+      {
+        "skuid": "E15A9001",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A9001_1.jpg"
+      },
+      {
+        "skuid": "E25A8940",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8940_1.jpg"
+      },
+      {
+        "skuid": "E12B8822",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8822_1.jpg"
+      },
+      {
+        "skuid": "E16B8822",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8822_1.jpg"
+      },
+      {
+        "skuid": "E12B8808",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8808_1.jpg"
+      },
+      {
+        "skuid": "E33B8807",
+        "color_names": [
+          "Wine"
+        ],
+        "colors": [
+          "#722F37"
+        ],
+        "image": "/images/products/E33B8807_1.jpg"
+      },
+      {
+        "skuid": "E12B8810",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8810_1.jpg"
+      },
+      {
+        "skuid": "E20B8804",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8804_1.jpg"
+      },
+      {
+        "skuid": "E25B8803",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8803_1.jpg"
+      },
+      {
+        "skuid": "E10B8803",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8803_1.jpg"
+      },
+      {
+        "skuid": "E12B8910",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8910_1.jpg"
+      },
+      {
+        "skuid": "E12B8919",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8919_1.jpg"
+      },
+      {
+        "skuid": "E12B8921",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8921_1.jpg"
+      },
+      {
+        "skuid": "E12B8923",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8923_1.jpg"
+      },
+      {
+        "skuid": "E12B8927",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8927_1.jpg"
+      },
+      {
+        "skuid": "E12B8907",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8907_1.jpg"
+      },
+      {
+        "skuid": "E12B8903",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8903_1.jpg"
+      },
+      {
+        "skuid": "E12B8902",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8902_1.jpg"
+      },
+      {
+        "skuid": "E12B9004",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9004_1.jpg"
+      },
+      {
+        "skuid": "E15B9004",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9004_1.jpg"
+      },
+      {
+        "skuid": "E10B8936",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8936_1.jpg"
+      },
+      {
+        "skuid": "E12B8935",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8935_1.jpg"
+      },
+      {
+        "skuid": "E12B8940",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8940_1.jpg"
+      },
+      {
+        "skuid": "E25B8848",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8848_1.jpg"
+      },
+      {
+        "skuid": "E12B8850",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8850_1.jpg"
+      },
+      {
+        "skuid": "E12B8856",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8856_1.jpg"
+      },
+      {
+        "skuid": "E25B8850",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8850_1.jpg"
+      },
+      {
+        "skuid": "E25B8856",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8856_1.jpg"
+      },
+      {
+        "skuid": "E12B8848",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8848_1.jpg"
+      },
+      {
+        "skuid": "E15B8852",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8852_1.jpg"
+      },
+      {
+        "skuid": "E12B8852",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8852_1.jpg"
+      },
+      {
+        "skuid": "E20B8903",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8903_1.jpg"
+      },
+      {
+        "skuid": "E46B8807",
+        "color_names": [
+          "Maroon"
+        ],
+        "colors": [
+          "#800000"
+        ],
+        "image": "/images/products/E46B8807_1.jpg"
+      },
+      {
+        "skuid": "E12B8804",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8804_1.jpg"
+      },
+      {
+        "skuid": "E15B8907",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8907_1.jpg"
+      },
+      {
+        "skuid": "E15B8910",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8910_1.jpg"
+      },
+      {
+        "skuid": "E16B8922",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16B8922_1.jpg"
+      },
+      {
+        "skuid": "E12B8922",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8922_1.jpg"
+      },
+      {
+        "skuid": "E12B8936",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8936_1.jpg"
+      },
+      {
+        "skuid": "E12Z8832",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z8832_1.jpg"
+      },
+      {
+        "skuid": "E20Z8829",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20Z8829_1.jpg"
+      },
+      {
+        "skuid": "E12Z9025",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z9025_1.jpg"
+      },
+      {
+        "skuid": "E16Z9025",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16Z9025_1.jpg"
+      },
+      {
+        "skuid": "E12Z9022",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z9022_1.jpg"
+      },
+      {
+        "skuid": "E20Z9018",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20Z9018_1.jpg"
+      },
+      {
+        "skuid": "E25Z9015",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25Z9015_1.jpg"
+      },
+      {
+        "skuid": "E76B8816",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76B8816_1.jpg"
+      },
+      {
+        "skuid": "E12A8813",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8813_1.jpg"
+      },
+      {
+        "skuid": "E25A8817",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8817_1.jpg"
+      },
+      {
+        "skuid": "E12A8818",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8818_1.jpg"
+      },
+      {
+        "skuid": "E12Z9021",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z9021_1.jpg"
+      },
+      {
+        "skuid": "E90Z9014",
+        "color_names": [
+          "Black and gold"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E90Z9014_1.jpg"
+      },
+      {
+        "skuid": "E12Z8829",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z8829_1.jpg"
+      },
+      {
+        "skuid": "E73Z8825",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E73Z8825_1.jpg"
+      },
+      {
+        "skuid": "E15Z8829",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15Z8829_1.jpg"
+      },
+      {
+        "skuid": "E12Z9016",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z9016_1.jpg"
+      },
+      {
+        "skuid": "E12Z8825",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z8825_1.jpg"
+      },
+      {
+        "skuid": "E20Z9016",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20Z9016_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#000000",
+      "#FFD700",
+      "#C0C0C0",
+      "#8B4513",
+      "#0000FF",
+      "#4A4A4A",
+      "#808080",
+      "#722F37",
+      "#800000"
+    ],
+    "all_color_names": [
+      "Black",
+      "Golden",
+      "Silver",
+      "Brown",
+      "Blue",
+      "Gun",
+      "Gold",
+      "Black and gold",
+      "Grey",
+      "Wine",
+      "Maroon"
+    ],
+    "all_skuids": [
+      "E12B8938",
+      "E38B9001",
+      "E10A8935",
+      "E15Z8832",
+      "E20Z8825",
+      "E73Z8832",
+      "E25A8938",
+      "E20Z9008",
+      "E15Z9018",
+      "E12Z9018",
+      "E90Z9013",
+      "E25Z9010",
+      "E25A9006",
+      "E76A9001",
+      "E16A8927",
+      "E76A8810",
+      "E76A8850",
+      "E15A9001",
+      "E25A8940",
+      "E12B8822",
+      "E16B8822",
+      "E12B8808",
+      "E33B8807",
+      "E12B8810",
+      "E20B8804",
+      "E25B8803",
+      "E10B8803",
+      "E12B8910",
+      "E12B8919",
+      "E12B8921",
+      "E12B8923",
+      "E12B8927",
+      "E12B8907",
+      "E12B8903",
+      "E12B8902",
+      "E12B9004",
+      "E15B9004",
+      "E10B8936",
+      "E12B8935",
+      "E12B8940",
+      "E25B8848",
+      "E12B8850",
+      "E12B8856",
+      "E25B8850",
+      "E25B8856",
+      "E12B8848",
+      "E15B8852",
+      "E12B8852",
+      "E20B8903",
+      "E46B8807",
+      "E12B8804",
+      "E15B8907",
+      "E15B8910",
+      "E16B8922",
+      "E12B8922",
+      "E12B8936",
+      "E12Z8832",
+      "E20Z8829",
+      "E12Z9025",
+      "E16Z9025",
+      "E12Z9022",
+      "E20Z9018",
+      "E25Z9015",
+      "E76B8816",
+      "E12A8813",
+      "E25A8817",
+      "E12A8818",
+      "E12Z9021",
+      "E90Z9014",
+      "E12Z8829",
+      "E73Z8825",
+      "E15Z8829",
+      "E12Z9016",
+      "E12Z8825",
+      "E20Z9016"
+    ]
+  },
+  {
+    "id": 19254,
+    "name": "K+",
+    "brand": "K+",
+    "style": "Half Frame",
+    "size": "Medium",
+    "price": 99,
+    "colors": [
+      "#8B4513",
+      "#000000",
+      "#FFD700"
+    ],
+    "color_names": [
+      "Brown",
+      "Black",
+      "Gold"
+    ],
+    "image": "/images/products/E15A9114_1.jpg",
+    "skuid": "E15A9114",
+    "category": "eyeglasses",
+    "material": "stainless steel",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Hinges",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Rectangle",
+    "variants": [
+      {
+        "skuid": "E15A9114",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A9114_1.jpg"
+      },
+      {
+        "skuid": "E12B9121",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9121_1.jpg"
+      },
+      {
+        "skuid": "E25B9113",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B9113_1.jpg"
+      },
+      {
+        "skuid": "E12B9113",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9113_1.jpg"
+      },
+      {
+        "skuid": "E15B9109",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9109_1.jpg"
+      },
+      {
+        "skuid": "E12B9115",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9115_1.jpg"
+      },
+      {
+        "skuid": "E12B9118",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9118_1.jpg"
+      },
+      {
+        "skuid": "E12B9109",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9109_1.jpg"
+      },
+      {
+        "skuid": "E12B9117",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9117_1.jpg"
+      },
+      {
+        "skuid": "E12B9122",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9122_1.jpg"
+      },
+      {
+        "skuid": "E15B9110",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9110_1.jpg"
+      },
+      {
+        "skuid": "E15B9121",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9121_1.jpg"
+      },
+      {
+        "skuid": "E15B9122",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B9122_1.jpg"
+      },
+      {
+        "skuid": "E12B9110",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9110_1.jpg"
+      },
+      {
+        "skuid": "E12B9114",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B9114_1.jpg"
+      },
+      {
+        "skuid": "E15A9115",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A9115_1.jpg"
+      },
+      {
+        "skuid": "E25B9118",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B9118_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#8B4513",
+      "#000000",
+      "#FFD700"
+    ],
+    "all_color_names": [
+      "Brown",
+      "Black",
+      "Gold"
+    ],
+    "all_skuids": [
+      "E15A9114",
+      "E12B9121",
+      "E25B9113",
+      "E12B9113",
+      "E15B9109",
+      "E12B9115",
+      "E12B9118",
+      "E12B9109",
+      "E12B9117",
+      "E12B9122",
+      "E15B9110",
+      "E15B9121",
+      "E15B9122",
+      "E12B9110",
+      "E12B9114",
+      "E15A9115",
+      "E25B9118"
+    ]
+  },
+  {
+    "id": 54891,
+    "name": "MIYAMA",
+    "brand": "MIYAMA",
+    "style": "Half Frame",
+    "size": "Medium",
+    "price": 149,
+    "colors": [
+      "#000000",
+      "#FFD700",
+      "#0000FF",
+      "#8B4513",
+      "#C0C0C0"
+    ],
+    "color_names": [
+      "Black",
+      "Gold",
+      "Blue",
+      "Brown",
+      "Silver"
+    ],
+    "image": "/images/products/E12B8627_1.jpg",
+    "skuid": "E12B8627",
+    "category": "eyeglasses",
+    "material": "metallic",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Hinges",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Rectangle",
+    "variants": [
+      {
+        "skuid": "E12B8627",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8627_1.jpg"
+      },
+      {
+        "skuid": "E25B8711",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8711_1.jpg"
+      },
+      {
+        "skuid": "E12B8711",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8711_1.jpg"
+      },
+      {
+        "skuid": "E20B8627",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8627_1.jpg"
+      },
+      {
+        "skuid": "E15A8627",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8627_1.jpg"
+      },
+      {
+        "skuid": "E10B8710",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B8710_1.jpg"
+      },
+      {
+        "skuid": "E25B8710",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25B8710_1.jpg"
+      },
+      {
+        "skuid": "E12B8710",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8710_1.jpg"
+      },
+      {
+        "skuid": "E15B8710",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8710_1.jpg"
+      },
+      {
+        "skuid": "E15B8711",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8711_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#000000",
+      "#FFD700",
+      "#0000FF",
+      "#8B4513",
+      "#C0C0C0"
+    ],
+    "all_color_names": [
+      "Black",
+      "Gold",
+      "Blue",
+      "Brown",
+      "Silver"
+    ],
+    "all_skuids": [
+      "E12B8627",
+      "E25B8711",
+      "E12B8711",
+      "E20B8627",
+      "E15A8627",
+      "E10B8710",
+      "E25B8710",
+      "E12B8710",
+      "E15B8710",
+      "E15B8711"
+    ]
+  },
+  {
+    "id": 54996,
+    "name": "MIYAMA",
+    "brand": "MIYAMA",
+    "style": "Full Frame",
+    "size": "Large",
+    "price": 149,
+    "colors": [
+      "#C0C0C0",
+      "#000000",
+      "#8B4513",
+      "#FFD700"
+    ],
+    "color_names": [
+      "Silver",
+      "Black",
+      "Brown",
+      "Golden"
+    ],
+    "image": "/images/products/E10C8726_1.jpg",
+    "skuid": "E10C8726",
+    "category": "eyeglasses",
+    "material": "metallic",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Hinges",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Aviator",
+    "variants": [
+      {
+        "skuid": "E10C8726",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10C8726_1.jpg"
+      },
+      {
+        "skuid": "E12C8726",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12C8726_1.jpg"
+      },
+      {
+        "skuid": "E15C8726",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15C8726_1.jpg"
+      },
+      {
+        "skuid": "E15C8725",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15C8725_1.jpg"
+      },
+      {
+        "skuid": "E10C8725",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10C8725_1.jpg"
+      },
+      {
+        "skuid": "E38C8726",
+        "color_names": [
+          "Golden"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E38C8726_1.jpg"
+      },
+      {
+        "skuid": "E12C8725",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12C8725_1.jpg"
+      },
+      {
+        "skuid": "E38C8725",
+        "color_names": [
+          "Golden"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E38C8725_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#C0C0C0",
+      "#000000",
+      "#8B4513",
+      "#FFD700"
+    ],
+    "all_color_names": [
+      "Silver",
+      "Black",
+      "Brown",
+      "Golden"
+    ],
+    "all_skuids": [
+      "E10C8726",
+      "E12C8726",
+      "E15C8726",
+      "E15C8725",
+      "E10C8725",
+      "E38C8726",
+      "E12C8725",
+      "E38C8725"
+    ]
+  },
+  {
+    "id": 19284,
+    "name": "BERG",
+    "brand": "BERG",
+    "style": "Rimless",
+    "size": "Small",
+    "price": 139,
+    "colors": [
+      "#0000FF",
+      "#C0C0C0",
+      "#FFD700",
+      "#4A4A4A",
+      "#3E2723",
+      "#000000",
+      "#8B4513"
+    ],
+    "color_names": [
+      "Blue",
+      "Silver",
+      "Gold",
+      "Gun",
+      "Dark brown",
+      "Black",
+      "Brown"
+    ],
+    "image": "/images/products/E20A9207_1.jpg",
+    "skuid": "E20A9207",
+    "category": "eyeglasses",
+    "material": "titanium",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Hinges",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Rectangle",
+    "variants": [
+      {
+        "skuid": "E20A9207",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A9207_1.jpg"
+      },
+      {
+        "skuid": "E10A9204",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A9204_1.jpg"
+      },
+      {
+        "skuid": "E25A9204",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A9204_1.jpg"
+      },
+      {
+        "skuid": "E76A9204",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A9204_1.jpg"
+      },
+      {
+        "skuid": "E76B9204",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76B9204_1.jpg"
+      },
+      {
+        "skuid": "E10A9207",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A9207_1.jpg"
+      },
+      {
+        "skuid": "E82A9206",
+        "color_names": [
+          "Dark brown"
+        ],
+        "colors": [
+          "#3E2723"
+        ],
+        "image": "/images/products/E82A9206_1.jpg"
+      },
+      {
+        "skuid": "E10B9206",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B9206_1.jpg"
+      },
+      {
+        "skuid": "E10A9206",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A9206_1.jpg"
+      },
+      {
+        "skuid": "E12A9207",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9207_1.jpg"
+      },
+      {
+        "skuid": "E15A9207",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A9207_1.jpg"
+      },
+      {
+        "skuid": "E12A9205",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9205_1.jpg"
+      },
+      {
+        "skuid": "E10C9206",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10C9206_1.jpg"
+      },
+      {
+        "skuid": "E10A9205",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A9205_1.jpg"
+      },
+      {
+        "skuid": "E76A9205",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A9205_1.jpg"
+      },
+      {
+        "skuid": "E12B8525",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8525_1.jpg"
+      },
+      {
+        "skuid": "E20A9205",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A9205_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#0000FF",
+      "#C0C0C0",
+      "#FFD700",
+      "#4A4A4A",
+      "#3E2723",
+      "#000000",
+      "#8B4513"
+    ],
+    "all_color_names": [
+      "Blue",
+      "Silver",
+      "Gold",
+      "Gun",
+      "Dark brown",
+      "Black",
+      "Brown"
+    ],
+    "all_skuids": [
+      "E20A9207",
+      "E10A9204",
+      "E25A9204",
+      "E76A9204",
+      "E76B9204",
+      "E10A9207",
+      "E82A9206",
+      "E10B9206",
+      "E10A9206",
+      "E12A9207",
+      "E15A9207",
+      "E12A9205",
+      "E10C9206",
+      "E10A9205",
+      "E76A9205",
+      "E12B8525",
+      "E20A9205"
+    ]
+  },
+  {
+    "id": 55169,
+    "name": "LEON",
+    "brand": "LEON",
+    "style": "Full Frame",
+    "size": "Large",
+    "price": 119,
+    "colors": [
+      "#FFD700",
+      "#808080",
+      "#000000"
+    ],
+    "color_names": [
+      "Gold",
+      "Grey",
+      "Black"
+    ],
+    "image": "/images/products/E25C8801_1.jpg",
+    "skuid": "E25C8801",
+    "category": "eyeglasses",
+    "material": "metallic",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Hinges",
+      "Lightweight",
+      "Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Square",
+    "variants": [
+      {
+        "skuid": "E25C8801",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25C8801_1.jpg"
+      },
+      {
+        "skuid": "E16C8916",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16C8916_1.jpg"
+      },
+      {
+        "skuid": "E12C8906",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12C8906_1.jpg"
+      },
+      {
+        "skuid": "E25C8802",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25C8802_1.jpg"
+      },
+      {
+        "skuid": "E12Z9020",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12Z9020_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#FFD700",
+      "#808080",
+      "#000000"
+    ],
+    "all_color_names": [
+      "Gold",
+      "Grey",
+      "Black"
+    ],
+    "all_skuids": [
+      "E25C8801",
+      "E16C8916",
+      "E12C8906",
+      "E25C8802",
+      "E12Z9020"
+    ]
+  },
+  {
+    "id": 19272,
+    "name": "BERG",
+    "brand": "BERG",
+    "style": "Rimless",
+    "size": "Medium",
+    "price": 139,
+    "colors": [
+      "#000000",
+      "#4A4A4A",
+      "#FFD700",
+      "#C0C0C0",
+      "#808080"
+    ],
+    "color_names": [
+      "Black",
+      "Gun",
+      "Gold",
+      "Silver",
+      "Grey",
+      "Matte gold"
+    ],
+    "image": "/images/products/E12A9201_1.jpg",
+    "skuid": "E12A9201",
+    "category": "eyeglasses",
+    "material": "titanium",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Hinges",
+      "Lightweight",
+      "Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Square",
+    "variants": [
+      {
+        "skuid": "E12A9201",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9201_1.jpg"
+      },
+      {
+        "skuid": "E76C9203",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76C9203_1.jpg"
+      },
+      {
+        "skuid": "E76A9203",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A9203_1.jpg"
+      },
+      {
+        "skuid": "E25A9201",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A9201_1.jpg"
+      },
+      {
+        "skuid": "E12A9202",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9202_1.jpg"
+      },
+      {
+        "skuid": "E10A9203",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A9203_1.jpg"
+      },
+      {
+        "skuid": "E16A9201",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A9201_1.jpg"
+      },
+      {
+        "skuid": "E10B9201",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10B9201_1.jpg"
+      },
+      {
+        "skuid": "E10A9202",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A9202_1.jpg"
+      },
+      {
+        "skuid": "E76B9203",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76B9203_1.jpg"
+      },
+      {
+        "skuid": "E85A9202",
+        "color_names": [
+          "Matte gold"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E85A9202_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#000000",
+      "#4A4A4A",
+      "#FFD700",
+      "#C0C0C0",
+      "#808080"
+    ],
+    "all_color_names": [
+      "Black",
+      "Gun",
+      "Gold",
+      "Silver",
+      "Grey",
+      "Matte gold"
+    ],
+    "all_skuids": [
+      "E12A9201",
+      "E76C9203",
+      "E76A9203",
+      "E25A9201",
+      "E12A9202",
+      "E10A9203",
+      "E16A9201",
+      "E10B9201",
+      "E10A9202",
+      "E76B9203",
+      "E85A9202"
+    ]
+  },
+  {
+    "id": 19296,
+    "name": "MIYAMA",
+    "brand": "MIYAMA",
+    "style": "Full Frame",
+    "size": "Small",
+    "price": 149,
+    "colors": [
+      "#FF0000",
+      "#FFD700",
+      "#800020",
+      "#0000FF",
+      "#C0C0C0",
+      "#4A4A4A",
+      "#8B4513",
+      "#000000",
+      "#808080"
+    ],
+    "color_names": [
+      "Red",
+      "Gold",
+      "Burgundy",
+      "Blue",
+      "Silver",
+      "Gun",
+      "Brown",
+      "Black",
+      "Grey"
+    ],
+    "image": "/images/products/E21A0018_1.jpg",
+    "skuid": "E21A0018",
+    "category": "eyeglasses",
+    "material": "acetate",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Hinges",
+      "Lightweight",
+      "Universal fit"
+    ],
+    "gender": "Women",
+    "shape": "Cateye",
+    "variants": [
+      {
+        "skuid": "E21A0018",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21A0018_1.jpg"
+      },
+      {
+        "skuid": "E25A8617",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8617_1.jpg"
+      },
+      {
+        "skuid": "E74A8620",
+        "color_names": [
+          "Burgundy"
+        ],
+        "colors": [
+          "#800020"
+        ],
+        "image": "/images/products/E74A8620_1.jpg"
+      },
+      {
+        "skuid": "E20B8618",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20B8618_1.jpg"
+      },
+      {
+        "skuid": "E10A8617",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A8617_1.jpg"
+      },
+      {
+        "skuid": "E20A8620",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8620_1.jpg"
+      },
+      {
+        "skuid": "E76A8617",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8617_1.jpg"
+      },
+      {
+        "skuid": "E15B8624",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8624_1.jpg"
+      },
+      {
+        "skuid": "E12A8622",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8622_1.jpg"
+      },
+      {
+        "skuid": "E74A8622",
+        "color_names": [
+          "Burgundy"
+        ],
+        "colors": [
+          "#800020"
+        ],
+        "image": "/images/products/E74A8622_1.jpg"
+      },
+      {
+        "skuid": "E21A8625",
+        "color_names": [
+          "Red"
+        ],
+        "colors": [
+          "#FF0000"
+        ],
+        "image": "/images/products/E21A8625_1.jpg"
+      },
+      {
+        "skuid": "E12B8606",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8606_1.jpg"
+      },
+      {
+        "skuid": "E15A8610",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8610_1.jpg"
+      },
+      {
+        "skuid": "E15B8610",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8610_1.jpg"
+      },
+      {
+        "skuid": "E12A8610",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8610_1.jpg"
+      },
+      {
+        "skuid": "E12A8606",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8606_1.jpg"
+      },
+      {
+        "skuid": "E16A8628",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8628_1.jpg"
+      },
+      {
+        "skuid": "E12A8625",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8625_1.jpg"
+      },
+      {
+        "skuid": "E15A8628",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8628_1.jpg"
+      },
+      {
+        "skuid": "E15A8632",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8632_1.jpg"
+      },
+      {
+        "skuid": "E12A8632",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8632_1.jpg"
+      },
+      {
+        "skuid": "E15A8634",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8634_1.jpg"
+      },
+      {
+        "skuid": "E16A8634",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8634_1.jpg"
+      },
+      {
+        "skuid": "E20A8618",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8618_1.jpg"
+      },
+      {
+        "skuid": "E12A8702",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8702_1.jpg"
+      },
+      {
+        "skuid": "E25A8702",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8702_1.jpg"
+      },
+      {
+        "skuid": "E12A8703",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8703_1.jpg"
+      },
+      {
+        "skuid": "E15A8703",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8703_1.jpg"
+      },
+      {
+        "skuid": "E12B8703",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8703_1.jpg"
+      },
+      {
+        "skuid": "E12B8706",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8706_1.jpg"
+      },
+      {
+        "skuid": "E12B8728",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8728_1.jpg"
+      },
+      {
+        "skuid": "E20A8728",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8728_1.jpg"
+      },
+      {
+        "skuid": "E15A8728",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8728_1.jpg"
+      },
+      {
+        "skuid": "E15B8728",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8728_1.jpg"
+      },
+      {
+        "skuid": "E12A8728",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8728_1.jpg"
+      },
+      {
+        "skuid": "E16A8610",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8610_1.jpg"
+      },
+      {
+        "skuid": "E20A8706",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8706_1.jpg"
+      },
+      {
+        "skuid": "E12A8706",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8706_1.jpg"
+      },
+      {
+        "skuid": "E20A8628",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8628_1.jpg"
+      },
+      {
+        "skuid": "E15A8625",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8625_1.jpg"
+      },
+      {
+        "skuid": "E20A8632",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8632_1.jpg"
+      },
+      {
+        "skuid": "E25A8633",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8633_1.jpg"
+      },
+      {
+        "skuid": "E15B8634",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15B8634_1.jpg"
+      },
+      {
+        "skuid": "E12A0024",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A0024_1.jpg"
+      },
+      {
+        "skuid": "E16A8620",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16A8620_1.jpg"
+      },
+      {
+        "skuid": "E15A8624",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8624_1.jpg"
+      },
+      {
+        "skuid": "E15A8622",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8622_1.jpg"
+      },
+      {
+        "skuid": "E15A8606",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8606_1.jpg"
+      },
+      {
+        "skuid": "E15A8706",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8706_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#FF0000",
+      "#FFD700",
+      "#800020",
+      "#0000FF",
+      "#C0C0C0",
+      "#4A4A4A",
+      "#8B4513",
+      "#000000",
+      "#808080"
+    ],
+    "all_color_names": [
+      "Red",
+      "Gold",
+      "Burgundy",
+      "Blue",
+      "Silver",
+      "Gun",
+      "Brown",
+      "Black",
+      "Grey"
+    ],
+    "all_skuids": [
+      "E21A0018",
+      "E25A8617",
+      "E74A8620",
+      "E20B8618",
+      "E10A8617",
+      "E20A8620",
+      "E76A8617",
+      "E15B8624",
+      "E12A8622",
+      "E74A8622",
+      "E21A8625",
+      "E12B8606",
+      "E15A8610",
+      "E15B8610",
+      "E12A8610",
+      "E12A8606",
+      "E16A8628",
+      "E12A8625",
+      "E15A8628",
+      "E15A8632",
+      "E12A8632",
+      "E15A8634",
+      "E16A8634",
+      "E20A8618",
+      "E12A8702",
+      "E25A8702",
+      "E12A8703",
+      "E15A8703",
+      "E12B8703",
+      "E12B8706",
+      "E12B8728",
+      "E20A8728",
+      "E15A8728",
+      "E15B8728",
+      "E12A8728",
+      "E16A8610",
+      "E20A8706",
+      "E12A8706",
+      "E20A8628",
+      "E15A8625",
+      "E20A8632",
+      "E25A8633",
+      "E15B8634",
+      "E12A0024",
+      "E16A8620",
+      "E15A8624",
+      "E15A8622",
+      "E15A8606",
+      "E15A8706"
+    ]
+  },
+  {
+    "id": 55274,
+    "name": "K+",
+    "brand": "K+",
+    "style": "Full Frame",
+    "size": "Large",
+    "price": 99,
+    "colors": [
+      "#000000",
+      "#808080",
+      "#FFD700",
+      "#8B4513"
+    ],
+    "color_names": [
+      "Black",
+      "Grey",
+      "Gold",
+      "Brown"
+    ],
+    "image": "/images/products/E12C9111_1.jpg",
+    "skuid": "E12C9111",
+    "category": "eyeglasses",
+    "material": "stainless steel",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Hinges",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Aviator",
+    "variants": [
+      {
+        "skuid": "E12C9111",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12C9111_1.jpg"
+      },
+      {
+        "skuid": "E16C9132",
+        "color_names": [
+          "Grey"
+        ],
+        "colors": [
+          "#808080"
+        ],
+        "image": "/images/products/E16C9132_1.jpg"
+      },
+      {
+        "skuid": "E25C9111",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25C9111_1.jpg"
+      },
+      {
+        "skuid": "E15A9132",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A9132_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#000000",
+      "#808080",
+      "#FFD700",
+      "#8B4513"
+    ],
+    "all_color_names": [
+      "Black",
+      "Grey",
+      "Gold",
+      "Brown"
+    ],
+    "all_skuids": [
+      "E12C9111",
+      "E16C9132",
+      "E25C9111",
+      "E15A9132"
+    ]
+  },
+  {
+    "id": 19140,
+    "name": "LEON",
+    "brand": "LEON",
+    "style": "Half Frame",
+    "size": "Small",
+    "price": 119,
+    "colors": [
+      "#000000",
+      "#FFD700",
+      "#4A4A4A",
+      "#C0C0C0"
+    ],
+    "color_names": [
+      "Black",
+      "Gold",
+      "Gun",
+      "Silver"
+    ],
+    "image": "/images/products/E12A8928_1.jpg",
+    "skuid": "E12A8928",
+    "category": "eyeglasses",
+    "material": "stainless steel",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Women",
+    "shape": "Oval",
+    "variants": [
+      {
+        "skuid": "E12A8928",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8928_1.jpg"
+      },
+      {
+        "skuid": "E12A8851",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8851_1.jpg"
+      },
+      {
+        "skuid": "E12A8932",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8932_1.jpg"
+      },
+      {
+        "skuid": "E25A9003",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A9003_1.jpg"
+      },
+      {
+        "skuid": "E25A8851",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8851_1.jpg"
+      },
+      {
+        "skuid": "E76A8857",
+        "color_names": [
+          "Gun"
+        ],
+        "colors": [
+          "#4A4A4A"
+        ],
+        "image": "/images/products/E76A8857_1.jpg"
+      },
+      {
+        "skuid": "E12A8857",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8857_1.jpg"
+      },
+      {
+        "skuid": "E25A8857",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8857_1.jpg"
+      },
+      {
+        "skuid": "E25A8932",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8932_1.jpg"
+      },
+      {
+        "skuid": "E10A8928",
+        "color_names": [
+          "Silver"
+        ],
+        "colors": [
+          "#C0C0C0"
+        ],
+        "image": "/images/products/E10A8928_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#000000",
+      "#FFD700",
+      "#4A4A4A",
+      "#C0C0C0"
+    ],
+    "all_color_names": [
+      "Black",
+      "Gold",
+      "Gun",
+      "Silver"
+    ],
+    "all_skuids": [
+      "E12A8928",
+      "E12A8851",
+      "E12A8932",
+      "E25A9003",
+      "E25A8851",
+      "E76A8857",
+      "E12A8857",
+      "E25A8857",
+      "E25A8932",
+      "E10A8928"
+    ]
+  },
+  {
+    "id": 18685,
+    "name": "MIYAMA",
+    "brand": "MIYAMA",
+    "style": "Half Frame",
+    "size": "Small",
+    "price": 149,
+    "colors": [
+      "#0000FF",
+      "#8B4513",
+      "#000000"
+    ],
+    "color_names": [
+      "Blue",
+      "Brown",
+      "Black"
+    ],
+    "image": "/images/products/E20A8701_1.jpg",
+    "skuid": "E20A8701",
+    "category": "eyeglasses",
+    "material": "metallic",
+    "collections": [
+      "premium-eyeglasses"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Hinges",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Square",
+    "variants": [
+      {
+        "skuid": "E20A8701",
+        "color_names": [
+          "Blue"
+        ],
+        "colors": [
+          "#0000FF"
+        ],
+        "image": "/images/products/E20A8701_1.jpg"
+      },
+      {
+        "skuid": "E15A8701",
+        "color_names": [
+          "Brown"
+        ],
+        "colors": [
+          "#8B4513"
+        ],
+        "image": "/images/products/E15A8701_1.jpg"
+      },
+      {
+        "skuid": "E12A8701",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8701_1.jpg"
+      },
+      {
+        "skuid": "E12B8701",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12B8701_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#0000FF",
+      "#8B4513",
+      "#000000"
+    ],
+    "all_color_names": [
+      "Blue",
+      "Brown",
+      "Black"
+    ],
+    "all_skuids": [
+      "E20A8701",
+      "E15A8701",
+      "E12A8701",
+      "E12B8701"
+    ]
+  },
+  {
+    "id": 19115,
+    "name": "LEON",
+    "brand": "LEON",
+    "style": "Rimless",
+    "size": "Small",
+    "price": 119,
+    "colors": [
+      "#000000",
+      "#FFD700"
+    ],
+    "color_names": [
+      "Black",
+      "Gold"
+    ],
+    "image": "/images/products/E12A8931_1.jpg",
+    "skuid": "E12A8931",
+    "category": "eyeglasses",
+    "material": "stainless steel",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Hinges",
+      "Lightweight",
+      "Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Rectangle",
+    "variants": [
+      {
+        "skuid": "E12A8931",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A8931_1.jpg"
+      },
+      {
+        "skuid": "E25A8931",
+        "color_names": [
+          "Gold"
+        ],
+        "colors": [
+          "#FFD700"
+        ],
+        "image": "/images/products/E25A8931_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#000000",
+      "#FFD700"
+    ],
+    "all_color_names": [
+      "Black",
+      "Gold"
+    ],
+    "all_skuids": [
+      "E12A8931",
+      "E25A8931"
+    ]
+  },
+  {
+    "id": 19216,
+    "name": "K+",
+    "brand": "K+",
+    "style": "Full Frame",
+    "size": "Small",
+    "price": 99,
+    "colors": [
+      "#000000"
+    ],
+    "color_names": [
+      "Black"
+    ],
+    "image": "/images/products/E12A9123_1.jpg",
+    "skuid": "E12A9123",
+    "category": "eyeglasses",
+    "material": "stainless steel",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Rectangle",
+    "variants": [
+      {
+        "skuid": "E12A9123",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9123_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#000000"
+    ],
+    "all_color_names": [
+      "Black"
+    ],
+    "all_skuids": [
+      "E12A9123"
+    ]
+  },
+  {
+    "id": 19228,
+    "name": "K+",
+    "brand": "K+",
+    "style": "Half Frame",
+    "size": "Small",
+    "price": 99,
+    "colors": [
+      "#000000"
+    ],
+    "color_names": [
+      "Black"
+    ],
+    "image": "/images/products/E12A9119_1.jpg",
+    "skuid": "E12A9119",
+    "category": "eyeglasses",
+    "material": "combination",
+    "collections": [
+      "offline-collection"
+    ],
+    "comfort": [
+      "Nosepad",
+      "Lightweight",
+      " Universal fit"
+    ],
+    "gender": "Men",
+    "shape": "Rectangle",
+    "variants": [
+      {
+        "skuid": "E12A9119",
+        "color_names": [
+          "Black"
+        ],
+        "colors": [
+          "#000000"
+        ],
+        "image": "/images/products/E12A9119_1.jpg"
+      }
+    ],
+    "all_colors": [
+      "#000000"
+    ],
+    "all_color_names": [
+      "Black"
+    ],
+    "all_skuids": [
+      "E12A9119"
+    ]
+  }
+]

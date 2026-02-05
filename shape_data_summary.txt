@@ -1,0 +1,13 @@
+Total products: 811
+Products with shape data: 811
+
+Shape distribution:
+  - Rectangle: 260
+  - Square: 213
+  - Round: 151
+  - Cateye: 80
+  - Oval: 40
+  - Aviator: 38
+  - Wayfarer: 19
+  - Hexagon: 7
+  - Semi square: 3
