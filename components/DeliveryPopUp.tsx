@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "../api/retailerApis";
+import { trackAddToCart } from "@/utils/analytics";
 
 interface DeliveryPopUpProps {
   open: boolean;
@@ -24,7 +25,7 @@ const DeliveryPopUp: React.FC<DeliveryPopUpProps> = ({
     },
     onSuccess: (response: any) => {
       if (response?.data?.status) {
-        // Invalidate cart query to trigger a refetch in Navigation
+        trackAddToCart(selectedProduct, 1);
         queryClient.invalidateQueries({ queryKey: ["cart"] });
       }
       onHide();

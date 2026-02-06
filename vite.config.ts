@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   // Load environment variables starting with VITE_
   const env = loadEnv(mode, process.cwd(), 'VITE_');
 
-  const proxyTarget = env.VITE_API_TARGET || 'http://localhost:5000/';
+  const proxyTarget = env.VITE_API_TARGET || 'https://finalbackend.multifolks.com';
   const vtobTarget = env.VITE_GETMYFIT_API_BASE || 'https://vtob.multifolks.com';
 
   console.log("---------------------------------------------------");
@@ -33,19 +33,16 @@ export default defineConfig(({ mode }) => {
           target: proxyTarget,
           changeOrigin: true,
           secure: true, // HTTPS enabled
-          // Do NOT rewrite: backend expects /api/v1/...
         },
         '/api/profile': {
           target: proxyTarget,
           changeOrigin: true,
           secure: true,
-          // Do NOT rewrite
         },
         '/api/health': {
           target: proxyTarget,
           changeOrigin: true,
           secure: true,
-          // Do NOT rewrite
         },
         '/retailer': {
           target: proxyTarget,
@@ -64,10 +61,19 @@ export default defineConfig(({ mode }) => {
       },
     },
 
+    // ✅ Updated preview: allow your production domain
     preview: {
       port: 3000,
       host: '0.0.0.0',
-      allowedHosts: ['82.112.238.249', 'localhost', '127.0.0.1', 'test.tanviparadkar.in', 'test.multifolks.com'],
+      allowedHosts: [
+        '82.112.238.249',
+        'localhost',
+        '127.0.0.1',
+        'test.tanviparadkar.in',
+        'test.multifolks.com',
+        'finalbackend.multifolks.com', // <-- added your domain
+        'final.multifolks.com'         // <-- also add main frontend domain
+      ],
     },
 
     plugins: [react(), tailwindcss()],
@@ -86,4 +92,3 @@ export default defineConfig(({ mode }) => {
     assetsInclude: ['**/*.jpg', '**/*.jpeg', '**/*.png', '**/*.webp'],
   };
 });
-

@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import CheckoutStepper from "../components/CheckoutStepper";
 import { addToCart, selectLens, addPrescription, getProductById, getProductBySku } from "../api/retailerApis";
+import { trackAddToCart } from "@/utils/analytics";
 import CoatingInfoModal from "../components/product/CoatingInfoModal";
 import { setCartLensOverride } from "../utils/priceUtils";
 import ProductDetailsFooter from "@/components/ProductDetailsFooter";
@@ -192,6 +193,7 @@ const SelectLensCoatings: React.FC = () => {
         coatingTitle: selectedCoatingOption?.title,
       });
       console.log("DEBUG: addToCart full response:", addToCartResponse);
+      trackAddToCart(productToAdd, 1);
 
       let cartId = addToCartResponse?.data?.cart_id ||
         addToCartResponse?.data?.data?.cart_id ||

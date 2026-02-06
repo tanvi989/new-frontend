@@ -19,7 +19,7 @@ import { GenderFilter } from "../components/GenderFilter";
 import { ShapeFilter } from "../components/ShapeFilter";
 import { Check, ScanLine } from "lucide-react";
 import { getHexColorsFromNames } from "../utils/colorNameToHex";
-
+import { trackViewItemList } from "@/utils/analytics";
 
 // --- FILTER DATA ---
 const PRICES = ["£40 - 80", "£80 - 100", "£100 - 120", "£120 - 140"];
@@ -514,6 +514,13 @@ const MenCollection: React.FC = () => {
   // Client-side Pagination Logic
   const allProducts = productsDataResponse?.products || productsDataResponse?.data || [];
   const totalProducts = allProducts.length;
+
+  // GA4: Track product list view when products load
+  useEffect(() => {
+    if (allProducts?.length > 0) {
+      trackViewItemList(allProducts, "men", "Men's Eyeglasses");
+    }
+  }, [allProducts]);
 
   // Calculate slice indices
   const startIndex = (currentPage - 1) * itemsPerPage;

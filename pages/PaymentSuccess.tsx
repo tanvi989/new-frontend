@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { trackPurchase } from '@/utils/analytics';
 
 const PaymentSuccess: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [countdown, setCountdown] = useState(5);
+
+  // GA4: Track purchase on page load (order confirmation)
+  useEffect(() => {
+    const sessionId = searchParams.get('session_id');
+    trackPurchase({
+      transaction_id: sessionId || `ord_${Date.now()}`,
+      value: 0, // Can be enriched from order API if needed
+      currency: 'GBP',
+      items: [],
+    });
+  }, [searchParams]);
 
   useEffect(() => {
     // Countdown timer

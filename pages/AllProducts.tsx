@@ -18,6 +18,7 @@ import { getColorFromSkuid } from "../utils/colorMapping";
 import { getHexColorsFromNames } from "../utils/colorNameToHex";
 import { GenderFilter } from "@/components/GenderFilter";
 import { parseDimensionsString } from "@/utils/frameDimensions";
+import { trackViewItemList } from "@/utils/analytics";
 
 // --- MOCK DATA REMOVED ---
 
@@ -513,6 +514,13 @@ const AllProducts: React.FC = () => {
 
   // Client-side Pagination Logic
   const allProducts = productsDataResponse?.products || productsDataResponse?.data || [];
+
+  // GA4: Track product list view when products load
+  useEffect(() => {
+    if (allProducts?.length > 0) {
+      trackViewItemList(allProducts, "glasses", "All Eyeglasses");
+    }
+  }, [allProducts]);
 
   // Calculate Total Active Filters
   const totalActiveFilters = Object.values(selectedFilters).reduce(

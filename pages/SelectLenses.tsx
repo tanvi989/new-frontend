@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Check, Droplets, Fingerprint, Sparkles, X } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { addToCart, selectLens, addPrescription } from "../api/retailerApis";
+import { trackAddToCart } from "@/utils/analytics";
 
 const SelectLenses: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -354,8 +355,8 @@ const SelectLenses: React.FC = () => {
     try {
       // 1. Add Product to Cart
       const addToCartResponse: any = await addToCart(product, "instant");
-
       if (addToCartResponse?.data?.status) {
+        trackAddToCart(product, 1);
         const cartId = addToCartResponse.data.cart_id;
         // Associate selected lens option with the cart (best-effort)
         try {

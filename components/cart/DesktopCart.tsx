@@ -21,6 +21,7 @@ import { LoginModal } from "../LoginModal";
 import SignUpModal from "../SignUpModal";
 import ManualPrescriptionModal from "../ManualPrescriptionModal";
 import { getLensCoating, getTintInfo, calculateCartSubtotal, calculateItemTotal, getLensPackagePrice, getCartLensOverride, getLensTypeDisplay, getLensIndex } from "../../utils/priceUtils";
+import { trackBeginCheckout } from "../../utils/analytics";
 
 const DesktopCart: React.FC = () => {
     const navigate = useNavigate();
@@ -1422,10 +1423,10 @@ const DesktopCart: React.FC = () => {
                                     </div>
                                     <button
                                         onClick={() => {
+                                            trackBeginCheckout(cartItems);
                                             if (localStorage.getItem("token")) {
                                                 navigate("/payment");
                                             } else {
-                                                // Fixed: Set returnTo to /payment instead of /cart
                                                 sessionStorage.setItem("returnTo", "/payment");
                                                 setShowLoginModal(true);
                                             }

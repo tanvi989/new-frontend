@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import CheckoutStepper from "../components/CheckoutStepper";
 import ProductDetailsFooter from "../components/ProductDetailsFooter";
 import { addToCart, selectLens, addPrescription, updateMyPrescription } from "../api/retailerApis";
+import { trackAddToCart } from "@/utils/analytics";
 
 
 const LensImage = ({
@@ -246,6 +247,7 @@ const SelectLensType: React.FC = () => {
       const addToCartResponse: any = await addToCart(product, "instant", prescriptionToSync);
 
       if (addToCartResponse?.data?.status) {
+        trackAddToCart(product, 1);
         const cartId = addToCartResponse.data.cart_id;
 
         const priceValue =

@@ -15,6 +15,7 @@ import { useCaptureData } from "@/contexts/CaptureContext";
 import { VtoProductOverlay } from "@/components/VtoProductOverlay";
 import { getCaptureSession } from "@/utils/captureSession";
 import { saveProduct } from "@/utils/productFlowStorage";
+import { trackViewItem } from "@/utils/analytics";
 
 interface ColorVariant {
   id: string;
@@ -188,6 +189,13 @@ const ProductPage: React.FC = () => {
       }
     };
   }, [product?.images]);
+
+  // GA4: Track product view when product loads
+  useEffect(() => {
+    if (product) {
+      trackViewItem(product);
+    }
+  }, [product]);
 
   // Manual slide controls
   const handleTouchStart = (e: React.TouchEvent) => {

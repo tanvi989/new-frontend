@@ -12,7 +12,7 @@ const error = (message: string) => ({ type: 'ERROR', payload: message });
 const success = (message: string) => ({ type: 'SUCCESS', payload: message });
 
 // Use backend from Vite env or fallback to local backend (must be http:// or https://, no typo)
-export const API_BASE_URL = "http://localhost:5000";
+export const API_BASE_URL = "https://finalbackend.multifolks.com/";
 
 // Prefer Vite env if present (dev/prod), otherwise fallback to localhost:5000
 const env = (import.meta as any)?.env ?? {};

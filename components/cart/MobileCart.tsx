@@ -12,6 +12,7 @@ import CouponTermsDialog from "../product/CouponTermsDialog";
 import { Footer } from "../Footer";
 import ManualPrescriptionModal from "../ManualPrescriptionModal";
 import { deletePrescription, removePrescription, getMyPrescriptions } from "../../api/retailerApis";
+import { trackBeginCheckout } from "../../utils/analytics";
 
 interface MobileCartProps {
     cartItems: CartItem[];
@@ -774,10 +775,11 @@ const MobileCart: React.FC<MobileCartProps> = ({
 
                  <button
     onClick={() => {
+        trackBeginCheckout(cartItems);
         if (localStorage.getItem("token")) {
             navigate("/payment");
         } else {
-            sessionStorage.setItem("returnTo", "/payment");  // ← Fixed to redirect to payment
+            sessionStorage.setItem("returnTo", "/payment");
             setShowLoginModal(true);
         }
     }}

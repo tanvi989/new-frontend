@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import CheckoutStepper from "../components/CheckoutStepper";
 import { addToCart } from "../api/retailerApis";
+import { trackAddToCart } from "@/utils/analytics";
 import { setCartLensOverride } from "../utils/priceUtils";
 import { getProductFlow, saveCartId } from "../utils/productFlowStorage";
 
@@ -103,6 +104,7 @@ const SelectLensColor: React.FC = () => {
       // Step 1: Add product to cart (API or localStorage)
       const addToCartResponse: any = await addToCart(product, "instant");
       console.log("DEBUG: addToCart response:", addToCartResponse);
+      trackAddToCart(product, 1);
 
       let cartId =
         addToCartResponse?.data?.cart_id ||
