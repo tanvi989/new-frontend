@@ -3,11 +3,15 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
+// ✅ FIXED: Remove any localStorage access from here
+// If you had getCityAndState() or similar functions, remove them
+// Vite config runs in Node.js, NOT in the browser
+
 export default defineConfig(({ mode }) => {
   // Load environment variables starting with VITE_
   const env = loadEnv(mode, process.cwd(), 'VITE_');
 
-  const proxyTarget = env.VITE_API_TARGET || env.VITE_API_URL || 'http://localhost:5000';
+  const proxyTarget = env.VITE_API_TARGET || env.VITE_API_URL || 'http://finalbackend.multifolks.com';
   const isLocalBackend = proxyTarget.includes('localhost');
   const vtobTarget = env.VITE_GETMYFIT_API_BASE || 'https://vtob.multifolks.com';
 
@@ -62,7 +66,6 @@ export default defineConfig(({ mode }) => {
       },
     },
 
-    // ✅ Updated preview: allow your production domain
     preview: {
       port: 3001,
       host: '0.0.0.0',
@@ -72,8 +75,8 @@ export default defineConfig(({ mode }) => {
         '127.0.0.1',
         'test.tanviparadkar.in',
         'test.multifolks.com',
-        'finalbackend.multifolks.com', // <-- added your domain
-        'final.multifolks.com'         // <-- also add main frontend domain
+        'finalbackend.multifolks.com',
+        'final.multifolks.com'
       ],
     },
 
