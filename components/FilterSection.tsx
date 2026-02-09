@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 interface FilterSectionProps {
-  title: string;
+  title: React.ReactNode;
   children: React.ReactNode;
   isOpen?: boolean;
 }
@@ -18,7 +18,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
         onClick={() => setOpen(!open)}
         className="flex items-center justify-between w-full text-left group py-1"
       >
-        <span className="text-[15px] font-bold text-[#1F1F1F] group-hover:text-black capitalize tracking-wide">
+        <span className="text-[15px] font-bold text-[#1F1F1F] group-hover:text-black tracking-wide flex items-center gap-1.5">
           {title}
         </span>
         <span

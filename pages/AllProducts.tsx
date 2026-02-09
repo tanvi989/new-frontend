@@ -37,12 +37,11 @@ const MATERIALS = [
   "Titanium",
 ];
 const COLLECTIONS = ["Offline Collection", "Premium Eyeglasses"];
-const COMFORT = [
-  "Hinges",
-  "Lightweight",
-  "Universal fit",
-  "Nosepad",
-];
+const COMFORT = ["Lightweight", "Spring Hinge"];
+const COMFORT_LABELS: Record<string, string> = {
+  Lightweight: "Lightweight (less than 30 gm)",
+  "Spring Hinge": "With Hinge",
+};
 const FRAME_COLORS = [
   "Beige",
   "Black",
@@ -136,6 +135,13 @@ const FILTER_OPTIONS = {
     "Square",
     "Wayfarer",
   ],
+};
+
+// Size filter labels with lens measurement (single lens icon used in section title)
+const SIZE_LABELS: Record<string, string> = {
+  Large: "Large (> 54mm)",
+  Medium: "Medium (> 51mm and < 54mm)",
+  Small: "Small (< 51mm)",
 };
 
 const SORT_OPTIONS = [
@@ -304,17 +310,26 @@ const MobileFilterSortModal: React.FC<{
                 {filterCategories.find((c) => c.key === activeCategory)?.title}
               </h3>
               <div className="space-y-3">
+                {activeCategory === "Size" && (
+                  <p className="text-xs text-gray-500 mb-1">Measurement (one lens)</p>
+                )}
                 {filterCategories
                   .find((c) => c.key === activeCategory)
                   ?.options.map((option) => {
                     const isSelected =
                       selectedFilters[activeCategory]?.includes(option);
+                    const displayLabel =
+                      activeCategory === "Size"
+                        ? SIZE_LABELS[option] ?? option
+                        : activeCategory === "Comfort"
+                          ? COMFORT_LABELS[option] ?? option
+                          : option;
                     return (
                       <label
                         key={option}
                         className="flex items-center justify-between py-2 cursor-pointer"
                       >
-                        <span className="text-gray-700">{option}</span>
+                        <span className="text-gray-700">{displayLabel}</span>
                         <div className="relative">
                           <input
                             type="checkbox"
@@ -447,6 +462,7 @@ const AllProducts: React.FC = () => {
   const {
     data: productsDataResponse,
     isLoading,
+    isFetching,
     isError,
     error,
   } = useQuery({
@@ -585,15 +601,15 @@ const AllProducts: React.FC = () => {
       Size: [],
       Brand: [],
       Styles: [],
-      // Removed ShopFor: []
       Prices: [],
       Shape: [],
-                        Material: [],
-                        // Collections: [],
-                        Comfort: [],
+      Material: [],
+      Comfort: [],
       FrameColors: [],
+      Gender: [],
     });
-    // setSelectedGender("All");
+    setCurrentPage(1);
+    setVisibleMobileCount(48);
   };
 
   const handleFitToggle = () => {
@@ -852,10 +868,11 @@ const AllProducts: React.FC = () => {
               ))}
             </FilterSection> */}
             <FilterSection title="Size">
+              <p className="text-xs text-[#525252] mb-2">Measurement (one lens)</p>
               {FILTER_OPTIONS.Size.map((item) => (
                 <CheckboxItem
                   key={item}
-                  label={item}
+                  label={SIZE_LABELS[item] ?? item}
                   checked={selectedFilters.Size.includes(item)}
                   onChange={() => toggleFilterOption("Size", item)}
                 />
@@ -885,7 +902,7 @@ const AllProducts: React.FC = () => {
               {COMFORT.map((item) => (
                 <CheckboxItem
                   key={item}
-                  label={item}
+                  label={COMFORT_LABELS[item] ?? item}
                   checked={selectedFilters.Comfort.includes(item)}
                   onChange={() => toggleFilterOption("Comfort", item)}
                 />
@@ -1194,7 +1211,7 @@ const AllProducts: React.FC = () => {
                       )}
                     </div>
 
-                    {/* Price and Naming System + Frame width when M fit is on */}
+                    {/* Price and Naming System */}
                     <div className="flex justify-between items-end mt-1 px-2">
                       <span className="text-xs md:text-lg font-bold text-[#1F1F1F] uppercase tracking-wider">
                         {product.naming_system}
@@ -1203,13 +1220,6 @@ const AllProducts: React.FC = () => {
                         £{product.price}
                       </span>
                     </div>
-                    {topMfitEnabled && (
-                      <div className="mt-1 px-2 pb-1 min-h-[1.25rem]">
-                        <span className="text-[10px] md:text-xs text-[#D96C47] font-medium">
-                          Frame width: {product.dimensions ? parseDimensionsString(product.dimensions).width : '—'} mm
-                        </span>
-                      </div>
-                    )}
                   </div>
                 </div>
               ))}
@@ -1219,7 +1229,7 @@ const AllProducts: React.FC = () => {
                 <div className="w-12 h-12 border-4 border-gray-200 border-t-black rounded-full animate-spin"></div>
               </div>
             ) : (
-              paginatedProducts.length === 0 && <NoProductsFound />
+              paginatedProducts.length === 0 && !isFetching && <NoProductsFound />
             )}
 
           </div>

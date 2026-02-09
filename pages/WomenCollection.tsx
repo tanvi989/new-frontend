@@ -39,12 +39,11 @@ const MATERIALS = [
   "Titanium",
 ];
 const COLLECTIONS = ["Offline Collection", "Premium Eyeglasses"];
-const COMFORT = [
-  "Lightweight",
-  "Spring Hinge",
-  "Adjustable Nose Pads",
-  "Hypoallergenic",
-];
+const COMFORT = ["Lightweight", "Spring Hinge"];
+const COMFORT_LABELS: Record<string, string> = {
+  Lightweight: "Lightweight (less than 30 gm)",
+  "Spring Hinge": "With Hinge",
+};
 const FRAME_COLORS = [
   "Beige",
   "Black",
@@ -146,6 +145,13 @@ const SORT_OPTIONS = [
   "Price High To Low",
 
 ];
+
+// Size filter labels with lens measurement (single lens icon used in section title)
+const SIZE_LABELS: Record<string, string> = {
+  Large: "Large (> 54mm)",
+  Medium: "Medium (> 51mm and < 54mm)",
+  Small: "Small (< 51mm)",
+};
 
 // Mobile Filter/Sort Modal Component
 const MobileFilterSortModal: React.FC<{
@@ -297,17 +303,26 @@ const MobileFilterSortModal: React.FC<{
                 {filterCategories.find((c) => c.key === activeCategory)?.title}
               </h3>
               <div className="space-y-3">
+                {activeCategory === "Size" && (
+                  <p className="text-xs text-gray-500 mb-1">Measurement (one lens)</p>
+                )}
                 {filterCategories
                   .find((c) => c.key === activeCategory)
                   ?.options.map((option) => {
                     const isSelected =
                       selectedFilters[activeCategory]?.includes(option);
+                    const displayLabel =
+                      activeCategory === "Size"
+                        ? SIZE_LABELS[option] ?? option
+                        : activeCategory === "Comfort"
+                          ? COMFORT_LABELS[option] ?? option
+                          : option;
                     return (
                       <label
                         key={option}
                         className="flex items-center justify-between py-2 cursor-pointer"
                       >
-                        <span className="text-gray-700">{option}</span>
+                        <span className="text-gray-700">{displayLabel}</span>
                         <div className="relative">
                           <input
                             type="checkbox"
@@ -405,6 +420,7 @@ const WomenCollection: React.FC = () => {
   const {
     data: productsDataResponse,
     isLoading,
+    isFetching,
     isError,
     error,
   } = useQuery({
@@ -550,15 +566,15 @@ const WomenCollection: React.FC = () => {
       Size: [],
       Brand: [],
       Styles: [],
-      // ShopFor: [],
       Prices: [],
       Shape: [],
-                        Material: [],
-                        // Collections: [],
-                        Comfort: [],
+      Material: [],
+      Comfort: [],
       FrameColors: [],
-      Gender: [], // Added Gender filter
+      Gender: [],
     });
+    setCurrentPage(1);
+    setVisibleProducts(12);
   };
 
   const handleFitToggle = () => {
@@ -693,10 +709,11 @@ const WomenCollection: React.FC = () => {
               ))}
             </FilterSection> */}
             <FilterSection title="Size">
+              <p className="text-xs text-[#525252] mb-2">Measurement (one lens)</p>
               {FILTER_OPTIONS.Size.map((item) => (
                 <CheckboxItem
                   key={item}
-                  label={item}
+                  label={SIZE_LABELS[item] ?? item}
                   checked={selectedFilters.Size.includes(item)}
                   onChange={() => toggleFilterOption("Size", item)}
                 />
@@ -726,7 +743,7 @@ const WomenCollection: React.FC = () => {
               {COMFORT.map((item) => (
                 <CheckboxItem
                   key={item}
-                  label={item}
+                  label={COMFORT_LABELS[item] ?? item}
                   checked={selectedFilters.Comfort.includes(item)}
                   onChange={() => toggleFilterOption("Comfort", item)}
                 />
@@ -953,7 +970,7 @@ const WomenCollection: React.FC = () => {
                   </div>
                 ))}
 
-                {filteredAndSortedProducts.length === 0 && <NoProductsFound />}
+                {filteredAndSortedProducts.length === 0 && !isFetching && <NoProductsFound />}
               </>
             )}
           </div>

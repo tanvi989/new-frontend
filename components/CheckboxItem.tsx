@@ -1,7 +1,7 @@
 import React from "react";
 
 interface CheckboxItemProps {
-  label: string;
+  label: React.ReactNode;
   checked: boolean;
   onChange: () => void;
   color?: string; // Optional color prop for visual indicator
@@ -41,7 +41,7 @@ export const CheckboxItem: React.FC<CheckboxItemProps> = ({
         />
       )}
       <span
-        className={`text-[13px] transition-colors duration-200 ${checked
+        className={`text-[13px] transition-colors duration-200 flex items-center gap-2 flex-wrap ${checked
           ? "text-[#1F1F1F] font-medium"
           : "text-[#525252] font-normal group-hover:text-[#1F1F1F]"
           }`}
