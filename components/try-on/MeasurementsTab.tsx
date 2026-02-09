@@ -1,25 +1,77 @@
 import { useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useCaptureData } from '@/contexts/CaptureContext';
 import { AlertCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import { saveCaptureSession } from '@/utils/captureSession';
 import { FrameAdjustmentControls } from './FrameAdjustmentControls';
 import { DEFAULT_ADJUSTMENTS, type AdjustmentValues } from '@/utils/frameOverlayUtils';
 import { getProductBySku } from '@/api/retailerApis';
 import VtoProductOverlay from '@/components/VtoProductOverlay';
+import { toast } from 'sonner';
 
 /** Same frame as /glasses product cards – use a product skuid from catalog */
 const TEST_FRAME_SKUID = 'E10A1012';
 
-export function MeasurementsTab() {
+export interface MeasurementsTabProps {
+  /** When provided, clicking "View Measurement" switches to Virtual Try-On tab (where PD, Face Width, Face Shape are shown). */
+  onViewMeasurements?: () => void;
+}
+
+/** Face shape → frame suggestions for multifocals (Shapes to Pick, Why, Shapes to Avoid, Why) */
+const FACE_SHAPE_SUGGESTIONS: Record<string, { pick: string; pickWhy: string; avoid: string; avoidWhy: string }> = {
+  oval: {
+    pick: 'Rectangle, Semi square, Square, Hexagon',
+    pickWhy: 'Adds structure for multifocal lens height. Creates a sharp premium style contrast.',
+    avoid: 'Round, Small Round',
+    avoidWhy: 'Reduces lens depth. Weak for multifocals.',
+  },
+  square: {
+    pick: 'Round, Oval, Cat-eye',
+    pickWhy: 'Softens angles, enables comfortable multifocal viewing zones. Balances jawline with elegant lift.',
+    avoid: 'Square, Heavy Frames',
+    avoidWhy: 'Over-angular. Visually harsh.',
+  },
+  round: {
+    pick: 'Rectangle, Square, Cat-eye, Hexagon',
+    pickWhy: 'Adds definition and supports wider reading area. Creates authority and face length.',
+    avoid: 'Round, Tiny Shapes',
+    avoidWhy: 'Crowds progressive corridor.',
+  },
+  rectangle: {
+    pick: 'Round, Aviator, Square, Cat-eye',
+    pickWhy: 'Reduces face length; deeper lenses aid multifocals. Adds width and visual balance.',
+    avoid: 'Narrow frames',
+    avoidWhy: 'Limits lens progression space.',
+  },
+  heart: {
+    pick: 'Oval, Cat-eye, Round, Aviator, Wayfarer',
+    pickWhy: 'Balances forehead for stable multifocal fit. Adds lower-face width for harmony.',
+    avoid: 'Top-heavy frames',
+    avoidWhy: 'Shifts focus upward. Unstable look.',
+  },
+  oblong: {
+    pick: 'Round, Aviator, Square, Cat-eye',
+    pickWhy: 'Reduces face length; deeper lenses aid multifocals. Adds width and visual balance.',
+    avoid: 'Narrow frames',
+    avoidWhy: 'Limits lens progression space.',
+  },
+};
+
+function getSuggestionForShape(faceShape: string | undefined) {
+  if (!faceShape) return null;
+  const key = faceShape.toLowerCase().trim();
+  return FACE_SHAPE_SUGGESTIONS[key] ?? FACE_SHAPE_SUGGESTIONS[key.replace(/\s+/g, '_')] ?? null;
+}
+
+export function MeasurementsTab({ onViewMeasurements }: MeasurementsTabProps = {}) {
   const { capturedData, setCapturedData } = useCaptureData();
-  const navigate = useNavigate();
   const [adjustments, setAdjustments] = useState<AdjustmentValues>(() =>
     capturedData?.frameAdjustments
       ? { ...capturedData.frameAdjustments }
       : { ...DEFAULT_ADJUSTMENTS }
   );
   const [testProduct, setTestProduct] = useState<{ dimensions?: string; name: string } | null>(null);
+  const [showAlignConfirm, setShowAlignConfirm] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -42,9 +94,10 @@ export function MeasurementsTab() {
     setAdjustments({ ...DEFAULT_ADJUSTMENTS });
   }, []);
 
-  const handleViewCollection = useCallback(() => {
+  const proceedToCollection = useCallback(() => {
+    if (!capturedData) return;
     const withAdjustments = {
-      ...capturedData!,
+      ...capturedData,
       frameAdjustments: {
         offsetX: adjustments.offsetX,
         offsetY: adjustments.offsetY,
@@ -54,9 +107,14 @@ export function MeasurementsTab() {
     };
     setCapturedData(withAdjustments);
     saveCaptureSession(withAdjustments);
-    navigate('/glasses');
     window.dispatchEvent(new CustomEvent('getmyfit:close'));
-  }, [capturedData, adjustments, setCapturedData, navigate]);
+    // Full page navigation so /glasses loads fresh and reads the new session from storage
+    window.location.href = '/glasses';
+  }, [capturedData, adjustments, setCapturedData]);
+
+  const handleViewCollection = useCallback(() => {
+    setShowAlignConfirm(true);
+  }, []);
 
   if (!capturedData) {
     return (
@@ -67,69 +125,78 @@ export function MeasurementsTab() {
     );
   }
 
-  const { measurements, faceShape } = capturedData;
-  const formatVal = (v: number | undefined, d = 1) => (v != null && !isNaN(v)) ? v.toFixed(d) : 'N/A';
+  const { faceShape } = capturedData;
 
   return (
     <div className="space-y-4 animate-fadeIn">
       {/* Instruction + Face with test frame – same component as /glasses for identical view */}
-      <div className="space-y-3">
-        <p className="text-xs font-bold text-gray-700 uppercase tracking-wide text-center">
+      <div className="space-y-3 text-left">
+        <p className="text-xs font-bold text-gray-700 uppercase tracking-wide">
           Please align how you like to wear glasses
         </p>
-        <div className="p-0 bg-[#F7F7F7] flex relative rounded overflow-hidden mx-auto" style={{ width: 384, height: 332 }}>
-          <VtoProductOverlay
-            captureSession={captureWithAdjustments}
-            productSkuid={TEST_FRAME_SKUID}
-            productDimensions={testProduct?.dimensions}
-            productName={testProduct?.name ?? 'Test frame'}
-            compact
-          />
-        </div>
-        <FrameAdjustmentControls
-          values={adjustments}
-          onChange={setAdjustments}
-          onReset={handleResetAdjustments}
-        />
-      </div>
-
-      {/* PD Card */}
-      <div className="bg-[#F3F4F6] text-black p-6 rounded-2xl shadow-sm border border-gray-200 relative overflow-hidden">
-        <div className="relative z-10 text-center">
-          <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest mb-1 text-center">Pupillary Distance</p>
-          <div className="flex items-baseline justify-center gap-2">
-            <span className="text-5xl font-black italic tracking-tighter">{formatVal(measurements?.pd)}</span>
-            <span className="text-lg text-gray-700">mm</span>
+        {/* Image left, Fine-tune panel right. DO NOT change image width/height (384x332). */}
+        <div className="grid grid-cols-1 md:grid-cols-[384px_1fr] gap-4 items-start min-w-0">
+          <div className="p-0 bg-[#F7F7F7] flex relative rounded-xl overflow-hidden shadow-sm" style={{ width: 384, height: 332 }}>
+            <VtoProductOverlay
+              captureSession={captureWithAdjustments}
+              productSkuid={TEST_FRAME_SKUID}
+              productDimensions={testProduct?.dimensions}
+              productName={testProduct?.name ?? 'Test frame'}
+              compact
+            />
           </div>
-          <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-black/10">
-            <div className="text-center">
-              <p className="text-[8px] font-bold text-gray-600 uppercase">Left PD</p>
-              <p className="text-xl font-bold italic">{formatVal(measurements?.pd_left)}</p>
-            </div>
-            <div className="text-center">
-              <p className="text-[8px] font-bold text-gray-600 uppercase">Right PD</p>
-              <p className="text-xl font-bold italic">{formatVal(measurements?.pd_right)}</p>
-            </div>
+          <div className="flex justify-end min-w-0">
+            <FrameAdjustmentControls
+              values={adjustments}
+              onChange={setAdjustments}
+              onReset={handleResetAdjustments}
+            />
           </div>
         </div>
       </div>
 
-      {/* Face Width + Face Shape */}
-      <div className="grid grid-cols-2 gap-3">
-        <div className="bg-gray-100 p-4 rounded-2xl">
-          <p className="text-[9px] font-bold text-gray-500 uppercase mb-1">Face Width</p>
-          <p className="text-xl font-bold">
-            {formatVal(measurements?.face_width)}
-            <span className="text-xs ml-1 opacity-50">mm</span>
-          </p>
-        </div>
-        <div className="bg-gray-100 p-4 rounded-2xl">
-          <p className="text-[9px] font-bold text-gray-500 uppercase mb-1">Face Shape</p>
-          <p className="text-xl font-bold uppercase italic tracking-tighter">{faceShape || 'N/A'}</p>
-        </div>
-      </div>
+      {/* Face shape frame suggestions – 2x2 grid (only when shape is known) */}
+      {(() => {
+        const suggestion = getSuggestionForShape(faceShape);
+        return suggestion ? (
+          <div className="bg-[#F3F4F6] border border-gray-200 rounded-2xl p-4 shadow-sm">
+            <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest mb-3">
+              Frame suggestions for your face shape
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white p-3 rounded-xl border border-gray-100">
+                <p className="text-[9px] font-bold text-gray-500 uppercase mb-1.5">Shapes to pick</p>
+                <p className="text-sm font-medium text-gray-900 leading-snug">{suggestion.pick}</p>
+              </div>
+              <div className="bg-white p-3 rounded-xl border border-gray-100">
+                <p className="text-[9px] font-bold text-gray-500 uppercase mb-1.5">Why</p>
+                <p className="text-xs text-gray-700 leading-snug">{suggestion.pickWhy}</p>
+              </div>
+              <div className="bg-white p-3 rounded-xl border border-gray-100">
+                <p className="text-[9px] font-bold text-gray-500 uppercase mb-1.5">Shapes to avoid</p>
+                <p className="text-sm font-medium text-gray-900 leading-snug">{suggestion.avoid}</p>
+              </div>
+              <div className="bg-white p-3 rounded-xl border border-gray-100">
+                <p className="text-[9px] font-bold text-gray-500 uppercase mb-1.5">Why</p>
+                <p className="text-xs text-gray-700 leading-snug">{suggestion.avoidWhy}</p>
+              </div>
+            </div>
+          </div>
+        ) : null;
+      })()}
 
-      {/* View MFIT Collection */}
+      {/* View Measurement – switches to Virtual Try-On tab where PD, Face Width, Face Shape are shown */}
+      {onViewMeasurements && (
+        <button
+          type="button"
+          onClick={onViewMeasurements}
+          className="w-full inline-flex items-center justify-center bg-[#F3F4F6] text-black py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-sm hover:bg-gray-200 border-2 border-gray-300 transition-all"
+        >
+          View Measurement
+        </button>
+      )}
+
+      {/* View MFIT Collection – asks confirmation before redirect */}
       <button
         type="button"
         onClick={handleViewCollection}
@@ -137,6 +204,43 @@ export function MeasurementsTab() {
       >
         View MFIT Collection
       </button>
+
+      {/* Confirmation: Did you align your frame perfectly? Rendered via portal so it appears above MFit popup (z-[1000]). */}
+      {showAlignConfirm &&
+        createPortal(
+          <div className="fixed inset-0 z-[1100] flex items-center justify-center p-4" aria-modal="true" role="dialog">
+            <div className="absolute inset-0 bg-black/70" onClick={() => setShowAlignConfirm(false)} />
+            <div className="relative z-10 w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+              <h3 className="text-center text-lg font-semibold text-gray-900">Confirm</h3>
+              <p className="mt-2 text-center text-sm text-gray-600">
+                Did you align your frame perfectly on your face?
+              </p>
+              <div className="mt-6 flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowAlignConfirm(false);
+                    toast.info('Please align your frame first, then try again.');
+                  }}
+                  className="flex-1 rounded-xl border-2 border-gray-300 bg-white py-3 text-sm font-bold uppercase tracking-wide text-gray-700 hover:bg-gray-50"
+                >
+                  No
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowAlignConfirm(false);
+                    proceedToCollection();
+                  }}
+                  className="flex-1 rounded-xl bg-black py-3 text-sm font-bold uppercase tracking-wide text-white hover:bg-gray-800"
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

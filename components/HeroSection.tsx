@@ -32,14 +32,14 @@ export function HeroSection() {
               <button
                 onClick={goTo("/glasses/men")}
                 aria-label="Shop Men's Glasses"
-                className="w-48 px-4 py-6 bg-black text-white text-xs font-semibold rounded-full hover:bg-black transition uppercase tracking-wide"
+                className="w-56 px-4 py-3 bg-black text-white text-base lg:text-lg font-semibold rounded-full hover:bg-black transition uppercase tracking-wide"
               >
                 MEN
               </button>
               <button
                 onClick={goTo("/glasses/women")}
                 aria-label="Shop Women's Glasses"
-                className="w-48 px-4 py-6 bg-white text-gray-900 text-xs font-semibold rounded-full hover:bg-gray-100 transition uppercase tracking-wide"
+                className="w-56 px-4 py-3 bg-white text-gray-900 text-base lg:text-lg font-semibold rounded-full hover:bg-gray-100 transition uppercase tracking-wide"
               >
                 WOMEN
               </button>
@@ -75,7 +75,7 @@ export function HeroSection() {
               <button
                 onClick={goTo("/glasses/men")}
                 aria-label="Shop Men's Glasses"
-                className="flex-1 py-5 bg-black text-white text-xs font-semibold rounded-full hover:bg-gray-900 transition uppercase tracking-widest"
+                className="flex-1 py-3 bg-black text-white text-sm font-semibold rounded-full hover:bg-gray-900 transition uppercase tracking-widest"
               >
                 MEN
               </button>
@@ -83,7 +83,7 @@ export function HeroSection() {
               <button
                 onClick={goTo("/glasses/women")}
                 aria-label="Shop Women's Glasses"
-                className="flex-1 py-5 bg-white text-gray-900 text-xs font-semibold rounded-full hover:bg-gray-100 transition uppercase tracking-widest"
+                className="flex-1 py-3 bg-white text-gray-900 text-sm font-semibold rounded-full hover:bg-gray-100 transition uppercase tracking-widest"
               >
                 WOMEN
               </button>

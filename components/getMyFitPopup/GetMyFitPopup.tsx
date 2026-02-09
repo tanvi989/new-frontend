@@ -37,7 +37,14 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
   const [isCapturing, setIsCapturing] = useState(false);
   /** After AI remove: show this photo and "Go ahead" before continuing to measurements */
   const [removedPreviewUrl, setRemovedPreviewUrl] = useState<string | null>(null);
-  
+  /** Step 4 tab: measurements | frames (Virtual Try-On) – controlled so MeasurementsTab can switch to frames */
+  const [step4Tab, setStep4Tab] = useState<'measurements' | 'frames'>('measurements');
+
+  // When entering step 4, start on Measurements tab so voice instruction matches
+  useEffect(() => {
+    if (currentStep === '4') setStep4Tab('measurements');
+  }, [currentStep]);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -78,6 +85,8 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
       speak('Great! Tuck your hair behind your ears and keep your glasses on if you wear them. Face the camera in good lighting.');
     } else if (currentStep === '3' && !capturedImageData && !isProcessing) {
       speak('Position your face in the oval. Align your eyes with the blue horizontal line. Keep your head straight and look at the camera. We will capture automatically when everything is aligned.');
+    } else if (currentStep === '4') {
+      speak('Align your face how you would like to wear your frames. Then click View MFIT Collection to browse glasses, or click View Measurement to see your measurements.');
     }
   }, [open, currentStep, speak]);
 
@@ -575,9 +584,9 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
                   <p className="text-base text-gray-600 mb-8 max-w-[400px] leading-relaxed">
                     One click. Perfect measurements. Better fitting frames. Let's take your picture.
                   </p>
-                  <div className="flex items-center justify-center mb-6">
-                    <input type="checkbox" id="privacyPolicy" checked={privacyAgreed} onChange={(e) => setPrivacyAgreed(e.target.checked)} className="mr-2 w-[18px] h-[18px] cursor-pointer" />
-                    <label htmlFor="privacyPolicy" className="text-sm text-gray-600 cursor-pointer">Agree to <Link to="/privacy" target="_blank" className="text-blue-600 hover:underline">privacy policy</Link></label>
+                  <div className="flex items-start justify-center gap-2 mb-6 max-w-[400px] mx-auto">
+                    <input type="checkbox" id="privacyPolicy" checked={privacyAgreed} onChange={(e) => setPrivacyAgreed(e.target.checked)} className="mt-0.5 w-[18px] h-[18px] cursor-pointer flex-shrink-0" />
+                    <label htmlFor="privacyPolicy" className="text-sm text-gray-600 cursor-pointer leading-snug">Agree to <Link to="/privacy" target="_blank" className="text-blue-600 hover:underline">privacy policy</Link>, I consent to secure on device image capture and processing.</label>
                   </div>
                   <button onClick={handleNext} disabled={!privacyAgreed} className="bg-black text-white border-none px-10 py-3 text-base font-semibold rounded-[50px] cursor-pointer transition-all hover:bg-gray-800 disabled:bg-gray-400">READY</button>
                 </div>
@@ -631,18 +640,18 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
                     </div>
                   </div>
                   
-                  <Tabs defaultValue="frames" className="w-full">
+                  <Tabs value={step4Tab} onValueChange={(v) => setStep4Tab(v as 'measurements' | 'frames')} className="w-full">
                     <TabsList className="grid grid-cols-2 h-12 bg-gray-100 p-1 rounded-xl mb-6">
-                      <TabsTrigger value="frames" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm font-bold uppercase text-[10px] tracking-widest">
-                        Virtual Try-On
-                      </TabsTrigger>
                       <TabsTrigger value="measurements" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm font-bold uppercase text-[10px] tracking-widest">
-                        Measurements
+                        Perfect MFit
+                      </TabsTrigger>
+                      <TabsTrigger value="frames" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm font-bold uppercase text-[10px] tracking-widest">
+                        Measurement
                       </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="frames" className="mt-0 focus-visible:outline-none bg-white p-6 rounded-2xl shadow-sm border border-gray-100"><FramesTab /></TabsContent>
-                    <TabsContent value="measurements" className="mt-0 focus-visible:outline-none bg-white p-6 rounded-2xl shadow-sm border border-gray-100"><MeasurementsTab /></TabsContent>
+                    <TabsContent value="measurements" className="mt-0 focus-visible:outline-none bg-white p-6 rounded-2xl shadow-sm border border-gray-100"><MeasurementsTab onViewMeasurements={() => setStep4Tab('frames')} /></TabsContent>
+                    <TabsContent value="frames" className="mt-0 focus-visible:outline-none bg-white p-6 rounded-2xl shadow-sm border border-gray-100"><FramesTab measurementsOnly onBackToMeasurements={() => setStep4Tab('measurements')} /></TabsContent>
                   </Tabs>
                 </div>
               )}

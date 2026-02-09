@@ -238,10 +238,10 @@ export const Navigation: React.FC = () => {
 
           {/* Desktop Pill Navigation */}
           <div
-            className={`hidden lg:flex items-center rounded-[60px] h-[52px] pl-8 pr-2 relative gap-6 z-50 transition-all duration-300 ${effectiveScrolled ? "bg-[#232320]" : "bg-black/70 backdrop-blur-sm"
+            className={`hidden lg:flex items-center rounded-[60px] h-[52px] pl-8 pr-2 relative gap-8 z-50 transition-all duration-300 ${effectiveScrolled ? "bg-[#232320]" : "bg-black/70 backdrop-blur-sm"
               }`}
           >
-            <nav className="flex items-center gap-6 h-full">
+            <nav className="flex items-center gap-8 h-full">
               <div
                 className="flex items-center gap-1 cursor-pointer group h-full"
                 onMouseEnter={() => handleMouseEnter("multifocals")}
@@ -251,7 +251,7 @@ export const Navigation: React.FC = () => {
                 {activeDropdown === "multifocals" && (
                   <div className="absolute -bottom-[14px] left-[15%] transform -translate-x-1/2 w-0 h-0 border-l-[12px] border-r-[12px] border-b-[12px] border-l-transparent border-r-transparent border-b-[#F0EBE4] z-50"></div>
                 )}
-                <span className="text-white group-hover:text-[#F3CB0A] transition-colors text-[15px] font-normal">
+                <span className="text-white group-hover:text-[#F3CB0A] transition-colors text-base lg:text-lg font-normal">
                   Glasses
                 </span>
                 <svg
@@ -274,24 +274,18 @@ export const Navigation: React.FC = () => {
               </div>
               <Link
                 to="/about"
-                className="text-white hover:text-[#F3CB0A] transition-colors text-[15px] font-normal"
+                className="text-white hover:text-[#F3CB0A] transition-colors text-base lg:text-lg font-normal"
               >
                 About Us
               </Link>
               <button
                 onClick={() => setIsGetMyFitPopupOpen(true)}
-                className="text-white hover:text-[#F3CB0A] transition-colors text-[15px] font-normal whitespace-nowrap"
+                className="text-white hover:text-[#F3CB0A] transition-colors text-base lg:text-lg font-normal whitespace-nowrap"
               >
                 MFit
               </button>
-              <button
-                onClick={() => navigate('/perfect-fit')}
-                className="text-white hover:text-[#F3CB0A] transition-colors text-[15px] font-normal whitespace-nowrap"
-              >
-                Perfect Fit
-              </button>
             </nav>
-            <div className="flex items-center gap-2 ml-2 relative">
+            <div className="flex items-center gap-3 ml-4 relative">
               {/* Search Icon */}
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -334,7 +328,7 @@ export const Navigation: React.FC = () => {
                   <circle cx="20" cy="21" r="1"></circle>
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                 </svg>
-                <span className="absolute -top-1 -right-1 bg-[#E94D37] text-white text-[10px] font-bold h-5 w-5 flex items-center justify-center rounded-full border-2 border-white shadow-sm">
+                <span className="absolute -top-1 -right-1 bg-[#E94D37] text-white text-xs font-bold min-w-[22px] h-[22px] flex items-center justify-center rounded-full border-2 border-white shadow-sm">
                   {cartItems.length}
                 </span>
               </button>
@@ -430,7 +424,7 @@ export const Navigation: React.FC = () => {
               ) : (
                 <button
                   onClick={() => setIsLoginModalOpen(true)}
-                  className={`h-[36px] px-6 rounded-[50px] flex items-center justify-center text-[14px] text-[#151001] font-medium transition-colors ml-1 ${effectiveScrolled
+                  className={`h-10 px-6 rounded-[50px] flex items-center justify-center text-base lg:text-lg text-[#151001] font-medium transition-colors ml-1 ${effectiveScrolled
                     ? "bg-[#F3CB0A] hover:bg-white"
                     : "bg-[#F3CB0A]/90 hover:bg-white/90 backdrop-blur-sm"
                     }`}
@@ -1206,20 +1200,6 @@ export const Navigation: React.FC = () => {
                       <i className="fas fa-camera text-lg"></i>
                     </div>
                     <span>MFit</span>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      navigate('/perfect-fit');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="flex items-center gap-3 text-lg font-medium text-black hover:bg-gray-100 p-3 rounded-lg transition-all duration-200 border-b border-gray-200 w-full text-left"
-                  >
-                    <div className="w-6 h-6 flex items-center justify-center text-gray-600">
-                      <i className="fas fa-glasses text-lg"></i>
-                    </div>
-                    <span>Perfect Fit</span>
                   </button>
                 </li>
                 <li>

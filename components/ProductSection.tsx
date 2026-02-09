@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getFrames } from "../api/retailerApis";
 import { Frame } from "../types";
 import DeliveryPopUp from "./DeliveryPopUp";
@@ -292,14 +292,16 @@ export const ProductSection: React.FC = () => {
             </div>
             {/* Frame Styles Image - Hidden on mobile, visible on desktop */}
             <div className="mb-8">
-              <img
-                src="/smallspecs.png"
-                alt="Frame Styles"
-                width="400"
-                height="200"
-                loading="lazy"
-                className="w-full"
-              />
+              <Link to="/glasses" className="block cursor-pointer">
+                <img
+                  src="/smallspecs.png"
+                  alt="Frame Styles"
+                  width="400"
+                  height="200"
+                  loading="lazy"
+                  className="w-full"
+                />
+              </Link>
             </div>
             <button
               onClick={() => navigate("/glasses")}

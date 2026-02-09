@@ -95,6 +95,12 @@ export const Footer = () => {
                   >
                     Return Policy
                   </Link>
+                  <Link
+                    to="/delivery-shipping-terms"
+                    className="text-[#1F1F1F] hover:text-[#333] block"
+                  >
+                    Delivery
+                  </Link>
                 </div>
 
                 <div className="space-y-2">
@@ -109,12 +115,6 @@ export const Footer = () => {
                     className="text-[#1F1F1F] hover:text-[#333] block"
                   >
                     Terms Of Use
-                  </Link>
-                  <Link
-                    to="/delivery-shipping-terms"
-                    className="text-[#1F1F1F] hover:text-[#333] block"
-                  >
-                    Delivery
                   </Link>
                   <Link
                     to="/all-article"
@@ -247,6 +247,12 @@ export const Footer = () => {
               >
                 Return Policy
               </Link>
+              <Link
+                to="/delivery-shipping-terms"
+                className="text-[#1F1F1F] hover:text-[#333] block"
+              >
+                Delivery
+              </Link>
             </div>
             <div className="space-y-2">
               <Link
@@ -260,12 +266,6 @@ export const Footer = () => {
                 className="text-[#1F1F1F] hover:text-[#333] block"
               >
                 Terms of Use
-              </Link>
-                <Link
-                to="/delivery-shipping-terms"
-                className="text-[#1F1F1F] hover:text-[#333] block"
-              >
-                Delivery
               </Link>
               <Link
                 to="/all-article"

@@ -234,7 +234,14 @@ function landmarkToContainer(
   return { x: rect.offsetX + nx * rect.width, y: rect.offsetY + ny * rect.height };
 }
 
-export function FramesTab() {
+export interface FramesTabProps {
+  /** When true (e.g. in MFit popup), show only measurements; hide try-on image, frame selector, Explore All Lenses. */
+  measurementsOnly?: boolean;
+  /** When set (e.g. in MFit popup), show Back button to switch to Measurements tab. */
+  onBackToMeasurements?: () => void;
+}
+
+export function FramesTab({ measurementsOnly = false, onBackToMeasurements }: FramesTabProps) {
   const navigate = useNavigate();
   const { capturedData, setCapturedData } = useCaptureData();
   const [selectedFrame, setSelectedFrame] = useState<GlassesFrame | null>(null);
@@ -650,146 +657,199 @@ export function FramesTab() {
   };
 
   const fitInfo = transform ? FIT_CONFIG[transform.fit] : null;
+  const { measurements, faceShape } = capturedData;
+  const formatVal = (v: number | undefined, d = 1) => (v != null && !isNaN(v)) ? v.toFixed(d) : 'N/A';
 
   return (
     <div className="space-y-4">
-      {/* Simpler Results Header */}
-      <div className="flex items-center justify-between px-2">
-        <h3 className="text-sm font-bold uppercase tracking-wider">Virtual Try-On</h3>
-        {transform && fitInfo && (
-          <span className={cn("text-[10px] font-bold uppercase px-2 py-1 rounded", fitInfo.color, "bg-gray-100")}>
-            {fitInfo.label}
-          </span>
-        )}
-      </div>
+      {/* Simpler Results Header – hidden when measurementsOnly (e.g. MFit popup) */}
+      {!measurementsOnly && (
+        <div className="flex items-center justify-between px-2">
+          <h3 className="text-sm font-bold uppercase tracking-wider">Virtual Try-On</h3>
+          {transform && fitInfo && (
+            <span className={cn("text-[10px] font-bold uppercase px-2 py-1 rounded", fitInfo.color, "bg-gray-100")}>
+              {fitInfo.label}
+            </span>
+          )}
+        </div>
+      )}
 
-      {/* Same size as /glasses product card so VTO preview matches explore page */}
-      <div 
-        ref={containerRef}
-        className="relative rounded-xl overflow-hidden bg-black aspect-[35/45] shadow-lg max-w-[280px] w-full mx-auto"
-      >
-        <img
-          ref={imageRef}
-          src={capturedData.processedImageDataUrl}
-          alt="Try-on"
-          className="w-full h-full object-cover object-center pointer-events-none"
-          onLoad={handleImageLoad}
-        />
-
-        {/* Draggable Markers */}
-        <div 
-          className="absolute w-12 h-12 -translate-x-1/2 -translate-y-1/2 cursor-move z-40 flex items-center justify-center touch-none"
-          style={{ left: leftEyePos.x, top: leftEyePos.y }}
-          onMouseDown={startDrag('left')}
-          onTouchStart={startDrag('left')}
+      {/* Back to Perfect MFit tab – only when measurementsOnly and callback provided */}
+      {measurementsOnly && onBackToMeasurements && (
+        <button
+          type="button"
+          onClick={onBackToMeasurements}
+          className="w-full flex items-center justify-center gap-2 bg-[#F3F4F6] text-black py-3 px-4 rounded-xl text-sm font-bold uppercase tracking-widest border-2 border-gray-300 hover:bg-gray-200 transition-colors"
         >
-          <div className={cn(
-            "w-5 h-5 rounded-full border-2 border-white shadow-xl transition-all",
-            dragging === 'left' ? "bg-primary scale-125" : "bg-primary/60 scale-100"
-          )}>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-1 h-1 bg-white rounded-full" />
+          ← Back to Perfect MFit
+        </button>
+      )}
+
+      {/* Pupillary Distance + Face Width / Face Shape */}
+      <div className="bg-[#F3F4F6] text-black p-4 rounded-2xl shadow-sm border border-gray-200">
+        <div className="text-center mb-3">
+          <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest mb-1">Pupillary Distance</p>
+          <div className="flex items-baseline justify-center gap-2">
+            <span className="text-4xl font-black italic tracking-tighter">{formatVal(measurements?.pd)}</span>
+            <span className="text-base text-gray-700">mm</span>
+          </div>
+          <div className="grid grid-cols-2 gap-3 mt-3 pt-3 border-t border-black/10">
+            <div className="text-center">
+              <p className="text-[8px] font-bold text-gray-600 uppercase">Left PD</p>
+              <p className="text-lg font-bold italic">{formatVal(measurements?.pd_left)}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-[8px] font-bold text-gray-600 uppercase">Right PD</p>
+              <p className="text-lg font-bold italic">{formatVal(measurements?.pd_right)}</p>
             </div>
           </div>
         </div>
-
-        <div 
-          className="absolute w-12 h-12 -translate-x-1/2 -translate-y-1/2 cursor-move z-40 flex items-center justify-center touch-none"
-          style={{ left: rightEyePos.x, top: rightEyePos.y }}
-          onMouseDown={startDrag('right')}
-          onTouchStart={startDrag('right')}
-        >
-          <div className={cn(
-            "w-5 h-5 rounded-full border-2 border-white shadow-xl transition-all",
-            dragging === 'right' ? "bg-primary scale-125" : "bg-primary/60 scale-100"
-          )}>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-1 h-1 bg-white rounded-full" />
-            </div>
+        <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-black/10">
+          <div className="bg-gray-100/80 p-3 rounded-xl text-center">
+            <p className="text-[9px] font-bold text-gray-500 uppercase mb-0.5">Face Width</p>
+            <p className="text-base font-bold">
+              {formatVal(measurements?.face_width)}
+              <span className="text-xs ml-1 opacity-50">mm</span>
+            </p>
+          </div>
+          <div className="bg-gray-100/80 p-3 rounded-xl text-center">
+            <p className="text-[9px] font-bold text-gray-500 uppercase mb-0.5">Face Shape</p>
+            <p className="text-base font-bold uppercase italic tracking-tighter">{faceShape || 'N/A'}</p>
           </div>
         </div>
+      </div>
 
-        {/* PD Line */}
-        <svg className="absolute inset-0 pointer-events-none z-20">
-          <line x1={leftEyePos.x} y1={leftEyePos.y} x2={rightEyePos.x} y2={rightEyePos.y} stroke="white" strokeWidth="1" strokeDasharray="4" opacity="0.5" />
-          <text x={(leftEyePos.x + rightEyePos.x) / 2} y={(leftEyePos.y + rightEyePos.y) / 2 - 10} fill="white" fontSize="10" textAnchor="middle" className="font-bold">
-            {capturedData.measurements.pd.toFixed(1)}mm
-          </text>
-        </svg>
+      {/* Try-on image, dots, PD line, glasses – hidden when measurementsOnly */}
+      {!measurementsOnly && (
+        <>
+          <div 
+            ref={containerRef}
+            className="relative rounded-xl overflow-hidden bg-black aspect-[35/45] shadow-lg max-w-[280px] w-full mx-auto"
+          >
+            <img
+              ref={imageRef}
+              src={capturedData.processedImageDataUrl}
+              alt="Try-on"
+              className="w-full h-full object-cover object-center pointer-events-none"
+              onLoad={handleImageLoad}
+            />
 
-        {/* Glasses - draggable by mouse/touch */}
-        {selectedFrame && transform && (
-          <img
-            src={selectedFrame.imageUrl}
-            alt={selectedFrame.name}
-            style={getGlassesStyle()}
-            onMouseDown={startFrameDrag}
-            onTouchStart={startFrameDrag}
-            draggable={false}
+            {/* Draggable Markers */}
+            <div 
+              className="absolute w-12 h-12 -translate-x-1/2 -translate-y-1/2 cursor-move z-40 flex items-center justify-center touch-none"
+              style={{ left: leftEyePos.x, top: leftEyePos.y }}
+              onMouseDown={startDrag('left')}
+              onTouchStart={startDrag('left')}
+            >
+              <div className={cn(
+                "w-5 h-5 rounded-full border-2 border-white shadow-xl transition-all",
+                dragging === 'left' ? "bg-primary scale-125" : "bg-primary/60 scale-100"
+              )}>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-1 h-1 bg-white rounded-full" />
+                </div>
+              </div>
+            </div>
+
+            <div 
+              className="absolute w-12 h-12 -translate-x-1/2 -translate-y-1/2 cursor-move z-40 flex items-center justify-center touch-none"
+              style={{ left: rightEyePos.x, top: rightEyePos.y }}
+              onMouseDown={startDrag('right')}
+              onTouchStart={startDrag('right')}
+            >
+              <div className={cn(
+                "w-5 h-5 rounded-full border-2 border-white shadow-xl transition-all",
+                dragging === 'right' ? "bg-primary scale-125" : "bg-primary/60 scale-100"
+              )}>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-1 h-1 bg-white rounded-full" />
+                </div>
+              </div>
+            </div>
+
+            {/* PD Line */}
+            <svg className="absolute inset-0 pointer-events-none z-20">
+              <line x1={leftEyePos.x} y1={leftEyePos.y} x2={rightEyePos.x} y2={rightEyePos.y} stroke="white" strokeWidth="1" strokeDasharray="4" opacity="0.5" />
+              <text x={(leftEyePos.x + rightEyePos.x) / 2} y={(leftEyePos.y + rightEyePos.y) / 2 - 10} fill="white" fontSize="10" textAnchor="middle" className="font-bold">
+                {capturedData.measurements.pd.toFixed(1)}mm
+              </text>
+            </svg>
+
+            {/* Glasses - draggable by mouse/touch */}
+            {selectedFrame && transform && (
+              <img
+                src={selectedFrame.imageUrl}
+                alt={selectedFrame.name}
+                style={getGlassesStyle()}
+                onMouseDown={startFrameDrag}
+                onTouchStart={startFrameDrag}
+                draggable={false}
+              />
+            )}
+          </div>
+
+          <div className="bg-gray-50 rounded-xl p-4">
+            <p className="text-[10px] text-gray-500 uppercase font-bold mb-3 text-center tracking-widest italic">
+              Drag dots to your pupils for perfect fit
+            </p>
+            
+            {selectedFrame && (
+              <FrameAdjustmentControls
+                values={adjustments}
+                onChange={setAdjustments}
+                onReset={handleResetAdjustments}
+              />
+            )}
+          </div>
+
+          <GlassesSelector
+            frames={FRAMES}
+            selectedFrame={selectedFrame}
+            onSelectFrame={handleFrameSelect}
+            faceWidthMm={capturedData?.measurements?.face_width ?? 0}
           />
-        )}
-      </div>
+        </>
+      )}
 
-      <div className="bg-gray-50 rounded-xl p-4">
-        <p className="text-[10px] text-gray-500 uppercase font-bold mb-3 text-center tracking-widest italic">
-          Drag dots to your pupils for perfect fit
-        </p>
-        
-        {selectedFrame && (
-          <FrameAdjustmentControls
-            values={adjustments}
-            onChange={setAdjustments}
-            onReset={handleResetAdjustments}
-          />
-        )}
-      </div>
-
-      <GlassesSelector
-        frames={FRAMES}
-        selectedFrame={selectedFrame}
-        onSelectFrame={handleFrameSelect}
-        faceWidthMm={capturedData?.measurements?.face_width ?? 0}
-      />
-
-      {/* Explore All Lenses: store capture session then redirect to /glasses */}
-      <div className="pt-4 space-y-3">
-        <button
-          type="button"
-          onClick={openCroppedImageInNewTab}
-          className="w-full flex items-center justify-center gap-2 bg-[#F3F4F6] text-black py-3 px-4 rounded-xl text-sm font-bold uppercase tracking-widest border border-black/20 hover:bg-gray-200 transition-colors"
-        >
-          View Cropped Image (New Tab)
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            if (capturedData) {
-              const cropped = getCroppedVisibleDataUrl();
-              const cropRect = getCropRect();
-              const toSave = {
-                ...capturedData,
-                // Use cropped image on /glasses so it matches the VTO view; only the frame is swapped per product
-                processedImageDataUrl: cropped ?? capturedData.processedImageDataUrl,
-                ...(cropped ? { croppedPreviewDataUrl: cropped } : {}),
-                ...(cropRect ? { cropRect } : {}),
-                frameAdjustments: {
-                  offsetX: adjustments.offsetX,
-                  offsetY: adjustments.offsetY,
-                  scaleAdjust: adjustments.scaleAdjust,
-                  rotationAdjust: adjustments.rotationAdjust,
-                },
-              };
-              saveCaptureSession(toSave);
-            }
-            // close MFIT popup if it's open
-            window.dispatchEvent(new CustomEvent('getmyfit:close'));
-            navigate('/glasses');
-          }}
-          className="w-full flex items-center justify-center gap-2 bg-black text-white py-3 px-4 rounded-xl text-sm font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors"
-        >
-          Explore All Lenses
-        </button>
-      </div>
+      {/* Explore All Lenses + View Cropped Image – hidden when measurementsOnly */}
+      {!measurementsOnly && (
+        <div className="pt-4 space-y-3">
+          <button
+            type="button"
+            onClick={openCroppedImageInNewTab}
+            className="w-full flex items-center justify-center gap-2 bg-[#F3F4F6] text-black py-3 px-4 rounded-xl text-sm font-bold uppercase tracking-widest border border-black/20 hover:bg-gray-200 transition-colors"
+          >
+            View Cropped Image (New Tab)
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (capturedData) {
+                const cropped = getCroppedVisibleDataUrl();
+                const cropRect = getCropRect();
+                const toSave = {
+                  ...capturedData,
+                  processedImageDataUrl: cropped ?? capturedData.processedImageDataUrl,
+                  ...(cropped ? { croppedPreviewDataUrl: cropped } : {}),
+                  ...(cropRect ? { cropRect } : {}),
+                  frameAdjustments: {
+                    offsetX: adjustments.offsetX,
+                    offsetY: adjustments.offsetY,
+                    scaleAdjust: adjustments.scaleAdjust,
+                    rotationAdjust: adjustments.rotationAdjust,
+                  },
+                };
+                saveCaptureSession(toSave);
+              }
+              window.dispatchEvent(new CustomEvent('getmyfit:close'));
+              navigate('/glasses');
+            }}
+            className="w-full flex items-center justify-center gap-2 bg-black text-white py-3 px-4 rounded-xl text-sm font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors"
+          >
+            Explore All Lenses
+          </button>
+        </div>
+      )}
     </div>
   );
 }
