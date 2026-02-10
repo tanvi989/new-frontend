@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import CheckoutStepper from "../components/CheckoutStepper";
@@ -58,6 +58,16 @@ const SelectLensPackages: React.FC = () => {
   };
 
   const lensCategory = state?.lensCategory || "blue";
+
+  // Bifocal has no sunglasses packages – redirect to lens color
+  useEffect(() => {
+    if (state?.lensType === "bifocal" && lensCategory === "sun" && id) {
+      navigate(`/product/${id}/select-lens-color`, {
+        replace: true,
+        state: { ...state, product, lensCategory: "sun" },
+      });
+    }
+  }, [state?.lensType, lensCategory, id]);
 
   // Single Vision packages (pricing: clear 0/19/39/69, blueprotect 19/39/59/79, photochromic 29/49/79/99, sunglasses 1.56 only 29)
   const SINGLE_VISION_BLUE_PACKAGES = [
@@ -214,24 +224,11 @@ const SelectLensPackages: React.FC = () => {
   const SINGLE_VISION_SUN_PACKAGES = [
     {
       id: "1.56",
-      title: "1.56 Sunglasses Low Index",
+      title: "1.56 Sunglasses",
       price: "+£29",
       features: [
         "Suitable for select frames only",
         "For low powers up to +/- 3",
-        "Full UV protection",
-      ],
-      recommended: false,
-    },
-    {
-      id: "1.61",
-      title: "1.61 High Index",
-      price: "+£49",
-      features: [
-        "20% thinner than 1.50 Standard lenses",
-        "Superior clarity",
-        "Highly durable & for all purpose",
-        "Prescriptions between +4.00/-6.00",
         "Full UV protection",
       ],
       recommended: true,
@@ -473,7 +470,7 @@ const SelectLensPackages: React.FC = () => {
     { id: "1.74", title: "1.74 Photochromic High Index", price: "+£88", features: ["40% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const STANDARD_PROG_SUN = [
-    { id: "1.61", title: "1.61 High Index", price: "+£29", features: ["20% thinner than 1.50 Standard lenses", "Full UV protection", "Prescriptions between +4.00/-6.00"], recommended: true },
+    { id: "1.61", title: "1.61 Sunglasses", price: "+£29", features: ["Standard Progressive", "20% thinner than 1.50 Standard lenses", "Full UV protection", "Prescriptions between +4.00/-6.00"], recommended: true },
   ];
 
   // Advanced Progressive: 1.61 clear 39, blue 59, sun 59; 1.67 clear 59, blue 89; 1.74 clear 89, blue 139
@@ -488,7 +485,7 @@ const SelectLensPackages: React.FC = () => {
     { id: "1.74", title: "1.74 Blue Protect High Index", price: "+£139", features: ["40% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const ADVANCED_PROG_SUN = [
-    { id: "1.61", title: "1.61 High Index", price: "+£59", features: ["20% thinner than 1.50 Standard lenses", "Full UV protection", "Prescriptions between +4.00/-6.00"], recommended: true },
+    { id: "1.61", title: "1.61 Sunglasses", price: "+£59", features: ["Advanced Progressive", "20% thinner than 1.50 Standard lenses", "Full UV protection", "Prescriptions between +4.00/-6.00"], recommended: true },
   ];
 
   // Precision Progressive: 1.61 clear 59, blue 69, photo 79, sun 69; 1.67 clear 79, blue 99, photo 109; 1.74 clear 109, blue 139, photo 159
@@ -508,7 +505,7 @@ const SelectLensPackages: React.FC = () => {
     { id: "1.74", title: "1.74 Photochromic High Index", price: "+£159", features: ["40% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const PRECISION_PROG_SUN = [
-    { id: "1.61", title: "1.61 High Index", price: "+£69", features: ["20% thinner than 1.50 Standard lenses", "Full UV protection", "Prescriptions between +4.00/-6.00"], recommended: true },
+    { id: "1.61", title: "1.61 Sunglasses", price: "+£69", features: ["Precision Progressive", "20% thinner than 1.50 Standard lenses", "Full UV protection", "Prescriptions between +4.00/-6.00"], recommended: true },
   ];
 
   // Select packages based on category and lens type (progressive uses tier: standard / advanced / precision)

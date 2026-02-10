@@ -23,7 +23,7 @@ import DeleteDialog from "../DeleteDialog";
 import { LoginModal } from "../LoginModal";
 import SignUpModal from "../SignUpModal";
 import ManualPrescriptionModal from "../ManualPrescriptionModal";
-import { getLensCoating, getTintInfo, calculateCartSubtotal, calculateItemTotal, getLensPackagePrice, getCartLensOverride, getLensTypeDisplay, getLensIndex } from "../../utils/priceUtils";
+import { getLensCoating, getTintInfo, calculateCartSubtotal, calculateItemTotal, getLensPackagePrice, getCartLensOverride, setCartLensOverride, getLensTypeDisplay, getLensIndex } from "../../utils/priceUtils";
 import { getProductFlow } from "../../utils/productFlowStorage";
 import { trackBeginCheckout } from "../../utils/analytics";
 
@@ -540,30 +540,44 @@ const DesktopCart: React.FC = () => {
                 }
             }
 
-            // Prepare options for addToCart
+            const lensAny = (item as any)?.lens;
+
+            // Prepare options for addToCart so duplicate has same lens type, category, coating and tint as original
             const options: any = {
                 lensPackagePrice: lensPackagePrice,
                 coatingPrice: coatingInfo?.price || 0,
-                lensPackage: lensOverride?.lensPackage || item.lens?.lens_package,
-                coatingTitle: coatingInfo?.title || item.lens?.coating,
+                lensPackage: lensOverride?.lensPackage || lensAny?.lens_package,
+                coatingTitle: coatingInfo?.title || lensAny?.coating,
+                mainCategory: lensOverride?.mainCategory ?? lensAny?.main_category,
+                lensType: lensOverride?.lensType,
+                lensCategory: lensOverride?.lensCategory || lensAny?.lens_category,
             };
 
-            // Add lens category if available
-            if (lensOverride?.lensCategory || item.lens?.lens_category) {
-                options.lensCategory = lensOverride?.lensCategory || item.lens?.lens_category;
-            }
-
-            // Add tint info if sunglasses
             if (tintInfo) {
                 options.tintType = tintInfo.type;
                 options.tintColor = tintInfo.color;
+                options.tintPrice = tintInfo.price;
             }
 
             // Call addToCart with all the product data
             const response = await addToCart(product, "instant", prescriptionData, options);
             
             if (response?.data?.status || response?.data?.success) {
-                // Refresh cart to show new item
+                const newCartId = response?.data?.cart_id;
+                if (newCartId != null) {
+                    setCartLensOverride(newCartId, {
+                        lensPackage: options.lensPackage,
+                        lensPackagePrice: lensPackagePrice,
+                        lensCategory: options.lensCategory,
+                        mainCategory: options.mainCategory,
+                        lensType: options.lensType,
+                        coatingTitle: options.coatingTitle,
+                        coatingPrice: options.coatingPrice ?? 0,
+                        tintType: options.tintType,
+                        tintColor: options.tintColor,
+                        tintPrice: options.tintPrice,
+                    });
+                }
                 refetch();
                 console.log("✅ Added duplicate product to cart successfully");
             } else {

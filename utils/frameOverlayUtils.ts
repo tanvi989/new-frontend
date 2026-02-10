@@ -1,9 +1,9 @@
 import type { GlassesFrame, FaceLandmarks, FrameOffsets } from '@/types/face-validation';
 
 export const DEFAULT_OFFSETS: FrameOffsets = {
-  offsetX: -14,
-  offsetY: -23,
-  scaleAdjust: 1.3,
+  offsetX: -16,
+  offsetY: 2,
+  scaleAdjust: 1.21,
   rotationAdjust: 0,
 };
 
@@ -15,9 +15,9 @@ export interface AdjustmentValues {
 }
 
 export const DEFAULT_ADJUSTMENTS: AdjustmentValues = {
-  offsetX: -14,
-  offsetY: -23,
-  scaleAdjust: 1.3,
+  offsetX: -16,
+  offsetY: 2,
+  scaleAdjust: 1.21,
   rotationAdjust: 0,
 };
 

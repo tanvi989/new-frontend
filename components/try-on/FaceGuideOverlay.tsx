@@ -16,6 +16,8 @@ interface FaceGuideOverlayProps {
   faceDetected: boolean;
   validationChecks: ValidationCheck[];
   debugValues?: DebugValues;
+  /** When true, show the checklist panel on the left. Default false (voice-only guidance). */
+  showValidationChecklist?: boolean;
   landmarks?: FaceLandmarks | null;
   containerSize?: { width: number; height: number };
   isMobile?: boolean;
@@ -30,6 +32,7 @@ export function FaceGuideOverlay({
   faceDetected,
   validationChecks,
   debugValues,
+  showValidationChecklist = false,
   landmarks,
   containerSize,
   isMobile = false,
@@ -231,38 +234,40 @@ export function FaceGuideOverlay({
         </div>
       )}
 
-      {/* Validation checklist on left side – exact same as perfect-fit-cam */}
-      <div className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2">
-        <div className="bg-black/60 backdrop-blur-md rounded-2xl p-3 md:p-4 max-w-[160px] md:max-w-[180px]">
-          <div className="flex flex-col gap-2">
-        {validationChecks.map((check) => (
-          <div
-            key={check.id}
-            className={cn(
-                  'flex items-center gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-lg text-sm transition-all duration-200',
-                  check.passed ? 'bg-validation-pass/20' : 'bg-white/10'
-                )}
-              >
+      {/* Validation checklist on left side – hidden by default; can be enabled for internal debugging */}
+      {showValidationChecklist && (
+        <div className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2">
+          <div className="bg-black/60 backdrop-blur-md rounded-2xl p-3 md:p-4 max-w-[160px] md:max-w-[180px]">
+            <div className="flex flex-col gap-2">
+              {validationChecks.map((check) => (
                 <div
+                  key={check.id}
                   className={cn(
-                    'flex-shrink-0 w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center',
-                    check.passed ? 'bg-validation-pass' : 'bg-white/30'
+                    'flex items-center gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-lg text-sm transition-all duration-200',
+                    check.passed ? 'bg-validation-pass/20' : 'bg-white/10'
                   )}
                 >
-              {check.passed ? (
-                    <Check className="h-2.5 w-2.5 md:h-3 md:w-3 text-white" />
-              ) : (
-                    <X className="h-2.5 w-2.5 md:h-3 md:w-3 text-white/70" />
-              )}
+                  <div
+                    className={cn(
+                      'flex-shrink-0 w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center',
+                      check.passed ? 'bg-validation-pass' : 'bg-white/30'
+                    )}
+                  >
+                    {check.passed ? (
+                      <Check className="h-2.5 w-2.5 md:h-3 md:w-3 text-white" />
+                    ) : (
+                      <X className="h-2.5 w-2.5 md:h-3 md:w-3 text-white/70" />
+                    )}
+                  </div>
+                  <span className={cn('text-[10px] md:text-xs font-medium', check.passed ? 'text-white' : 'text-white/70')}>
+                    {check.label}
+                  </span>
+                </div>
+              ))}
             </div>
-                <span className={cn('text-[10px] md:text-xs font-medium', check.passed ? 'text-white' : 'text-white/70')}>
-                  {check.label}
-            </span>
-          </div>
-        ))}
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

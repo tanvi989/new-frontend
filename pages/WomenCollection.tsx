@@ -416,6 +416,14 @@ const WomenCollection: React.FC = () => {
     );
   }, [selectedFilters]);
 
+  // If user already came through VTO / Get My Fit, default MFit ON
+  useEffect(() => {
+    const session = getCaptureSession();
+    if (session?.measurements?.face_width) {
+      setFitEnabled(true);
+    }
+  }, []);
+
   // Data Fetching
   const {
     data: productsDataResponse,

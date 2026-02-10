@@ -406,6 +406,14 @@ const MenCollection: React.FC = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // If user already came through VTO / Get My Fit, default MFit ON
+  useEffect(() => {
+    const session = getCaptureSession();
+    if (session?.measurements?.face_width) {
+      setFitEnabled(true);
+    }
+  }, []);
+
   const [activeFilterCategory, setActiveFilterCategory] = useState<
     string | null
   >(null);

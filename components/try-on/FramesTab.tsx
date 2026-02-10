@@ -22,8 +22,8 @@ const URL_FRAME_CONFIGS: { skuid: string; name: string }[] = [
   { skuid: 'E10A8617', name: 'E10A8617' },
 ];
 
-/** Defaults for exact fit on face (Horizontal -14px, Vertical -23px, Size 130%) */
-const DEFAULT_OFFSETS: FrameOffsets = { offsetX: -14, offsetY: -23, scaleAdjust: 1.3, rotationAdjust: 0 };
+/** Defaults for exact fit on face (Horizontal -16px, Vertical +2px, Size 121%) */
+const DEFAULT_OFFSETS: FrameOffsets = { offsetX: -16, offsetY: 2, scaleAdjust: 1.21, rotationAdjust: 0 };
 
 /** Filter range: show frames in [faceWidth, faceWidth + 15] */
 const FACE_WIDTH_RANGE_MM = 15;
@@ -81,11 +81,11 @@ interface AdjustmentValues {
   rotationAdjust: number;
 }
 
-/** Defaults for exact fit on face (Horizontal -14px, Vertical -23px, Size 130%, Rotation 0°) */
+/** Defaults for exact fit on face (Horizontal -16px, Vertical +2px, Size 121%, Rotation 0°) */
 const DEFAULT_ADJUSTMENTS: AdjustmentValues = {
-  offsetX: -14,
-  offsetY: -23,
-  scaleAdjust: 1.3,
+  offsetX: -16,
+  offsetY: 2,
+  scaleAdjust: 1.21,
   rotationAdjust: 0,
 };
 
@@ -718,6 +718,24 @@ export function FramesTab({ measurementsOnly = false, onBackToMeasurements }: Fr
           </div>
         </div>
       </div>
+
+      {/* View MFIT Collection at bottom of Measurement tab – no confirmation, goes straight to /glasses */}
+      {measurementsOnly && (
+        <button
+          type="button"
+          onClick={() => {
+            if (capturedData) {
+              setCapturedData(capturedData);
+              saveCaptureSession(capturedData);
+            }
+            window.dispatchEvent(new CustomEvent('getmyfit:close'));
+            window.location.href = '/glasses';
+          }}
+          className="w-full inline-flex items-center justify-center bg-black text-white py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-sm hover:bg-gray-800 transition-all"
+        >
+          View MFIT Collection
+        </button>
+      )}
 
       {/* Try-on image, dots, PD line, glasses – hidden when measurementsOnly */}
       {!measurementsOnly && (

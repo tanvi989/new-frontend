@@ -233,12 +233,18 @@ function parsePrice(value: unknown): number {
 
 // MOCKED: Add to Cart
 // REAL: Add to Cart (Hybrid: API or LocalStorage)
-// options: { lensPackagePrice?, coatingPrice?, lensPackage?, coatingTitle?, ... } - optional lens/coating to send upfront
+// options: { lensPackagePrice?, coatingPrice?, lensPackage?, coatingTitle?, mainCategory?, lensCategory?, tintType?, tintColor?, tintPrice?, ... } - optional lens/coating/tint to send upfront (duplicate uses these to match original)
 export const addToCart = (products: any, flag: any, prescription?: any, options?: {
     lensPackagePrice?: number;
     coatingPrice?: number;
     lensPackage?: string;
     coatingTitle?: string;
+    mainCategory?: string;
+    lensType?: string;
+    lensCategory?: string;
+    tintType?: string;
+    tintColor?: string;
+    tintPrice?: number;
     selectedColor?: string;
     pdPreference?: string;
     pdType?: string;
@@ -252,7 +258,11 @@ export const addToCart = (products: any, flag: any, prescription?: any, options?
     const framePrice = parsePrice(products.price ?? products.list_price ?? 0);
     const lensPrice = options?.lensPackagePrice ?? 0;
     const coatingPrice = options?.coatingPrice ?? 0;
-    const totalPrice = framePrice + lensPrice + coatingPrice;
+    const tintPrice = options?.tintPrice ?? 0;
+    const totalPrice = framePrice + lensPrice + coatingPrice + tintPrice;
+
+    const lensTypeDisplay = options?.mainCategory || (options?.lensType === "single" ? "Single Vision" : options?.lensType === "bifocal" ? "Bifocal" : "Progressive");
+    const subCategory = options?.lensPackage || (options?.lensCategory === "sun" ? "1.61" : "Single Vision");
 
     const itemData: any = {
         product_id: uniqueSku, // Use unique SKU
@@ -266,7 +276,7 @@ export const addToCart = (products: any, flag: any, prescription?: any, options?
             price: framePrice,
             image: products.image,
             frame_color: products.colors && products.colors.length > 0 ? (typeof products.colors[0] === 'string' ? products.colors[0] : products.colors[0].frameColor) : (options?.selectedColor || 'Black'),
-            lens_type: "Single Vision",
+            lens_type: lensTypeDisplay,
             original_sku: products.skuid || products.id,
             // Add PD block when we have preference OR when we have Dual/Single values (so Dual PD is never lost)
             ...((options?.pdPreference || options?.pdType === "dual" || options?.pdSingle) && {
@@ -292,12 +302,17 @@ export const addToCart = (products: any, flag: any, prescription?: any, options?
             }
         },
         lens: {
-            sub_category: "Single Vision",
+            sub_category: subCategory,
             selling_price: lensPrice,
             price: lensPrice,
             coating_price: coatingPrice,
             coating: options?.coatingTitle,
             lens_package: options?.lensPackage,
+            ...(options?.mainCategory != null && options.mainCategory !== "" && { main_category: options.mainCategory }),
+            ...(options?.lensCategory != null && options.lensCategory !== "" && { lens_category: options.lensCategory }),
+            ...(options?.tintType != null && options.tintType !== "" && { tint_type: options.tintType }),
+            ...(options?.tintColor != null && options.tintColor !== "" && { tint_color: options.tintColor }),
+            ...(options?.tintPrice != null && options.tintPrice > 0 && { tint_price: options.tintPrice }),
         },
         flag: flag
     };

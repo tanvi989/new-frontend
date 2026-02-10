@@ -212,9 +212,9 @@ const SelectLensType: React.FC = () => {
   };
 
   const handleCategorySelect = (category: string) => {
-    // For sunglasses, skip lens packages and go directly to lens color selection
-    // For other lens types, go to lens packages
-    const path = category === "sun"
+    // Bifocal has no sunglasses packages – go straight to lens color
+    const isBifocalSunglasses = category === "sun" && state?.lensType === "bifocal";
+    const path = isBifocalSunglasses
       ? `/product/${product.skuid || product.id || id}/select-lens-color`
       : `/product/${product.skuid || product.id || id}/select-lens-packages`;
 

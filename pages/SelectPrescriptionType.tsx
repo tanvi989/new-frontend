@@ -381,7 +381,6 @@ const SelectPrescriptionType: React.FC = () => {
                   >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex-1 pr-2">
-                      <p className="text-xs font-semibold bg-black text-white px-2 py-1 rounded mb-1 uppercase tracking-wider inline-block">Recommended for New User</p>
                       <h3 className="text-lg md:text-base font-bold text-[#1F1F1F]">
                         Standard Options
                       </h3>
@@ -411,22 +410,10 @@ const SelectPrescriptionType: React.FC = () => {
                       className="w-24 md:w-28 h-24 md:h-auto rounded-full md:rounded-2xl shrink-0 object-cover border border-gray-200 md:border-none"
                     />
                     <div className="text-sm text-[#1F1F1F] space-y-1 md:space-y-1.5 flex-1">
-                      {window.innerWidth >= 768 ? (
-                        <>
-                          <p>• Best choice</p>
-                          <p>• Works with all frame styles</p>
-                          <p>• Fastest, easiest to adapt</p>
-                          <p>• For living life fully, without limits</p>
-                          <p>• Highest clarity across distances</p>
-                        </>
-                      ) : (
-                        <>
-                          <p>• Designed for slower, calmer days</p>
-                          <p>• Great for reading, less screen</p>
-                          <p>• Ideal for minimal daily driving</p>
-                          <p>• Works with select classic frames</p>
-                        </>
-                      )}
+                      <p>• Designed for slower, calmer days</p>
+                      <p>• Great for reading, less screen</p>
+                      <p>• Ideal for minimal daily driving</p>
+                      <p>• Works with select classic frames</p>
                     </div>
                   </div>
                   </div>

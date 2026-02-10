@@ -10,6 +10,7 @@ import { Ruler, Loader2, RotateCcw, Volume2, X, Camera, Download, ExternalLink, 
 import { useFaceDetection } from '@/hooks/useFaceDetection';
 import { useVoiceGuidance } from '@/hooks/useVoiceGuidance';
 import { FaceGuideOverlay } from '@/components/try-on/FaceGuideOverlay';
+import { saveCaptureSession } from '@/utils/captureSession';
 import { toast } from 'sonner';
 
 interface GetMyFitPopupMobileProps {
@@ -18,6 +19,14 @@ interface GetMyFitPopupMobileProps {
 }
 
 type Step = '1' | '2' | '3' | '4';
+
+const PROCESSING_MESSAGES = [
+  "We're measuring your face...",
+  "Working on your data...",
+  "Analyzing your measurements...",
+  "Getting your perfect fit...",
+  "Almost there...",
+];
 
 const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose }) => {
   const { setCapturedData } = useCaptureData();
@@ -32,10 +41,36 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
   const [glassesDetected, setGlassesDetected] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
   const [removedPreviewUrl, setRemovedPreviewUrl] = useState<string | null>(null);
+  const [showSnapHint, setShowSnapHint] = useState(false);
+
+  useEffect(() => {
+    if (currentStep !== '3' || capturedImageData) {
+      setShowSnapHint(false);
+      return;
+    }
+    const timer = setTimeout(() => setShowSnapHint(true), 10000);
+    return () => {
+      clearTimeout(timer);
+      setShowSnapHint(false);
+    };
+  }, [currentStep, capturedImageData]);
+
+  useEffect(() => {
+    if (!isProcessing) return;
+    setProcessingStep(PROCESSING_MESSAGES[0]);
+    let index = 0;
+    const interval = setInterval(() => {
+      index = (index + 1) % PROCESSING_MESSAGES.length;
+      setProcessingStep(PROCESSING_MESSAGES[index]);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, [isProcessing]);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  /** Keep last valid landmarks so SNAP still works if the current frame momentarily has none */
+  const lastLandmarksRef = useRef<any>(null);
   const [containerSize, setContainerSize] = useState({ width: 380, height: 420 });
 
   const { speakGuidance, speak, cancel: cancelVoice, currentMessage } = useVoiceGuidance({ enabled: true, debounceMs: 3000 });
@@ -62,6 +97,7 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
     isActive: open && currentStep === '3' && !capturedImageData && !isProcessing,
   });
 
+  if (faceValidationState.landmarks) lastLandmarksRef.current = faceValidationState.landmarks;
   const allChecksPassed = faceValidationState.allChecksPassed;
 
   // Voice guidance for steps
@@ -70,7 +106,7 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
     if (currentStep === '1') speak('Welcome to Multi Folks Fit. Let\'s get your perfect measurements. Please agree to the privacy policy to begin.');
     if (currentStep === '2') speak('Tuck your hair behind your ears and keep your glasses on. Face the camera in good lighting.');
     if (currentStep === '3' && !capturedImageData && !isProcessing) {
-      speak('Position your face in the oval. Align your eyes with the blue line. Keep your head straight and look at the camera. We will capture automatically when everything is aligned.');
+      speak('Position your face in the oval. Align your eyes with the blue line. Keep your head straight and look at the camera. We will capture automatically when everything is aligned. If you are not able to get a photo, click SNAP to take your photo.');
     }
   }, [open, currentStep, speak]);
 
@@ -133,7 +169,8 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
 
   const captureAndProcess = useCallback(async () => {
     const video = videoRef.current;
-    if (!video || !faceValidationState.landmarks || isProcessing) return;
+    const landmarks = faceValidationState.landmarks ?? lastLandmarksRef.current;
+    if (!video || !landmarks || isProcessing) return;
 
     setIsCapturing(false);
     setIsProcessing(true);
@@ -160,26 +197,26 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
 
       const detectResult = await detectGlasses(imageDataUrl);
       if (detectResult.success && detectResult.glasses_detected) {
-        speak('Glasses detected. Removing them for better measurements.');
+        speak('Glasses detected.');
         setProcessingStep('Removing glasses...');
         try {
           const removeResult = await removeGlasses(imageDataUrl);
           if (removeResult.success && removeResult.edited_image_base64) {
             const processedUrl = `data:image/png;base64,${removeResult.edited_image_base64}`;
             setProcessedImageData(processedUrl);
-            await performMeasurements(imageDataUrl, processedUrl, false, faceValidationState.landmarks);
+            await performMeasurements(imageDataUrl, processedUrl, false, landmarks);
           } else {
             throw new Error('Glasses removal failed');
           }
         } catch {
-          await performMeasurements(imageDataUrl, imageDataUrl, true, faceValidationState.landmarks);
+          await performMeasurements(imageDataUrl, imageDataUrl, true, landmarks);
         } finally {
           setIsProcessing(false);
         }
         return;
       }
 
-      await performMeasurements(imageDataUrl, imageDataUrl, false, faceValidationState.landmarks);
+      await performMeasurements(imageDataUrl, imageDataUrl, false, landmarks);
     } catch (err) {
       toast.error('Processing failed');
       retakePhoto();
@@ -188,27 +225,39 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
 
   const performMeasurements = async (originalUrl: string, processedUrl: string, glassesDetected: boolean, landmarks: any) => {
     setIsProcessing(true);
-    setProcessingStep('Analyzing...');
     try {
       const measureResult = await detectLandmarks(processedUrl);
-      if (!measureResult.success || !measureResult.landmarks?.mm) throw new Error('Fail');
 
-      setProcessingStep('Preparing photo...');
+      const measurements =
+        measureResult?.landmarks?.mm ??
+        measureResult?.measurements ??
+        measureResult?.data?.mm ??
+        measureResult?.data?.measurements;
+
+      if (!measureResult?.success || !measurements || typeof measurements !== 'object') {
+        console.error('[GetMyFitMobile] Landmarks API unexpected response:', JSON.stringify(measureResult, null, 2));
+        throw new Error('Fail');
+      }
+
+      const faceShape = measureResult?.landmarks?.face_shape ?? measureResult?.face_shape ?? measureResult?.data?.face_shape ?? '';
+
       const passport = await cropToPassportStyle(processedUrl, landmarks);
       const finalImage = passport?.croppedDataUrl ?? processedUrl;
       const cropRect = passport?.cropRect;
 
-      setCapturedData({
+      const capturedPayload = {
         imageDataUrl: originalUrl,
         processedImageDataUrl: finalImage,
         glassesDetected,
         landmarks,
-        measurements: measureResult.landmarks.mm,
-        faceShape: measureResult.landmarks.face_shape,
+        measurements,
+        faceShape,
         apiResponse: measureResult,
         timestamp: Date.now(),
         ...(cropRect ? { cropRect } : {}),
-      });
+      };
+      setCapturedData(capturedPayload);
+      saveCaptureSession(capturedPayload);
       setIsProcessing(false);
       setCurrentStep('4');
       speak('Measurements complete.');
@@ -368,6 +417,11 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
 
             {!capturedImageData ? (
               <>
+                {showSnapHint && (
+                  <p className="absolute bottom-20 left-4 right-4 text-center text-white/90 text-xs font-medium z-30 pointer-events-none drop-shadow-md">
+                    Can&apos;t get a clear alignment? Click <strong>SNAP</strong> to take your photo.
+                  </p>
+                )}
                 <button onClick={switchCamera} className="absolute bottom-4 left-4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white z-30 border border-white/30">
                   <RotateCcw className="w-6 h-6" />
                 </button>

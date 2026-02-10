@@ -146,8 +146,10 @@ const ManualPrescription: React.FC = () => {
 
   const [searchParams] = useSearchParams();
 
-  // Check if coming from cart
-  const cartId = searchParams.get("cart_id");
+  // Check if coming from cart (URL param or location state when navigated from AddPrescription with cart_id)
+  const cartIdFromUrl = searchParams.get("cart_id");
+  const cartIdFromState = (locationState as any)?.cartId ?? (locationState as any)?.cart_id;
+  const cartId = cartIdFromUrl || cartIdFromState || undefined;
   const isFromCart = !!cartId;
 
   const [helpModalOpen, setHelpModalOpen] = useState(false);
@@ -258,7 +260,7 @@ const ManualPrescription: React.FC = () => {
   const handleFinalSave = async () => {
     // Generate a unique ID for this specific prescription/product pairing
     const uniqueId = `pres_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const cartItemId = searchParams.get("cart_id");
+    const cartItemId = cartId ?? searchParams.get("cart_id");
     console.log("📝 [ManualPrescription] Saving prescription with cartId:", cartItemId);
 
     // Construct the payload matching the schema

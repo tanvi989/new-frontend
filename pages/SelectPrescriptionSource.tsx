@@ -6,6 +6,7 @@ import { getProductFlow, setProductFlow } from "../utils/productFlowStorage";
 import { LoginModal } from "../components/LoginModal";
 import PrescriptionHelpModal from "../components/PrescriptionHelpModal";
 import GetMyFitPopup from "../components/getMyFitPopup/GetMyFitPopup";
+import { getCaptureSession } from "../utils/captureSession";
 import { X, Volume2, VolumeX } from "lucide-react";
 
 const SelectPrescriptionSource: React.FC = () => {
@@ -55,6 +56,56 @@ const SelectPrescriptionSource: React.FC = () => {
     () => Array.from({ length: 81 }, (_, i) => (40 + i * 0.5).toFixed(2)),
     []
   );
+
+  // Auto-fill PD from product flow (e.g. back navigation) or from VTO/fit capture session (homepage → VTO → fit popup → this page)
+  useEffect(() => {
+    if (!id) return;
+    const flowHasPD = flow?.pdPreference === "know" && (flow?.pdSingle || (flow?.pdRight && flow?.pdLeft));
+    if (flowHasPD) {
+      setPdPreference("know");
+      setPdType(flow.pdType === "dual" ? "dual" : "single");
+      if (flow.pdSingle) setPdSingle(flow.pdSingle);
+      if (flow.pdRight) setPdRight(flow.pdRight);
+      if (flow.pdLeft) setPdLeft(flow.pdLeft);
+      return;
+    }
+    const session = getCaptureSession();
+    const m = session?.measurements;
+    if (!m) return;
+    const hasTotal = typeof m.pd === "number" && m.pd > 0;
+    const hasDual = typeof m.pd_left === "number" && typeof m.pd_right === "number" && m.pd_left > 0 && m.pd_right > 0;
+    if (!hasTotal && !hasDual) return;
+    setPdPreference("know");
+    if (hasDual) {
+      setPdType("dual");
+      setPdRight(roundPdToDropdownOption(m.pd_right, pdOptions));
+      setPdLeft(roundPdToDropdownOption(m.pd_left, pdOptions));
+      setPdSingle("");
+      if (id) {
+        setProductFlow(id, {
+          pdPreference: "know",
+          pdType: "dual",
+          pdRight: roundPdToDropdownOption(m.pd_right, pdOptions),
+          pdLeft: roundPdToDropdownOption(m.pd_left, pdOptions),
+        });
+      }
+    } else {
+      const totalPd = hasTotal ? m.pd : (m.pd_left ?? 0) + (m.pd_right ?? 0);
+      if (totalPd <= 0) return;
+      setPdType("single");
+      const roundedSingle = roundPdToDropdownOption(totalPd, pdSingleOptions);
+      setPdSingle(roundedSingle);
+      setPdRight("");
+      setPdLeft("");
+      if (id) {
+        setProductFlow(id, {
+          pdPreference: "know",
+          pdType: "single",
+          pdSingle: roundedSingle,
+        });
+      }
+    }
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps -- run once on mount; flow/capture session are read at that time
 
   // Function to round PD to nearest dropdown option
   // Special handling: if PD is 60.50, choose 61.00; if less than 60.5 (but >= 60), choose 60.00

@@ -71,7 +71,7 @@ export function MeasurementsTab({ onViewMeasurements }: MeasurementsTabProps = {
       : { ...DEFAULT_ADJUSTMENTS }
   );
   const [testProduct, setTestProduct] = useState<{ dimensions?: string; name: string } | null>(null);
-  const [showAlignConfirm, setShowAlignConfirm] = useState(false);
+  const [showMeasurementConfirm, setShowMeasurementConfirm] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -90,31 +90,46 @@ export function MeasurementsTab({ onViewMeasurements }: MeasurementsTabProps = {
 
   const captureWithAdjustments = { ...capturedData, frameAdjustments: adjustments };
 
+  const handleAdjustmentsChange = useCallback(
+    (next: AdjustmentValues) => {
+      setAdjustments(next);
+      if (capturedData) {
+        // Persist latest fine‑tune values in context so they stay the same
+        // when switching tabs (Measurements ↔ Frames) inside the MFit popup.
+        setCapturedData({
+          ...capturedData,
+          frameAdjustments: {
+            offsetX: next.offsetX,
+            offsetY: next.offsetY,
+            scaleAdjust: next.scaleAdjust,
+            rotationAdjust: next.rotationAdjust,
+          },
+        });
+      }
+    },
+    [capturedData, setCapturedData]
+  );
+
   const handleResetAdjustments = useCallback(() => {
-    setAdjustments({ ...DEFAULT_ADJUSTMENTS });
-  }, []);
+    const reset = { ...DEFAULT_ADJUSTMENTS };
+    setAdjustments(reset);
+    if (capturedData) {
+      setCapturedData({
+        ...capturedData,
+        frameAdjustments: {
+          offsetX: reset.offsetX,
+          offsetY: reset.offsetY,
+          scaleAdjust: reset.scaleAdjust,
+          rotationAdjust: reset.rotationAdjust,
+        },
+      });
+    }
+  }, [capturedData, setCapturedData]);
 
-  const proceedToCollection = useCallback(() => {
-    if (!capturedData) return;
-    const withAdjustments = {
-      ...capturedData,
-      frameAdjustments: {
-        offsetX: adjustments.offsetX,
-        offsetY: adjustments.offsetY,
-        scaleAdjust: adjustments.scaleAdjust,
-        rotationAdjust: adjustments.rotationAdjust,
-      },
-    };
-    setCapturedData(withAdjustments);
-    saveCaptureSession(withAdjustments);
-    window.dispatchEvent(new CustomEvent('getmyfit:close'));
-    // Full page navigation so /glasses loads fresh and reads the new session from storage
-    window.location.href = '/glasses';
-  }, [capturedData, adjustments, setCapturedData]);
-
-  const handleViewCollection = useCallback(() => {
-    setShowAlignConfirm(true);
-  }, []);
+  const handleViewMeasurementsClick = useCallback(() => {
+    if (!onViewMeasurements) return;
+    setShowMeasurementConfirm(true);
+  }, [onViewMeasurements]);
 
   if (!capturedData) {
     return (
@@ -148,7 +163,7 @@ export function MeasurementsTab({ onViewMeasurements }: MeasurementsTabProps = {
           <div className="flex justify-end min-w-0">
             <FrameAdjustmentControls
               values={adjustments}
-              onChange={setAdjustments}
+              onChange={handleAdjustmentsChange}
               onReset={handleResetAdjustments}
             />
           </div>
@@ -185,41 +200,35 @@ export function MeasurementsTab({ onViewMeasurements }: MeasurementsTabProps = {
         ) : null;
       })()}
 
-      {/* View Measurement – switches to Virtual Try-On tab where PD, Face Width, Face Shape are shown */}
+      {/* View Measurement – switches to Virtual Try-On tab where PD, Face Width, Face Shape are shown (with alignment confirmation) */}
       {onViewMeasurements && (
         <button
           type="button"
-          onClick={onViewMeasurements}
+          onClick={handleViewMeasurementsClick}
           className="w-full inline-flex items-center justify-center bg-[#F3F4F6] text-black py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-sm hover:bg-gray-200 border-2 border-gray-300 transition-all"
         >
           View Measurement
         </button>
       )}
 
-      {/* View MFIT Collection – asks confirmation before redirect */}
-      <button
-        type="button"
-        onClick={handleViewCollection}
-        className="w-full inline-flex items-center justify-center bg-black text-white py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-sm hover:bg-gray-800 transition-all"
-      >
-        View MFIT Collection
-      </button>
-
-      {/* Confirmation: Did you align your frame perfectly? Rendered via portal so it appears above MFit popup (z-[1000]). */}
-      {showAlignConfirm &&
+      {/* Confirmation for View Measurement: Did you align your frame perfectly? Rendered via portal so it appears above MFit popup (z-[1000]). */}
+      {showMeasurementConfirm &&
         createPortal(
           <div className="fixed inset-0 z-[1100] flex items-center justify-center p-4" aria-modal="true" role="dialog">
-            <div className="absolute inset-0 bg-black/70" onClick={() => setShowAlignConfirm(false)} />
+            <div className="absolute inset-0 bg-black/70" onClick={() => setShowMeasurementConfirm(false)} />
             <div className="relative z-10 w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
               <h3 className="text-center text-lg font-semibold text-gray-900">Confirm</h3>
               <p className="mt-2 text-center text-sm text-gray-600">
                 Did you align your frame perfectly on your face?
               </p>
+              <p className="mt-1 text-center text-xs text-gray-500">
+                Based on your fine-tune adjustments, we&apos;ll align the frame on your face.
+              </p>
               <div className="mt-6 flex gap-3">
                 <button
                   type="button"
                   onClick={() => {
-                    setShowAlignConfirm(false);
+                    setShowMeasurementConfirm(false);
                     toast.info('Please align your frame first, then try again.');
                   }}
                   className="flex-1 rounded-xl border-2 border-gray-300 bg-white py-3 text-sm font-bold uppercase tracking-wide text-gray-700 hover:bg-gray-50"
@@ -229,8 +238,8 @@ export function MeasurementsTab({ onViewMeasurements }: MeasurementsTabProps = {
                 <button
                   type="button"
                   onClick={() => {
-                    setShowAlignConfirm(false);
-                    proceedToCollection();
+                    setShowMeasurementConfirm(false);
+                    onViewMeasurements?.();
                   }}
                   className="flex-1 rounded-xl bg-black py-3 text-sm font-bold uppercase tracking-wide text-white hover:bg-gray-800"
                 >

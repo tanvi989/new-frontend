@@ -118,14 +118,21 @@ const AddPrescription: React.FC = () => {
     const handleSelection = (
         selectedMethod: "manual" | "upload" | "photo" | "later"
     ) => {
+        // When adding prescription to existing cart item, pass cart_id in URL so we don't add a new product
+        const cartQuery = cartIdFromUrl ? `?cart_id=${cartIdFromUrl}` : "";
         if (selectedMethod === "manual") {
-            navigate(`/product/${id}/manual-prescription`, { state });
+            navigate(`/product/${id}/manual-prescription${cartQuery}`.replace(/\?$/, ""), { state: { ...state, cartId: cartIdFromUrl, cart_id: cartIdFromUrl } });
         } else if (selectedMethod === "upload") {
-            navigate(`/product/${id}/upload-prescription`, { state });
+            navigate(`/product/${id}/upload-prescription${cartQuery}`.replace(/\?$/, ""), { state: { ...state, cartId: cartIdFromUrl, cart_id: cartIdFromUrl } });
         } else if (selectedMethod === "photo") {
             setIsCameraOpen(true);
         } else {
-            // For "later", we proceed to select lens directly
+            // For "later" only when NOT from cart - from cart we should not go to select-lens (would add new item)
+            if (cartIdFromUrl) {
+                sessionStorage.setItem("fromPrescription", "true");
+                navigate("/cart");
+                return;
+            }
             navigate(`/product/${id}/select-lens`, {
                 state: {
                     ...state,
@@ -330,6 +337,14 @@ const AddPrescription: React.FC = () => {
                 alert("Please select your PD value");
                 return;
             }
+        }
+
+        // When adding prescription to an existing cart item, return to cart only — do not go to select-lens (that would add a new product)
+        if (cartIdFromUrl) {
+            sessionStorage.setItem("fromPrescription", "true");
+            setShowPreview(false);
+            navigate("/cart");
+            return;
         }
 
         // Persist PD to flow so SelectLensCoatings always has Dual pdRight/pdLeft even if location state is lost
