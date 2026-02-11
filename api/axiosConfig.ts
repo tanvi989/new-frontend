@@ -20,15 +20,22 @@ if (ENV_API_TARGET && (ENV_API_TARGET.includes("http//") || !/^https?:\/\//.test
   ENV_API_TARGET = "";
 }
 
-// In dev (localhost), use relative URL so Vite proxy handles requests → avoids CORS (backend must not send duplicate Access-Control-Allow-Origin)
-const isLocalDev = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
-const RESOLVED_BASE_URL = isLocalDev
+// Use relative URL when same-origin so the server can proxy to backend → avoids CORS (backend sends duplicate Access-Control-Allow-Origin).
+// Localhost: Vite dev server proxies. Production (live.multifolks.com / multifolks.com): your server must proxy /api/v1, /accounts, /retailer to livebackend.multifolks.com.
+const host = typeof window !== "undefined" ? window.location.hostname : "";
+const useRelativeApi =
+  host === "localhost" ||
+  host === "127.0.0.1" ||
+  host === "live.multifolks.com" ||
+  host === "www.multifolks.com" ||
+  host === "multifolks.com";
+const RESOLVED_BASE_URL = useRelativeApi
   ? ""
   : ENV_API_TARGET
     ? (ENV_API_TARGET.replace(/\/+$/, "") + "/")
     : (API_BASE_URL.replace(/\/+$/, "") + "/");
 
-console.log('[API] Base URL:', RESOLVED_BASE_URL || "(relative – using Vite proxy)");
+console.log('[API] Base URL:', RESOLVED_BASE_URL || "(relative – proxy to backend)");
 
 const axios = Axios.create({
   baseURL: RESOLVED_BASE_URL,
