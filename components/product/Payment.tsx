@@ -1895,8 +1895,33 @@ const Payment: React.FC = () => {
                   </div>
                 )}
 
-                <CheckoutSummary
-                  cartItems={carts}
+                {/* Shipping method - from cart or session */}
+                {(() => {
+                  const methodId = (locationState as any)?.shippingMethod
+                    || sessionStorage.getItem("cartShippingMethod")
+                    || cartData?.shipping_method?.id
+                    || (shippingCost >= 29 ? "express" : "standard");
+                  const isExpress = methodId === "express";
+                  return (
+                    <div className="pt-6">
+                      <h3 className="text-sm font-bold text-[#1F1F1F] mb-3 font-sans">
+                        Shipping method
+                      </h3>
+                      <div className="bg-white border border-gray-300 p-4 rounded-sm shadow-sm">
+                        <p className="font-bold text-[#1F1F1F] text-sm">
+                          {isExpress ? "Express Shipping" : "Standard Shipping"}
+                        </p>
+                        <p className="text-sm text-[#525252] mt-1">
+                          {isExpress ? "4-6 working days" : "8-12 working days"}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                <div className="pt-6">
+                  <CheckoutSummary
+                    cartItems={carts}
                   subtotal={listPrice}
                   discountAmount={offerAmount}
                   total={totalPayable}
@@ -1909,7 +1934,8 @@ const Payment: React.FC = () => {
                   onCheckout={step === "address" ? () => {
                     addressFormRef.current?.submit();
                   } : () => handlePlaceOrder()}
-                />
+                  />
+                </div>
               </div>
 
               {/* Mobile Fixed Footer */}

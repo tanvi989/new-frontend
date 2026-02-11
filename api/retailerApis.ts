@@ -922,8 +922,10 @@ export const placeOrder = async (data: any) => {
         const billing_address = profileData.billing_address || "";
 
         // Prepare order data. Send prescriptions in BOTH metadata and top-level so backend can persist full photo/manual (type, image_url, data).
+        // order_status: Confirmed so DB stores confirmed order (not Processing) when order is placed.
         const orderData: Record<string, any> = {
             cart_items: cartItems,
+            order_status: 'Confirmed',
             payment_data: {
                 pay_mode: data.pay_mode == 100 || data.pay_mode == '100' ? 'Cash On Delivery' : 'Stripe / Online',
                 payment_status: data.pay_mode == 100 || data.pay_mode == '100' ? 'Pending' : 'Success',

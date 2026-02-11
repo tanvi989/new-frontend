@@ -15,7 +15,8 @@ import {
     removePrescription,
     getCartItemId,
     addToCart,
-    addPrescription
+    addPrescription,
+    getUserAddresses
 } from "../../api/retailerApis";
 import { CartItem } from "../../types";
 import Loader from "../Loader";
@@ -49,6 +50,10 @@ const DesktopCart: React.FC = () => {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showSignUpModal, setShowSignUpModal] = useState(false);
     const [signUpEmail, setSignUpEmail] = useState("");
+
+    // Delivery address selected on cart (passed to payment page)
+    type DeliveryAddressShape = { fullName: string; mobile: string; addressLine: string; city: string; state: string; country: string; zip: string };
+    const [selectedDeliveryAddress, setSelectedDeliveryAddress] = useState<DeliveryAddressShape | null>(null);
     
     // Add a flag to prevent unnecessary cart refreshes
     const [preventCartRefresh, setPreventCartRefresh] = useState(false);
@@ -1553,7 +1558,8 @@ const DesktopCart: React.FC = () => {
                                         onClick={() => {
                                             trackBeginCheckout(cartItems);
                                             if (localStorage.getItem("token")) {
-                                                navigate("/payment");
+                                                sessionStorage.setItem("cartShippingMethod", shippingMethod);
+                                                navigate("/payment", { state: { shippingMethod } });
                                             } else {
                                                 sessionStorage.setItem("returnTo", "/payment");
                                                 setShowLoginModal(true);

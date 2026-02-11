@@ -3,6 +3,11 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CheckoutStepper from "../components/CheckoutStepper";
 import { savePrescriptionType } from "../utils/productFlowStorage";
 
+// Image paths for Select Lens Type page – files in public/ (Precision+, Advanced, Standard)
+const IMG_PRECISION_PLUS = "/Specs 3.png";
+const IMG_ADVANCED = "/Specs 2.png";
+const IMG_STANDARD = "/specs 1.png";
+
 const SelectPrescriptionType: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { state } = useLocation();
@@ -295,7 +300,7 @@ const SelectPrescriptionType: React.FC = () => {
                   </div>
                   <div className="flex gap-4 md:gap-5 items-center md:items-start">
                     <img
-                      src="/focal1.png"
+                      src={IMG_PRECISION_PLUS}
                       alt="Precision+ Options"
                       className="w-24 md:w-28 h-24 md:h-auto rounded-full md:rounded-2xl shrink-0 object-cover border border-gray-200 md:border-none"
                     />
@@ -350,7 +355,7 @@ const SelectPrescriptionType: React.FC = () => {
                   </div>
                   <div className="flex gap-4 md:gap-5 items-center md:items-start">
                     <img
-                      src="/focal1.png"
+                      src={IMG_ADVANCED}
                       alt="Advanced Options"
                       className="w-24 md:w-28 h-24 md:h-auto rounded-full md:rounded-2xl shrink-0 object-cover border border-gray-200 md:border-none"
                     />
@@ -405,7 +410,7 @@ const SelectPrescriptionType: React.FC = () => {
                   </div>
                   <div className="flex gap-4 md:gap-5 items-center md:items-start">
                     <img
-                      src="/focal2.png"
+                      src={IMG_STANDARD}
                       alt="Standard Options"
                       className="w-24 md:w-28 h-24 md:h-auto rounded-full md:rounded-2xl shrink-0 object-cover border border-gray-200 md:border-none"
                     />

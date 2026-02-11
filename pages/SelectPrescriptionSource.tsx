@@ -29,9 +29,15 @@ const SelectPrescriptionSource: React.FC = () => {
   const [capturedPD, setCapturedPD] = useState<{ pdSingle?: number; pdRight?: number; pdLeft?: number } | null>(null);
 
   const pdVoiceText =
-    "PD made simple. Some prescriptions show Distance PD and Near PD — use Distance PD for progressives. " +
-    "If your prescription has only one PD value, enter single PD we will do the rest. " +
-    "If your prescription does not have PD, no worries — our MFit measures both eyes precisely, tested on thousands.";
+    "PD, made easy. Let's keep this simple. " +
+    "Some prescriptions show Distance PD and Near PD. For multifocal or progressive lenses, always use Distance PD. " +
+    "If your prescription shows just one PD value, that's absolutely fine. Enter it as it is — we'll handle the rest. " +
+    "You can also choose to split the PD evenly between both eyes. For example, if your PD is 66, enter 33 for the right eye and 33 for the left eye. " +
+    "If your prescription shows separate values for each eye, select Dual PD and enter the left and right values exactly as written. " +
+    "And if your prescription doesn't mention PD at all, don't worry — you're in safe hands. " +
+    "Use Generate PD with MFit. Our technology measures both eyes precisely, and has been tested on thousands of people. " +
+    "Your PD is delivered instantly, with accuracy you can trust. " +
+    "And every order is protected by our 30-day, no-questions-asked guarantee.";
 
   // Play voice every time user lands on this page (pathname includes select-prescription-source)
   useEffect(() => {
