@@ -262,7 +262,8 @@ export const addToCart = (products: any, flag: any, prescription?: any, options?
     const totalPrice = framePrice + lensPrice + coatingPrice + tintPrice;
 
     const lensTypeDisplay = options?.mainCategory || (options?.lensType === "single" ? "Single Vision" : options?.lensType === "bifocal" ? "Bifocal" : "Progressive");
-    const subCategory = options?.lensPackage || (options?.lensCategory === "sun" ? "1.61" : "Single Vision");
+    // Sunglasses: use selected package (e.g. 1.56) when provided; default 1.56 for single-vision sun (only option), not 1.61
+    const subCategory = options?.lensPackage || (options?.lensCategory === "sun" ? "1.56" : "Single Vision");
 
     const itemData: any = {
         product_id: uniqueSku, // Use unique SKU

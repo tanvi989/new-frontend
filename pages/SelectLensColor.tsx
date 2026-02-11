@@ -101,8 +101,14 @@ const SelectLensColor: React.FC = () => {
       console.log("Selected Tint:", selectedTint);
       console.log("Selected Color:", selectedColor);
 
-      // Step 1: Add product to cart (API or localStorage)
-      const addToCartResponse: any = await addToCart(product, "instant");
+      // Step 1: Add product to cart (API or localStorage) with sunglasses lens package from previous step (e.g. 1.56)
+      const lensPackage = state?.selectedLensPackage;
+      const lensPackagePrice = Number(state?.selectedLensPrice ?? 0);
+      const addToCartResponse: any = await addToCart(product, "instant", undefined, state?.lensCategory === "sun" ? {
+        lensPackage: lensPackage || "1.56",
+        lensPackagePrice,
+        lensCategory: "sun",
+      } : undefined);
       console.log("DEBUG: addToCart response:", addToCartResponse);
       trackAddToCart(product, 1);
 
@@ -159,7 +165,7 @@ const SelectLensColor: React.FC = () => {
         mainCategory = "Progressive Lenses";
       }
 
-      const lensData = {
+      const lensData: Record<string, unknown> = {
         title: `${selectedTint.name} - ${selectedColor}`,
         sub_category: selectedTint.name,
         main_category: mainCategory,
@@ -170,6 +176,10 @@ const SelectLensColor: React.FC = () => {
         tint_price: selectedTint.price,
         lens_category: "sun",
       };
+      if (state?.selectedLensPackage) {
+        lensData.lensPackage = state.selectedLensPackage;
+        if (state?.selectedLensPrice != null) lensData.lensPackagePrice = Number(state.selectedLensPrice);
+      }
 
       console.log("Calling selectLens with:", {
         skuid: product.skuid,
@@ -186,9 +196,11 @@ const SelectLensColor: React.FC = () => {
       );
       console.log("selectLens response:", selectLensResponse);
 
-      // Persist selection locally so Cart reflects it even if backend doesn't echo these fields back
+      // Persist selection locally so Cart reflects it even if backend doesn't echo these fields back (include lens package e.g. 1.56)
       setCartLensOverride(cartId, {
         lensCategory: "sun",
+        lensPackage: state?.selectedLensPackage || "1.56",
+        lensPackagePrice: Number(state?.selectedLensPrice ?? 0),
         mainCategory: mainCategory,
         tintType: selectedTint.name,
         tintColor: selectedColor,

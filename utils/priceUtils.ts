@@ -359,7 +359,7 @@ export const getLensIndex = (item: CartItem): { index: string; price: number } =
     } else if (cat === "photo" || cat === "photochromic") {
         fullName = `${indexNumber} Photochromic High Index`;
     } else if (cat === "sun" || cat === "sunglasses") {
-        fullName = `${indexNumber} High Index`;
+        fullName = indexNumber === "1.56" ? "1.56 Sunglasses" : `${indexNumber} High Index`;
     } else if (cat === "clear" || cat === "") {
         fullName = `${indexNumber} High Index`;
     } else {

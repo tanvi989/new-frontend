@@ -716,6 +716,7 @@ const SelectLensType: React.FC = () => {
             },
             addPower: state?.prescriptionData?.addOD,
           }}
+          lensDetails={selectedCategory ? { lensType: getCategoryDisplayName(selectedCategory) } : undefined}
         />
       </div>
     </div>

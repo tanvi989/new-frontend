@@ -6,6 +6,7 @@ interface Product {
   image: string;
   colors?: string[];
   skuid?: string;
+  naming_system?: string;
   brand?: string;
 }
 
@@ -34,24 +35,38 @@ interface PrescriptionData {
   addPower?: string;
 }
 
+export interface LensDetailsItem {
+  lensType?: string;
+  lensIndex?: string;
+  lensIndexPrice?: string;
+  addOns?: { name: string; price: string }[];
+  prismCharge?: number | string;
+}
+
 interface ProductDetailsFooterProps {
   product: Product;
   selectedColor?: string | ColorObject;
   prescriptionData?: PrescriptionData;
+  lensDetails?: LensDetailsItem;
 }
 
 const ProductDetailsFooter: React.FC<ProductDetailsFooterProps> = ({
   product,
   selectedColor,
   prescriptionData,
+  lensDetails,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [lensSectionOpen, setLensSectionOpen] = useState(true);
 
   const toggleDrawer = () => setIsOpen(!isOpen);
 
   // Format Price
   const displayPrice =
     typeof product.price === "number" ? `£${product.price}` : product.price;
+
+  // Display name: naming_system (user-friendly) over skuid
+  const productDisplayName = product.naming_system || product.skuid || product.name || "";
 
   return (
     <>
@@ -136,37 +151,102 @@ const ProductDetailsFooter: React.FC<ProductDetailsFooterProps> = ({
               </div>
             </div>
 
-            {/* Bottom Section: SKU, Name, Pricing Details */}
+            {/* Bottom Section: Naming system, Color, Pricing - visible as soon as user enters */}
             <div className="space-y-3 border-t border-gray-200 pt-4">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-bold text-[#1F1F1F]">
-                  {product.skuid || "EI9B850I"}
+                  {productDisplayName || product.skuid || product.name}
                 </span>
                 <span className="text-base font-medium text-[#1F1F1F]">{displayPrice}</span>
               </div>
 
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-bold text-[#1F1F1F]">
-                  {product.name}
-                </span>
-              </div>
-
-              {selectedColor && (
+              {product.name && product.name !== productDisplayName && (
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-[#1F1F1F]">
-                    {typeof selectedColor === 'string' ? selectedColor : selectedColor.color_names || 'Color'}
+                  <span className="text-sm font-bold text-[#1F1F1F]">
+                    {product.name}
                   </span>
                 </div>
               )}
 
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-[#1F1F1F]">
-                  Prism Charge
-                </span>
-                <span className="text-base font-medium text-[#1F1F1F]">£9</span>
-              </div>
+              {selectedColor && (
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-[#1F1F1F]">
+                    {typeof selectedColor === 'string' ? selectedColor : selectedColor.color_names || (selectedColor as ColorObject).frameColor || 'Color'}
+                  </span>
+                </div>
+              )}
+
+              {lensDetails?.prismCharge != null && lensDetails.prismCharge !== 0 && (
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-[#1F1F1F]">
+                    Prism Charge
+                  </span>
+                  <span className="text-base font-medium text-[#1F1F1F]">
+                    {typeof lensDetails.prismCharge === "number" ? `£${lensDetails.prismCharge}` : lensDetails.prismCharge}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
+
+          {/* Lenses / Config card - full details user entered (lens type, index, add-ons) */}
+          {(lensDetails || prescriptionData) && (
+            <div className="mt-4 bg-[#F3F0E7] rounded-3xl p-4 shadow-sm border border-black">
+              {/* Expandable Lenses section */}
+              {(lensDetails?.lensType || lensDetails?.lensIndex || (lensDetails?.addOns && lensDetails.addOns.length > 0)) && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setLensSectionOpen(!lensSectionOpen)}
+                    className="w-full flex items-center justify-between text-left py-1"
+                  >
+                    <span className="text-sm font-bold text-[#1F1F1F]">
+                      Lenses{lensDetails.lensType ? `: ${lensDetails.lensType}` : ""}
+                    </span>
+                    <svg
+                      className={`w-4 h-4 text-[#1F1F1F] transition-transform ${lensSectionOpen ? "rotate-180" : ""}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <polyline points="18 15 12 9 6 15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                  {lensSectionOpen && (
+                    <div className="space-y-2 pt-3 border-t border-gray-200 mt-2">
+                      {lensDetails.lensIndex && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-[#E94D37]">
+                            Index: {lensDetails.lensIndex}
+                          </span>
+                          {lensDetails.lensIndexPrice && (
+                            <span className="text-sm font-medium text-[#1F1F1F]">{lensDetails.lensIndexPrice}</span>
+                          )}
+                        </div>
+                      )}
+                      {lensDetails.addOns && lensDetails.addOns.length > 0 && lensDetails.addOns.map((addOn, i) => (
+                        <div key={i} className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-[#E94D37]">{addOn.name}</span>
+                          <span className="text-sm font-medium text-[#1F1F1F]">{addOn.price}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+              {/* Prescription summary when available */}
+              {prescriptionData && (prescriptionData.prescriptionType || prescriptionData.pd) && (
+                <div className="mt-3 pt-3 border-t border-gray-200 space-y-1">
+                  {prescriptionData.prescriptionType && (
+                    <p className="text-xs font-medium text-[#525252]">Prescription: {prescriptionData.prescriptionType}</p>
+                  )}
+                  {prescriptionData.pd && (
+                    <p className="text-xs font-medium text-[#525252]">PD: {prescriptionData.pd}</p>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

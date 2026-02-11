@@ -38,6 +38,7 @@ const SelectLensPackages: React.FC = () => {
   const product = state?.product || (flow?.product as any) || (apiProduct ? {
     id: apiProduct.id,
     skuid: apiProduct.skuid,
+    naming_system: apiProduct.naming_system,
     name: apiProduct.name || "Unknown",
     price: apiProduct.price ?? "0",
     image: apiProduct.image || "",
@@ -795,6 +796,12 @@ const SelectLensPackages: React.FC = () => {
                 axis: state?.prescriptionData?.axisOS,
               },
               addPower: state?.prescriptionData?.addOD,
+            }}
+            lensDetails={{
+              lensType: lensCategory === "blue" ? "Blue Protect" : lensCategory === "photo" ? "Photochromic" : lensCategory === "clear" ? "Clear" : lensCategory === "sun" ? "Sunglasses" : getPrescriptionTypeLabel(),
+              lensIndex: selectedPackage ? packages.find((p: { id: string }) => p.id === selectedPackage)?.title : undefined,
+              lensIndexPrice: selectedPackage ? packages.find((p: { id: string }) => p.id === selectedPackage)?.price : undefined,
+              addOns: [{ name: "Case & Cleaning cloth included", price: "Free" }],
             }}
           />
         </div>

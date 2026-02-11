@@ -873,7 +873,7 @@ const ProductPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleShare}
-                className="flex-shrink-0 w-12 h-12 rounded-full border border-gray-200 bg-white text-gray-600 hover:text-[#1F1F1F] hover:bg-gray-50 flex items-center justify-center transition-colors"
+                className="hidden md:flex flex-shrink-0 w-12 h-12 rounded-full border border-gray-200 bg-white text-gray-600 hover:text-[#1F1F1F] hover:bg-gray-50 items-center justify-center transition-colors"
                 title={linkCopied ? "Copied!" : "Share"}
                 aria-label={linkCopied ? "Copied!" : "Share"}
               >

@@ -58,6 +58,7 @@ const SelectLensCoatings: React.FC = () => {
   const product = state?.product || (apiProduct ? {
     id: apiProduct.id,
     skuid: apiProduct.skuid,
+    naming_system: apiProduct.naming_system,
     name: apiProduct.name || "Unknown",
     price: apiProduct.price || "0",
     image: apiProduct.image || "",
@@ -467,6 +468,10 @@ const SelectLensCoatings: React.FC = () => {
                 axis: state?.prescriptionData?.axisOS,
               },
               addPower: state?.prescriptionData?.addOD,
+            }}
+            lensDetails={{
+              lensType: "Photochromic",
+              addOns: [{ name: "Case & Cleaning cloth included", price: "Free" }],
             }}
           />
         </div>
