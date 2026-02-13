@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CheckoutStepper from "../CheckoutStepper";
 import ProductDetailsFooter from "../ProductDetailsFooter";
 
@@ -27,6 +27,58 @@ const ConfirmPrescription: React.FC<ConfirmPrescriptionProps> = ({
     getPrescriptionTypeLabel,
 }) => {
     const navigate = useNavigate();
+    const location = useLocation();
+    
+    // Get prescription details from multiple possible sources
+    // Priority: location.state (most recent) -> savedValues (persisted)
+    const lensType = location.state?.lensType || savedValues.lensType || savedValues.prescriptionType;
+    const prescriptionTier = location.state?.prescriptionTier || savedValues.prescriptionTier;
+    
+    // Generate the proper label based on lens type and tier
+    const getDisplayLabel = (): string => {
+        // If no lens type found, try the fallback function
+        if (!lensType) {
+            const fallbackLabel = getPrescriptionTypeLabel();
+            return fallbackLabel || "NOT SELECTED";
+        }
+
+        // Normalize the lens type to handle variations
+        const normalizedLensType = typeof lensType === 'string' ? lensType.toLowerCase() : '';
+
+        switch (normalizedLensType) {
+            case "single":
+            case "single vision":
+            case "singlevision":
+                return "SINGLE VISION EYEGLASSES";
+            
+            case "bifocal":
+            case "bifocals":
+                return "BIFOCAL EYEGLASSES";
+            
+            case "progressive":
+            case "varifocal":
+            case "multifocal":
+                // For progressive lenses, show the specific tier selected
+                if (prescriptionTier) {
+                    const normalizedTier = prescriptionTier.toLowerCase();
+                    if (normalizedTier === "precision" || normalizedTier === "precision+") {
+                        return "PRECISION+ PROGRESSIVE EYEGLASSES";
+                    } else if (normalizedTier === "advanced") {
+                        return "ADVANCED PROGRESSIVE EYEGLASSES";
+                    } else if (normalizedTier === "standard") {
+                        return "STANDARD PROGRESSIVE EYEGLASSES";
+                    }
+                }
+                return "PROGRESSIVE EYEGLASSES";
+            
+            default:
+                // Fallback to the provided function
+                return getPrescriptionTypeLabel() || "EYEGLASSES";
+        }
+    };
+
+    // Get the display label once to use throughout the component
+    const displayLabel = getDisplayLabel();
 
     return (
         <div className="min-h-screen bg-[#F3F0E7] font-sans py-8 px-4 md:px-8 pb-32">
@@ -35,8 +87,8 @@ const ConfirmPrescription: React.FC<ConfirmPrescriptionProps> = ({
                 <CheckoutStepper
                     currentStep={3}
                     selections={{
-                        2: "Bifocal/Progressive Eyeglasses",
-                        3: "Bifocal/Progressive Eyeglasses",
+                        2: displayLabel,
+                        3: displayLabel,
                     }}
                 />
             </div>
@@ -70,7 +122,7 @@ const ConfirmPrescription: React.FC<ConfirmPrescriptionProps> = ({
                         <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                             <span>Prescription type:</span>
                             <span className="text-[#E94D37] uppercase font-bold tracking-wide">
-                                {getPrescriptionTypeLabel()}
+                                {displayLabel}
                             </span>
                         </div>
 
@@ -307,7 +359,7 @@ const ConfirmPrescription: React.FC<ConfirmPrescriptionProps> = ({
                     product={product}
                     selectedColor={product.colors ? product.colors[0] : undefined}
                     prescriptionData={{
-                        prescriptionType: getPrescriptionTypeLabel(),
+                        prescriptionType: displayLabel,
                         pd: savedValues.hasDualPD
                             ? `${savedValues.pdRight}/${savedValues.pdLeft}`
                             : savedValues.pdSingle,

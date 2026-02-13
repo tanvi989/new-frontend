@@ -46,19 +46,32 @@ const SelectPrescriptionType: React.FC = () => {
   };
 
   const handleMobileOptionSelect = (option: "advanced" | "standard" | "precision") => {
-    if (id) savePrescriptionType(id, { lensType: "progressive", prescriptionTier: option === "precision" ? "advanced" : option });
+    // Save the exact option selected (precision, advanced, or standard)
+    if (id) savePrescriptionType(id, { lensType: "progressive", prescriptionTier: option });
     navigate(`/product/${id}/select-prescription-source`, {
-      state: { ...state, lensType: "progressive", lensOption: option === "precision" ? "advanced" : option, precisionPlus: option === "precision" },
+      state: { 
+        ...state, 
+        lensType: "progressive", 
+        prescriptionTier: option,
+        precisionPlus: option === "precision" 
+      },
     });
   };
 
   const handleContinue = () => {
     if (!selectedType) return;
     if (expanded && !selectedOption) return;
-    const prescriptionTier = selectedOption === "precision" ? "advanced" : selectedOption ?? undefined;
+    
+    // Save the exact option selected for progressive lenses
+    const prescriptionTier = selectedOption;
     if (id) savePrescriptionType(id, { lensType: selectedType, prescriptionTier });
     navigate(`/product/${id}/select-prescription-source`, {
-      state: { ...state, lensType: selectedType, lensOption: selectedOption === "precision" ? "advanced" : selectedOption, precisionPlus: selectedOption === "precision" },
+      state: { 
+        ...state, 
+        lensType: selectedType, 
+        prescriptionTier: selectedOption,
+        precisionPlus: selectedOption === "precision" 
+      },
     });
   };
 
