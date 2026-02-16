@@ -126,7 +126,7 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
     } else if (currentStep === '3' && !capturedImageData && !isProcessing) {
       speak('Position your face in the oval. Align your eyes with the blue horizontal line. Keep your head straight and look at the camera. We will capture automatically when everything is aligned. If you are not able to get a photo, click the SNAP button to take your photo.');
     } else if (currentStep === '4') {
-      speak('Align your face how you would like to wear your frames. Then click View MFIT Collection to browse glasses, or click View Measurement to see your measurements.');
+      speak('Align your face how you would like to wear your frames. Then click View MFit Collection to browse glasses, or click View Measurement to see your measurements.');
     }
   }, [open, currentStep, speak]);
 
@@ -646,7 +646,7 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
               {currentStep === '1' && (
                 <div className="flex flex-col items-center animate-fadeIn max-w-[500px] w-full">
                   <h1 className="font-semibold text-[17px] leading-[100%] tracking-[0.2em] text-center uppercase mb-6 text-black">
-                    WELCOME TO MULTIFOLKS MFIT
+                    WELCOME TO MULTIFOLKS MFit
                   </h1>
                   <div className="w-[180px] h-[180px] mb-6 flex items-center justify-center">
                     <svg width="260" height="260" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -693,7 +693,7 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
                 <div className="flex flex-col items-center animate-fadeIn w-full max-w-[850px] h-full overflow-y-auto pt-6 px-6">
                   <div className="flex items-center justify-center w-full mb-6">
                     <div className="flex flex-col items-center w-full">
-                      <h2 className="text-4xl font-black uppercase tracking-[0.15em] text-black text-center">MFIT</h2>
+                      <h2 className="text-4xl font-black tracking-[0.15em] text-black text-center">MFit</h2>
                       {/*
                       <div className="flex gap-4 mt-2">
                         <button onClick={downloadResult} className="flex items-center gap-1.5 text-[10px] font-black bg-primary/10 text-primary px-3 py-1 rounded-full hover:bg-primary/20 transition-all uppercase italic">

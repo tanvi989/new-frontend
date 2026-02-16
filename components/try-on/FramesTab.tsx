@@ -719,7 +719,7 @@ export function FramesTab({ measurementsOnly = false, onBackToMeasurements }: Fr
         </div>
       </div>
 
-      {/* View MFIT Collection at bottom of Measurement tab – no confirmation, goes straight to /glasses */}
+      {/* View MFit Collection at bottom of Measurement tab – no confirmation, goes straight to /glasses */}
       {measurementsOnly && (
         <button
           type="button"
@@ -733,7 +733,7 @@ export function FramesTab({ measurementsOnly = false, onBackToMeasurements }: Fr
           }}
           className="w-full inline-flex items-center justify-center bg-black text-white py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-sm hover:bg-gray-800 transition-all"
         >
-          View MFIT Collection
+          View MFit Collection
         </button>
       )}
 

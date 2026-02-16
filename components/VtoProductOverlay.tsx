@@ -427,7 +427,10 @@ export function VtoProductOverlay({
         />
       )}
       {!compact && (
-        <div className="absolute bottom-2 right-2 w-16 h-16 md:w-20 md:h-20 bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden z-10">
+        <div
+          className="absolute bottom-2 right-2 w-16 h-16 md:w-20 md:h-20 bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden z-10 shrink-0"
+          style={{ maxWidth: 'calc(100% - 1rem)', maxHeight: 'calc(100% - 1rem)' }}
+        >
           <img
             src={vtoImageUrl}
             alt={productName}

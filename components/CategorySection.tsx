@@ -10,7 +10,7 @@ export const CategorySection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* MEN Button */}
           <button
-            onClick={() => navigate("/glasses/men")}
+            onClick={() => navigate("/glasses?gender=Men")}
             className="group relative h-[80px] md:h-[100px] bg-[#F3F0E7] hover:bg-[#232320] transition-colors duration-300 rounded-lg overflow-hidden flex items-center justify-center"
           >
             <span className="text-[#232320] group-hover:text-white text-2xl md:text-3xl font-bold tracking-[0.2em] uppercase transition-colors duration-300">
@@ -20,7 +20,7 @@ export const CategorySection: React.FC = () => {
 
           {/* WOMEN Button */}
           <button
-            onClick={() => navigate("/glasses/women")}
+            onClick={() => navigate("/glasses?gender=Women")}
             className="group relative h-[80px] md:h-[100px] bg-[#F3F0E7] hover:bg-[#232320] transition-colors duration-300 rounded-lg overflow-hidden flex items-center justify-center"
           >
             <span className="text-[#232320] group-hover:text-white text-2xl md:text-3xl font-bold tracking-[0.2em] uppercase transition-colors duration-300">

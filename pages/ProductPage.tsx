@@ -1501,7 +1501,7 @@ const ProductPage: React.FC = () => {
             <div className="w-full h-full overflow-hidden rounded-full p-0 bg-white shadow-lg ring-2 ring-white">
               <img
                 src={capturedData.croppedPreviewDataUrl || capturedData.processedImageDataUrl}
-                alt="Your MFIT"
+                alt="Your MFit"
                 className="w-full h-full object-cover object-center"
               />
             </div>

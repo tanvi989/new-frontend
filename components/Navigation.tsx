@@ -424,12 +424,12 @@ export const Navigation: React.FC = () => {
               ) : (
                 <button
                   onClick={() => setIsLoginModalOpen(true)}
-                  className={`h-10 px-6 rounded-[50px] flex items-center justify-center text-base lg:text-lg text-[#151001] font-medium transition-colors ml-1 ${effectiveScrolled
+                  className={`h-10 px-6 rounded-[50px] flex items-center justify-center text-base lg:text-lg text-[#151001] font-medium transition-colors ml-1 whitespace-nowrap ${effectiveScrolled
                     ? "bg-[#F3CB0A] hover:bg-white"
                     : "bg-[#F3CB0A]/90 hover:bg-white/90 backdrop-blur-sm"
                     }`}
                 >
-                  Login
+                  Login / Sign in
                 </button>
               )}
             </div>
@@ -521,12 +521,12 @@ export const Navigation: React.FC = () => {
             ) : (
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className={`h-[36px] px-4 rounded-full flex items-center justify-center text-[12px] text-black font-bold transition-colors ${effectiveScrolled
+                className={`h-[36px] px-3 sm:px-4 rounded-full flex items-center justify-center text-[11px] sm:text-xs text-black font-bold transition-colors whitespace-nowrap min-w-0 ${effectiveScrolled
                   ? "bg-[#F3CB0A] hover:bg-white"
                   : "bg-[#F3CB0A]/90 hover:bg-white/90 backdrop-blur-sm"
                   }`}
               >
-                Login
+                Login / Sign in
               </button>
             )}
           </div>

@@ -404,6 +404,7 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
   const filterRef = useRef<HTMLDivElement>(null);
   const observerTarget = useRef<HTMLDivElement>(null); // For infinite scroll
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Mobile Infinite Scroll State
   const [isMobile, setIsMobile] = useState(false);
@@ -469,6 +470,15 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
     FrameColors: [],
     Gender: [],
   });
+
+  // Apply ?gender= URL param so MEN/WOMEN nav buttons auto-select filter on /glasses
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const gender = params.get("gender");
+    if (gender === "Men" || gender === "Women") {
+      setSelectedFilters((prev) => ({ ...prev, Gender: [gender] }));
+    }
+  }, [location.search]);
 
   // --- FETCH PRODUCTS (REAL-TIME FILTERING) ---
   const {
@@ -713,12 +723,12 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
     }
   };
 
-  /** Frame width range for Top matches M fit: e.g. face 130 → show frames 130–145 mm */
-  const FRAME_WIDTH_MIN_OFFSET_MM = 0;  // faceWidth + 0
-  const FRAME_WIDTH_MAX_OFFSET_MM = 15; // faceWidth + 15
+  /** Frame width range for MFit Top Matches: face−6 to face+15 mm (e.g. face 120 → 114–135 mm) */
+  const FRAME_WIDTH_MIN_OFFSET_MM = -6; // frame can be 6mm smaller than face
+  const FRAME_WIDTH_MAX_OFFSET_MM = 15; // frame can be 15mm bigger than face
   const TOP_M_FIT_LIMIT = 200; // show more than 50
 
-  // Products whose frame width is in range [faceWidth, faceWidth+15] (e.g. 135 → 135–150 mm), sorted by closest match.
+  // Products whose frame width is in range [faceWidth−6, faceWidth+15] mm, sorted by closest match.
   // Use CSV frame width (getFrameWidth) first, then API dimensions string. Use gender-filtered list.
   const topMfitProducts = useMemo(() => {
     const faceWidthMm = captureSession?.measurements?.face_width;
@@ -983,22 +993,14 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
 
         {/* Right Grid */}
         <div className="flex-1 relative">
-          {/* Mobile: Face/Frame width + Top matches M fit Toggle + MFit Toggle */}
+          {/* Mobile: Top matches MFit Toggle + MFit Toggle (face/frame width hidden after VTO) */}
           <div className="lg:hidden flex items-center justify-end sm:mb-4 mb-0 px-2 flex-wrap gap-2">
-            {fitEnabled && captureSession?.measurements?.face_width != null && (
-              <span className="text-xs text-gray-600">
-                Face: <strong>{captureSession.measurements.face_width.toFixed(0)} mm</strong>
-                {(mobileLayout ? effectiveTopMfit : topMfitEnabled) && (
-                  <> · Frame: {Math.round(captureSession.measurements.face_width + FRAME_WIDTH_MIN_OFFSET_MM)}–{Math.round(captureSession.measurements.face_width + FRAME_WIDTH_MAX_OFFSET_MM)} mm</>
-                )}
-              </span>
-            )}
             <div className="flex items-center gap-3">
               {fitEnabled && (
                 <>
                   {!mobileLayout && (
                     <span className="text-xs font-bold text-[#D96C47] uppercase tracking-wider">
-                      Top matches M fit{` (${topMfitProducts.length})`}
+                      MFit Top Matches{` (${topMfitProducts.length})`}
                     </span>
                   )}
                   <button
@@ -1048,19 +1050,11 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
 
               {/* Right Side Controls */}
               <div className="ml-auto flex items-center gap-6 flex-wrap">
-                {fitEnabled && captureSession?.measurements?.face_width != null && (
-                  <span className="text-sm text-gray-600">
-                    Face width: <strong>{captureSession.measurements.face_width.toFixed(0)} mm</strong>
-                    {topMfitEnabled && (
-                      <> · Frame width: {Math.round(captureSession.measurements.face_width + FRAME_WIDTH_MIN_OFFSET_MM)}–{Math.round(captureSession.measurements.face_width + FRAME_WIDTH_MAX_OFFSET_MM)} mm</>
-                    )}
-                  </span>
-                )}
-                {/* Top matches M fit: only show after MFit is completed */}
+                {/* MFit Top Matches: only show after MFit is completed */}
                 {fitEnabled && (
                   <>
                     <span className="text-sm font-bold text-[#D96C47] uppercase tracking-wider">
-                      Top matches M fit ({topMfitProducts.length})
+                      MFit Top Matches ({topMfitProducts.length})
                     </span>
                     <button
                       type="button"
@@ -1191,11 +1185,11 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
               <div className="mb-4 pt-4">
                 {topMfitProducts.length > 0 ? (
                   <p className="text-sm text-[#D96C47]">
-                    Your face width: <strong>{faceMm?.toFixed(0)} mm</strong>. Frame width range: <strong>{minF}–{maxF} mm</strong>. {topMfitProducts.length} frames match — turn on <strong>Top matches M fit</strong> above to show only these.
+                    {topMfitProducts.length} frames match — turn on <strong>MFit Top Matches</strong> above to show only these.
                   </p>
                 ) : (
                   <p className="text-sm text-gray-500">
-                    Your face width: <strong>{faceMm?.toFixed(0)} mm</strong>. Turn on <strong>Top matches M fit</strong> to filter to frame width {minF}–{maxF} mm.
+                    Turn on <strong>MFit Top Matches</strong> to filter to frames that match your fit.
                   </p>
                 )}
               </div>
@@ -1229,8 +1223,8 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
                       style={
                         fitEnabled && captureSession
                           ? mobileLayout
-                            ? { width: 280, height: 231 }
-                            : { width: 384, height: 332 }
+                            ? { width: '100%', maxWidth: 280, height: 231 }
+                            : { width: '100%', maxWidth: 384, height: 332 }
                           : undefined
                       }
                     >
@@ -1423,16 +1417,10 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
                 </button>
               </div>
             )}
-            {/* Showing count - when Top matches M fit is on, show face + frame width and M fit matches */}
+            {/* Showing count - when MFit Top Matches is on, show count only (face/frame width hidden) */}
             <div className="text-center text-sm text-gray-500 my-8 lg:my-16">
               {effectiveTopMfit ? (
-                <>
-                  Face width: <strong className="text-gray-700">{captureSession?.measurements?.face_width?.toFixed(0) ?? '—'} mm</strong>
-                  {' · '}
-                  Frame width range: <strong className="text-gray-700">{captureSession?.measurements?.face_width != null ? `${captureSession.measurements.face_width - FRAME_WIDTH_MIN_OFFSET_MM}–${captureSession.measurements.face_width + FRAME_WIDTH_MAX_OFFSET_MM}` : '—'} mm</strong>
-                  {' · '}
-                  Showing {totalProducts} M fit matches only
-                </>
+                <>Showing {totalProducts} MFit Top Matches</>
               ) : (
                 <>
                   Showing {isMobile ? visibleMobileCount : (currentPage - 1) * itemsPerPage + 1} -{" "}

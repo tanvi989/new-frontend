@@ -30,14 +30,14 @@ export function HeroSection() {
               className="flex gap-4 justify-center mt-10"
             >
               <button
-                onClick={goTo("/glasses/men")}
+                onClick={goTo("/glasses?gender=Men")}
                 aria-label="Shop Men's Glasses"
                 className="w-56 px-4 py-3 bg-black text-white text-base lg:text-lg font-semibold rounded-full hover:bg-black transition uppercase tracking-wide"
               >
                 MEN
               </button>
               <button
-                onClick={goTo("/glasses/women")}
+                onClick={goTo("/glasses?gender=Women")}
                 aria-label="Shop Women's Glasses"
                 className="w-56 px-4 py-3 bg-white text-gray-900 text-base lg:text-lg font-semibold rounded-full hover:bg-gray-100 transition uppercase tracking-wide"
               >
@@ -73,7 +73,7 @@ export function HeroSection() {
             <div className="flex gap-3 mt-8">
               {/* You can change these paths to whatever you actually need */}
               <button
-                onClick={goTo("/glasses/men")}
+                onClick={goTo("/glasses?gender=Men")}
                 aria-label="Shop Men's Glasses"
                 className="flex-1 py-3 bg-black text-white text-sm font-semibold rounded-full hover:bg-gray-900 transition uppercase tracking-widest"
               >
@@ -81,7 +81,7 @@ export function HeroSection() {
               </button>
 
               <button
-                onClick={goTo("/glasses/women")}
+                onClick={goTo("/glasses?gender=Women")}
                 aria-label="Shop Women's Glasses"
                 className="flex-1 py-3 bg-white text-gray-900 text-sm font-semibold rounded-full hover:bg-gray-100 transition uppercase tracking-widest"
               >

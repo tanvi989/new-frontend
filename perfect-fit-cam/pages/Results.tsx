@@ -70,8 +70,8 @@ export default function Results() {
           >
             <ArrowLeft className="h-5 w-5 text-black" />
           </Button>
-          <h2 className="text-4xl font-black uppercase tracking-[0.15em] text-black">
-            MFIT
+          <h2 className="text-4xl font-black tracking-[0.15em] text-black">
+            MFit
           </h2>
           <div className="w-10" />
         </div>
