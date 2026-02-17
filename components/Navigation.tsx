@@ -222,13 +222,13 @@ export const Navigation: React.FC = () => {
           className={`w-full max-w-[1480px] px-4 md:px-8 flex items-end justify-between h-[60px] pb-2 relative transition-all duration-300 ${effectiveScrolled ? "" : ""
             }`}
         >
-          {/* Logo Area - smaller on mobile to prevent Login/Signup cropping */}
-          <div className="flex flex-col justify-center h-full w-[90px] sm:w-[120px] md:w-[180px] lg:w-[260px] relative shrink-0 z-50">
-            <a href="/" className="flex items-center gap-2 group pb-1 max-w-full">
+          {/* Logo Area - back to previous size */}
+          <div className="flex flex-col justify-center h-full w-[180px] md:w-[260px] relative shrink-0 z-50">
+            <a href="/" className="flex items-center gap-2 group pb-1">
               <img
                 src="/Multifolks.png"
                 alt="Multifolks logo"
-                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain max-w-full"
+                className="h-14 md:h-16 w-auto object-contain"
               />
             </a>
           </div>
@@ -435,21 +435,21 @@ export const Navigation: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Navigation - Hamburger, Cart, Login buttons - shrink-0 so Login never crops */}
-          <div className="lg:hidden flex items-center gap-1.5 bg-black rounded-full px-3 py-2 shrink-0">
+          {/* Mobile Navigation - compact black pill, smaller so logo stands out */}
+          <div className="lg:hidden flex items-center gap-1 bg-black/90 rounded-full pl-1.5 pr-2 py-1.5 shrink-0">
             {/* Hamburger Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${effectiveScrolled
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors shrink-0 ${effectiveScrolled
                 ? "bg-black text-white hover:bg-gray-800"
                 : "bg-black/80 text-white hover:bg-black"
                 }`}
             >
               {isMobileMenuOpen ? (
                 <svg
-                  width="20"
-                  height="20"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -462,8 +462,8 @@ export const Navigation: React.FC = () => {
                 </svg>
               ) : (
                 <svg
-                  width="20"
-                  height="20"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -480,12 +480,12 @@ export const Navigation: React.FC = () => {
             {/* Cart Button */}
             <button
               onClick={handleCartClick}
-              className={`relative w-10 h-10 rounded-full flex items-center justify-center text-black hover:bg-[#ffb3c0] transition-colors shadow-sm ${effectiveScrolled ? "bg-[#F5C5C6]" : "bg-[#F5C5C6]/90 backdrop-blur-sm"
+              className={`relative w-8 h-8 rounded-full flex items-center justify-center text-black hover:bg-[#ffb3c0] transition-colors shadow-sm shrink-0 ${effectiveScrolled ? "bg-[#F5C5C6]" : "bg-[#F5C5C6]/90 backdrop-blur-sm"
                 }`}
             >
               <svg
-                width="16"
-                height="16"
+                width="14"
+                height="14"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -497,7 +497,7 @@ export const Navigation: React.FC = () => {
                 <circle cx="20" cy="21" r="1"></circle>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
               </svg>
-              <span className="absolute -top-1 -right-1 bg-[#E94D37] text-white text-[9px] font-bold h-4 w-4 flex items-center justify-center rounded-full border border-white shadow-sm">
+              <span className="absolute -top-0.5 -right-0.5 bg-[#E94D37] text-white text-[8px] font-bold h-3.5 w-3.5 min-w-[14px] flex items-center justify-center rounded-full border border-white shadow-sm">
                 {cartItems.length}
               </span>
             </button>
@@ -506,22 +506,22 @@ export const Navigation: React.FC = () => {
             {userLoggedIn ? (
               <button
                 onClick={() => setIsProfileOpen(true)}
-                className={`h-[36px] px-4 rounded-full flex items-center justify-center gap-2 text-[12px] text-black font-bold transition-colors ${effectiveScrolled
+                className={`h-8 px-2.5 rounded-full flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] text-black font-bold transition-colors shrink-0 ${effectiveScrolled
                   ? "bg-[#F3CB0A] hover:bg-white"
                   : "bg-[#F3CB0A]/90 hover:bg-white/90 backdrop-blur-sm"
                   }`}
               >
-                <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center">
-                  <i className="fa-regular fa-user text-xs"></i>
+                <div className="w-5 h-5 rounded-full bg-black/10 flex items-center justify-center shrink-0">
+                  <i className="fa-regular fa-user text-[10px]"></i>
                 </div>
-                <span className="capitalize max-w-[60px] truncate">
+                <span className="capitalize max-w-[48px] truncate">
                   {userName}
                 </span>
               </button>
             ) : (
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className={`h-[36px] px-3 sm:px-4 rounded-full flex items-center justify-center text-[11px] sm:text-xs text-black font-bold transition-colors whitespace-nowrap shrink-0 min-w-[88px] ${effectiveScrolled
+                className={`h-8 px-2.5 sm:px-3 rounded-full flex items-center justify-center text-[10px] sm:text-[11px] text-black font-bold transition-colors whitespace-nowrap shrink-0 ${effectiveScrolled
                   ? "bg-[#F3CB0A] hover:bg-white"
                   : "bg-[#F3CB0A]/90 hover:bg-white/90 backdrop-blur-sm"
                   }`}

@@ -89,8 +89,7 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
   const streamRef = useRef<MediaStream | null>(null);
   /** Keep last valid landmarks so SNAP still works if the current frame momentarily has none */
   const lastLandmarksRef = useRef<any>(null);
-  /** On mobile: only auto-capture after all checks have been passing for this long (ms) */
-  const allChecksStableTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingCaptureRafRef = useRef<number | null>(null);
   const [containerSize, setContainerSize] = useState({ width: 380, height: 420 });
 
   const { speakGuidance, speak, cancel: cancelVoice, currentMessage } = useVoiceGuidance({ enabled: true, debounceMs: 3000 });
@@ -331,25 +330,24 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
   // Auto-capture: same as perfect-fit-cam – only when all checks pass, use that frame’s landmarks (no stale ref)
   useEffect(() => {
     if (!allChecksPassed || isCapturing || capturedImageData || isProcessing || !faceValidationState.landmarks) {
-      if (allChecksStableTimerRef.current) {
-        clearTimeout(allChecksStableTimerRef.current);
-        allChecksStableTimerRef.current = null;
+      if (pendingCaptureRafRef.current != null) {
+        cancelAnimationFrame(pendingCaptureRafRef.current);
+        pendingCaptureRafRef.current = null;
       }
       return;
     }
-    allChecksStableTimerRef.current = setTimeout(() => {
-      allChecksStableTimerRef.current = null;
+    const raf = requestAnimationFrame(() => {
+      pendingCaptureRafRef.current = null;
       if (!videoRef.current?.videoWidth || isCapturing || capturedImageData || isProcessing) return;
       const landmarks = lastLandmarksRef.current ?? faceValidationState.landmarks;
       if (!landmarks) return;
       setIsCapturing(true);
       captureAndProcess(landmarks);
-    }, 300);
+    });
+    pendingCaptureRafRef.current = raf;
     return () => {
-      if (allChecksStableTimerRef.current) {
-        clearTimeout(allChecksStableTimerRef.current);
-        allChecksStableTimerRef.current = null;
-      }
+      if (pendingCaptureRafRef.current != null) cancelAnimationFrame(pendingCaptureRafRef.current);
+      pendingCaptureRafRef.current = null;
     };
   }, [allChecksPassed, isCapturing, capturedImageData, isProcessing, faceValidationState.landmarks, captureAndProcess]);
 
