@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useCaptureData } from '@/contexts/CaptureContext';
 import { AlertCircle, Loader2 } from 'lucide-react';
@@ -78,8 +78,12 @@ const FIXED_100_ADJUSTMENTS: AdjustmentValues = { offsetX: 0, offsetY: 0, scaleA
 /** AI eye-aligned position: frame placed using detected eyes/landmarks (no manual offset). */
 const AI_ALIGN_ADJUSTMENTS: AdjustmentValues = { offsetX: 0, offsetY: 0, scaleAdjust: 1, rotationAdjust: 0 };
 
+/** Mobile: full-width frame after align (150%) */
+const MOBILE_ALIGN_SCALE = 1.5;
+
 export function MeasurementsTab({ onViewMeasurements, previewWidth = 384, previewHeight = 332, compactLayout = false, hideFrameAlignment = false, hideSizeControl = false }: MeasurementsTabProps = {}) {
   const { capturedData, setCapturedData } = useCaptureData();
+  const hasAutoAlignedRef = useRef(false);
   const [adjustments, setAdjustments] = useState<AdjustmentValues>(() => {
     const base = hideFrameAlignment
       ? { ...FIXED_100_ADJUSTMENTS }
@@ -92,6 +96,51 @@ export function MeasurementsTab({ onViewMeasurements, previewWidth = 384, previe
   const [testProduct, setTestProduct] = useState<{ dimensions?: string; name: string } | null>(null);
   const [showMeasurementConfirm, setShowMeasurementConfirm] = useState(false);
   const [isAligning, setIsAligning] = useState(false);
+
+  /** Default apply align on both desktop and mobile when MeasurementsTab mounts with capturedData */
+  const handleAlignToEyes = useCallback(async () => {
+    if (!capturedData?.processedImageDataUrl || isAligning) return;
+    setIsAligning(true);
+    try {
+      const newLandmarks = await detectLandmarksFromImage(capturedData.processedImageDataUrl);
+      if (!newLandmarks) {
+        toast.error('Could not detect eyes. Try a clearer photo or click Align again.');
+        return;
+      }
+      const scaleForAlign = hideSizeControl ? 1 : (compactLayout ? MOBILE_ALIGN_SCALE : 1);
+      const alignValues: AdjustmentValues = {
+        ...AI_ALIGN_ADJUSTMENTS,
+        scaleAdjust: scaleForAlign,
+      };
+      setAdjustments(alignValues);
+      const updated = {
+        ...capturedData,
+        landmarks: newLandmarks,
+        cropRect: undefined,
+        frameAdjustments: {
+          offsetX: alignValues.offsetX,
+          offsetY: alignValues.offsetY,
+          scaleAdjust: alignValues.scaleAdjust,
+          rotationAdjust: alignValues.rotationAdjust,
+        },
+      };
+      setCapturedData(updated);
+      saveCaptureSession(updated);
+      toast.success('Frame aligned to eyes');
+    } catch (e) {
+      console.error('Align to eyes failed:', e);
+      toast.error('Alignment failed. Try again.');
+    } finally {
+      setIsAligning(false);
+    }
+  }, [capturedData, setCapturedData, hideSizeControl, compactLayout, isAligning]);
+
+  /** Auto-run align once on mount when we have capturedData (default apply on desktop and mobile) */
+  useEffect(() => {
+    if (!capturedData?.processedImageDataUrl || hasAutoAlignedRef.current || hideFrameAlignment) return;
+    hasAutoAlignedRef.current = true;
+    handleAlignToEyes();
+  }, [capturedData?.processedImageDataUrl, hideFrameAlignment, handleAlignToEyes]);
 
   useEffect(() => {
     let cancelled = false;
@@ -145,40 +194,6 @@ export function MeasurementsTab({ onViewMeasurements, previewWidth = 384, previe
       });
     }
   }, [capturedData, setCapturedData, hideSizeControl]);
-
-  /** Align frame to eyes: run MediaPipe on the displayed image for accurate pupil/eye detection, then place frame. */
-  const handleAlignToEyes = useCallback(async () => {
-    if (!capturedData?.processedImageDataUrl || isAligning) return;
-    setIsAligning(true);
-    try {
-      const newLandmarks = await detectLandmarksFromImage(capturedData.processedImageDataUrl);
-      if (!newLandmarks) {
-        toast.error('Could not detect eyes. Try a clearer photo or click Align again.');
-        return;
-      }
-      const alignValues = { ...AI_ALIGN_ADJUSTMENTS, ...(hideSizeControl ? { scaleAdjust: 1 } : {}) };
-      setAdjustments(alignValues);
-      const updated = {
-        ...capturedData,
-        landmarks: newLandmarks,
-        cropRect: undefined,
-        frameAdjustments: {
-          offsetX: alignValues.offsetX,
-          offsetY: alignValues.offsetY,
-          scaleAdjust: alignValues.scaleAdjust,
-          rotationAdjust: alignValues.rotationAdjust,
-        },
-      };
-      setCapturedData(updated);
-      saveCaptureSession(updated);
-      toast.success('Frame aligned to eyes');
-    } catch (e) {
-      console.error('Align to eyes failed:', e);
-      toast.error('Alignment failed. Try again.');
-    } finally {
-      setIsAligning(false);
-    }
-  }, [capturedData, setCapturedData, hideSizeControl, isAligning]);
 
   const handleViewMeasurementsClick = useCallback(() => {
     if (!onViewMeasurements) return;
