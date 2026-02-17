@@ -222,13 +222,13 @@ export const Navigation: React.FC = () => {
           className={`w-full max-w-[1480px] px-4 md:px-8 flex items-end justify-between h-[60px] pb-2 relative transition-all duration-300 ${effectiveScrolled ? "" : ""
             }`}
         >
-          {/* Logo Area */}
-          <div className="flex flex-col justify-center h-full w-[180px] md:w-[260px] relative shrink-0 z-50">
-            <a href="/" className="flex items-center gap-2 group pb-1">
+          {/* Logo Area - smaller on mobile to prevent Login/Signup cropping */}
+          <div className="flex flex-col justify-center h-full w-[90px] sm:w-[120px] md:w-[180px] lg:w-[260px] relative shrink-0 z-50">
+            <a href="/" className="flex items-center gap-2 group pb-1 max-w-full">
               <img
                 src="/Multifolks.png"
                 alt="Multifolks logo"
-                className="h-14 md:h-16 w-auto object-contain"
+                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain max-w-full"
               />
             </a>
           </div>
@@ -435,8 +435,8 @@ export const Navigation: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Navigation - Hamburger, Cart, Login buttons */}
-          <div className="lg:hidden flex items-center gap-1.5 bg-black rounded-full px-4 py-2">
+          {/* Mobile Navigation - Hamburger, Cart, Login buttons - shrink-0 so Login never crops */}
+          <div className="lg:hidden flex items-center gap-1.5 bg-black rounded-full px-3 py-2 shrink-0">
             {/* Hamburger Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -521,12 +521,12 @@ export const Navigation: React.FC = () => {
             ) : (
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className={`h-[36px] px-3 sm:px-4 rounded-full flex items-center justify-center text-[11px] sm:text-xs text-black font-bold transition-colors whitespace-nowrap min-w-0 ${effectiveScrolled
+                className={`h-[36px] px-3 sm:px-4 rounded-full flex items-center justify-center text-[11px] sm:text-xs text-black font-bold transition-colors whitespace-nowrap shrink-0 min-w-[88px] ${effectiveScrolled
                   ? "bg-[#F3CB0A] hover:bg-white"
                   : "bg-[#F3CB0A]/90 hover:bg-white/90 backdrop-blur-sm"
                   }`}
               >
-       Login / Sign Up
+                Login / Sign Up
               </button>
             )}
           </div>

@@ -1012,11 +1012,9 @@ const handleTopMfitToggle = () => {
             <div className="flex items-center gap-3">
               {fitEnabled && (
                 <>
-                  {!mobileLayout && (
-                    <span className="text-xs font-bold text-[#D96C47] uppercase tracking-wider">
-                      MFit Top Matches{` (${topMfitProducts.length})`}
-                    </span>
-                  )}
+                  <span className="text-xs font-bold text-[#D96C47] uppercase tracking-wider">
+                    MFit top matches ({topMfitProducts.length})
+                  </span>
                   <button
                     type="button"
                     role="switch"

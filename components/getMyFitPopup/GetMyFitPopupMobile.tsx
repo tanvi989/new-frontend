@@ -344,7 +344,7 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
       if (!landmarks) return;
       setIsCapturing(true);
       captureAndProcess(landmarks);
-    }, 1000);
+    }, 300);
     return () => {
       if (allChecksStableTimerRef.current) {
         clearTimeout(allChecksStableTimerRef.current);
