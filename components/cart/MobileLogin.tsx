@@ -215,7 +215,7 @@ export const MobileLogin: React.FC<MobileLoginProps> = ({
                             ) : step === "email" ? (
                                 <div className="text-center">
                                     <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-2 leading-tight">
-                                     Login / SignUp
+                                     Login/SignUp
                                     </h2>
                                     <p className="text-[#757575] text-[15px] leading-snug font-medium mb-10 px-4">
                                         To place an order and get your favourite eyewear at your doorstep.

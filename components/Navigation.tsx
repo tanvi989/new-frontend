@@ -211,7 +211,7 @@ export const Navigation: React.FC = () => {
   return (
     <>
       <header
-        className={`w-full h-[120px] flex items-center justify-center fixed top-0 left-0 right-0 z-50 font-sans transition-all duration-300 overflow-visible ${effectiveScrolled || isMobileMenuOpen ? "bg-white" : "bg-transparent"
+        className={`w-full h-[90px] flex items-center justify-center fixed top-0 left-0 right-0 z-50 font-sans transition-all duration-300 overflow-visible ${effectiveScrolled || isMobileMenuOpen ? "bg-white" : "bg-transparent"
           }`}
         style={{
           transform: "translateZ(0)",
@@ -223,7 +223,7 @@ export const Navigation: React.FC = () => {
             }`}
         >
           {/* Logo Area - back to previous size */}
-          <div className="flex flex-col justify-center h-full w-[180px] md:w-[260px] relative shrink-0 z-50">
+         <div className="flex flex-col justify-center h-full w-auto md:w-[260px] relative shrink-0 z-50">
             <a href="/" className="flex items-center gap-2 group pb-1">
               <img
                 src="/Multifolks.png"
@@ -429,7 +429,7 @@ export const Navigation: React.FC = () => {
                     : "bg-[#F3CB0A]/90 hover:bg-white/90 backdrop-blur-sm"
                     }`}
                 >
-                 Login / Sign Up
+                 Login / SignUp
                 </button>
               )}
             </div>
@@ -526,7 +526,7 @@ export const Navigation: React.FC = () => {
                   : "bg-[#F3CB0A]/90 hover:bg-white/90 backdrop-blur-sm"
                   }`}
               >
-                Login / Sign Up
+                Login/SignUp
               </button>
             )}
           </div>
