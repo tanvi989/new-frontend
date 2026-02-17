@@ -140,10 +140,9 @@ export function VtoProductOverlay({
       const centerOffsetX = (containerSize.width - drawnWidth) / 2;
       displayX -= centerOffsetX;
     }
-    // Larger frame on small containers (mobile / glasses-m): 150% for glasses-m (imagePosition left), 120% for other mobile
-    const scaleBoost = containerSize.width > 0 && containerSize.width < 400
-      ? (imagePosition === 'left' ? 1.5 : 1.2)
-      : 1;
+    // Mobile only (container < 400px): fixed 133% scale to match Get My Fit popup and /glasses-m. Desktop unchanged.
+    const isMobileContainer = containerSize.width > 0 && containerSize.width < 400;
+    const scaleBoost = isMobileContainer ? 1.33 : 1;
     const finalScale = transform.scaleFactor * adj.scaleAdjust * scaleBoost;
     const finalRotation = transform.angleRad + (adj.rotationAdjust * Math.PI) / 180;
     return {

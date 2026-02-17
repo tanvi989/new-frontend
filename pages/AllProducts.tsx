@@ -1210,8 +1210,8 @@ const handleTopMfitToggle = () => {
             );
           })()}
 
-          {/* Product Grid - Multifolks Style - Fixed Spacing */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 pt-16 sm:pt-4">
+          {/* Product Grid - Multifolks Style - Fixed Spacing. When mobileLayout + VTO, use 1 col so 280x231 VTO container fits (matches Get My Fit popup). */}
+          <div className={`grid pt-16 sm:pt-4 ${fitEnabled && captureSession && mobileLayout ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-3'}`}>
             {paginatedProducts
               .map((product: any, index: number) => (
                 <div
@@ -1225,19 +1225,19 @@ const handleTopMfitToggle = () => {
                 >
                   <div className="relative p-0 bg-[#F7F7F7] overflow-hidden">
 
-                    {/* Image Container - same fixed size as VTO preview (popup Step 4): 384x332 desktop, 280x231 mobile (glasses-m) so frame alignment matches */}
+                    {/* Image Container - same fixed size as VTO preview (popup Step 4): 384x332 desktop, fixed 280x231 mobile (glasses-m) so frame alignment matches exactly */}
                     <div
                       className={`p-0 bg-[#F7F7F7] flex relative rounded overflow-hidden ${
                         fitEnabled && captureSession
                           ? mobileLayout
-                            ? ''
+                            ? 'mx-auto shrink-0'
                             : 'mx-auto'
                           : 'aspect-[1.4]'
                       }`}
                       style={
                         fitEnabled && captureSession
                           ? mobileLayout
-                            ? { width: '100%', maxWidth: 280, height: 231 }
+                            ? { width: 280, height: 231 }
                             : { width: '100%', maxWidth: 384, height: 332 }
                           : undefined
                       }
@@ -1282,7 +1282,7 @@ const handleTopMfitToggle = () => {
                           productSkuid={product.skuid}
                           productDimensions={product.dimensions}
                           productName={product.name}
-                          imagePosition={mobileLayout ? 'left' : 'center'}
+                          imagePosition="center"
                         />
                       ) : (
                         <>

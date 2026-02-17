@@ -78,8 +78,8 @@ const FIXED_100_ADJUSTMENTS: AdjustmentValues = { offsetX: 0, offsetY: 0, scaleA
 /** AI eye-aligned position: frame placed using detected eyes/landmarks (no manual offset). */
 const AI_ALIGN_ADJUSTMENTS: AdjustmentValues = { offsetX: 0, offsetY: 0, scaleAdjust: 1, rotationAdjust: 0 };
 
-/** Mobile: full-width frame after align (150%) */
-const MOBILE_ALIGN_SCALE = 1.5;
+/** Mobile: fixed frame scale after align (133%) – matches Get My Fit popup & /glasses-m */
+const MOBILE_ALIGN_SCALE = 1.33;
 
 export function MeasurementsTab({ onViewMeasurements, previewWidth = 384, previewHeight = 332, compactLayout = false, hideFrameAlignment = false, hideSizeControl = false }: MeasurementsTabProps = {}) {
   const { capturedData, setCapturedData } = useCaptureData();
