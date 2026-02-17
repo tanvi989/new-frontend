@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
 import { CaptureProvider } from './contexts/CaptureContext';
 import { Routes, Route, useLocation } from 'react-router-dom';
@@ -101,6 +101,24 @@ import PerfectFitNotFound from './perfect-fit-cam/pages/NotFound';
 
 const App: React.FC = () => {
   const location = useLocation();
+
+  // Load CookieYes consent banner
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.id = 'cookieyes';
+    script.type = 'text/javascript';
+    script.src = 'https://cdn-cookieyes.com/client_data/867ace6bea3c3f55f9168cd1838d01d8/script.js';
+    
+    document.head.appendChild(script);
+    
+    return () => {
+      // Cleanup on unmount
+      const existingScript = document.getElementById('cookieyes');
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, []);
 
   // Define routes that should NOT use the default Navigation/Footer logic
   const isLayoutRoute = [

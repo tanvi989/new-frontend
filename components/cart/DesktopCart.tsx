@@ -915,7 +915,7 @@ const DesktopCart: React.FC = () => {
         return sizeUpper; // Return as-is if already formatted
     };
 
-    // Helper function to get lens type display
+ // Helper function to get lens type display
     const getLensTypeDisplay = (item: CartItem): string => {
         const itemAny = item as any;
         const lensAny = item.lens as any;
@@ -923,43 +923,58 @@ const DesktopCart: React.FC = () => {
         // Check override first (this is where frontend stores the selected lens category and tier)
         const override = getCartLensOverride(item.cart_id);
 
-        // Use override mainCategory if available, otherwise use backend main_category
-        const mainCategory = override?.mainCategory || item.lens?.main_category || "";
-
-        // DEBUG: Log the lens data to see what we're working with
+        // DEBUG: Log the data
         console.log("🔍 DEBUG getLensTypeDisplay:", {
             cart_id: item.cart_id,
+            override_prescriptionTier: override?.prescriptionTier,
+            override_lensType: override?.lensType,
+            override_lensCategory: override?.lensCategory,
             override_mainCategory: override?.mainCategory,
             backend_main_category: item.lens?.main_category,
-            final_mainCategory: mainCategory,
-            override_lensCategory: override?.lensCategory,
-            lens_category: lensAny?.lens_category,
-            lensCategory: itemAny?.lensCategory,
-            sub_category: lensAny?.sub_category,
-            full_override: override,
-            full_lens: lensAny,
-            full_item: itemAny
         });
 
-        // Extract prescription tier from main_category (and override.lensType for single vision)
+        // Get tier - Check prescriptionTier from override FIRST (most accurate)
         let tier = "";
-        const mainCategoryLower = (mainCategory || "").toLowerCase();
-        if (override?.lensType === "single" || mainCategoryLower.includes("single vision")) {
+        
+        // 1. Check lensType for single vision/bifocal
+        if (override?.lensType === "single") {
             tier = "Single Vision";
-        } else if (mainCategoryLower.includes("premium progressive")) {
-            tier = "Premium Progressive";
-        } else if (mainCategoryLower.includes("standard progressive")) {
-            tier = "Standard Progressive";
-        } else if (mainCategoryLower.includes("bifocal")) {
+        } else if (override?.lensType === "bifocal") {
             tier = "Bifocal";
-        } else if (mainCategoryLower.includes("advanced progressive")) {
-            tier = "Advanced Progressive";
-        } else if (mainCategoryLower.includes("precision progressive")) {
-            tier = "Precision Progressive";
-        } else if (mainCategoryLower.includes("progressive")) {
-            tier = "Progressive";
-        } else {
-            tier = mainCategory || "Progressive";
+        } 
+        // 2. For progressive, check prescriptionTier
+        else if (override?.lensType === "progressive" && override?.prescriptionTier) {
+            const prescriptionTier = override.prescriptionTier.toLowerCase();
+            if (prescriptionTier === "precision") {
+                tier = "Precision+ Progressive";
+            } else if (prescriptionTier === "advanced") {
+                tier = "Advanced Progressive";
+            } else if (prescriptionTier === "standard") {
+                tier = "Standard Progressive";
+            } else {
+                tier = "Progressive";
+            }
+        }
+        // 3. Fallback to parsing mainCategory
+        else {
+            const mainCategory = override?.mainCategory || item.lens?.main_category || "";
+            const mainCategoryLower = mainCategory.toLowerCase();
+            
+            if (mainCategoryLower.includes("single vision")) {
+                tier = "Single Vision";
+            } else if (mainCategoryLower.includes("precision progressive")) {
+                tier = "Precision+ Progressive";
+            } else if (mainCategoryLower.includes("advanced progressive") || mainCategoryLower.includes("premium progressive")) {
+                tier = "Advanced Progressive";
+            } else if (mainCategoryLower.includes("standard progressive")) {
+                tier = "Standard Progressive";
+            } else if (mainCategoryLower.includes("bifocal")) {
+                tier = "Bifocal";
+            } else if (mainCategoryLower.includes("progressive")) {
+                tier = "Progressive";
+            } else {
+                tier = mainCategory || "Progressive";
+            }
         }
 
         // Get lens category - check override first, then backend fields
@@ -1121,7 +1136,7 @@ const DesktopCart: React.FC = () => {
                             <div className="flex-1">
                                 {/* Satisfaction Banner */}
                                 <div className="bg-[#f3f3f3] text-[#2E7D32] px-4 py-3 rounded-md text-center font-bold text-sm mb-6 border border-[#C8E6C9]">
-                                    Satisfaction Guaranteed - Hassle Free 30 Days Refunds.
+                                    aSatisfaction Guaranteed - Hassle Free 30 Days Refunds.
                                 </div>
 
                                 <div className="space-y-6">

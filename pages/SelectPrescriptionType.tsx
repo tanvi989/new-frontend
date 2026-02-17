@@ -75,6 +75,14 @@ const SelectPrescriptionType: React.FC = () => {
     });
   };
 
+  // Helper function to get the page title based on state
+  const getPageTitle = () => {
+    if (expanded && selectedType === "progressive") {
+      return "SELECT PROGRESSIVE TYPE";
+    }
+    return "SELECT MULTIFOCAL TYPE";
+  };
+
   return (
     <div className="min-h-screen bg-[#F3F0E7] font-sans py-8 px-4 md:px-8 mt-0 pb-20 md:pb-8">
       {/* Desktop Stepper */}
@@ -86,7 +94,7 @@ const SelectPrescriptionType: React.FC = () => {
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between border-b border-black py-2 mb-6">
           <p className="text-lg font-medium text-[#1F1F1F] uppercase tracking-[0.1em]">
-            SELECT LENS TYPE
+            {getPageTitle()}
           </p>
           <button
             onClick={() => {
@@ -110,7 +118,7 @@ const SelectPrescriptionType: React.FC = () => {
         {/* Desktop Header */}
         <div className="hidden md:block text-center mb-6">
           <p className="text-2xl font-medium text-[#1F1F1F] uppercase tracking-[0.1em]">
-            SELECT LENS TYPE
+            {getPageTitle()}
           </p>
         </div>
 
@@ -320,9 +328,9 @@ const SelectPrescriptionType: React.FC = () => {
                     <div className="text-sm text-[#1F1F1F] space-y-1 md:space-y-1.5 flex-1">
                       <p>• Highest clarity across distances</p>
                       <p>• Fastest, seamless visual transitions</p>
-                      <p>• Premium optics, maximum comfort</p>
                       <p>• Works with all frame styles</p>
                       <p>• For living life fully, without limits</p>
+                        <p><b>• Price starting from £59</b></p>
                     </div>
                   </div>
                 </div>
@@ -377,7 +385,7 @@ const SelectPrescriptionType: React.FC = () => {
                       <p>• Clear near to mid vision</p>
                       <p>• Comfortable digital viewing</p>
                       <p>• Works with all frame styles</p>
-                      <p>• Fastest, easiest to adapt</p>
+                      <p><b>• Price starting from £39 </b></p>
                     </div>
                   </div>
                 </div>

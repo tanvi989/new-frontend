@@ -197,6 +197,33 @@ const SelectLensType: React.FC = () => {
     colors: [],
   };
 
+  // Helper function to get lens type display text
+  const getLensTypeText = () => {
+    const lensType = state?.lensType;
+    const tier = state?.prescriptionTier;
+    
+    if (lensType === "progressive" && tier) {
+      // Map tier to display name
+      const tierMap: { [key: string]: string } = {
+        precision: "Precision+ Options",
+        advanced: "Advanced Options",
+        standard: "Standard Options"
+      };
+      return `Progressive - ${tierMap[tier] || tier}`;
+    }
+    
+    switch (lensType) {
+      case "single":
+        return "Single Vision";
+      case "bifocal":
+        return "Bifocal";
+      case "progressive":
+        return "Progressive";
+      default:
+        return "Multifocal";
+    }
+  };
+
   const getPrescriptionTypeLabel = () => {
     const tier = state?.prescriptionTier;
     if (tier === "advanced") return "Premium Progressive";
@@ -514,7 +541,7 @@ const SelectLensType: React.FC = () => {
         <CheckoutStepper
           currentStep={4}
           selections={{
-            2: "Bifocal/Progressive Eyeglasses",
+            2: `${getLensTypeText()} Eyeglasses`,
             3: "Prescription Details",
           }}
         />

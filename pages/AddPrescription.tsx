@@ -36,8 +36,14 @@ const AddPrescription: React.FC = () => {
     const [isUploading, setIsUploading] = useState(false); // New loading state
 
     // PD State (can be pre-filled from SelectPrescriptionSource when user chose "I know my PD")
-    const [pdPreference, setPdPreference] = useState<string>(() => locationState?.pdPreference ?? "");
-    const [pdType, setPdType] = useState<string>(() => locationState?.pdType ?? flow?.pdType ?? "single");
+    const [pdPreference, setPdPreference] = useState<"" | "know" | "generate">(() => {
+        const pref = locationState?.pdPreference;
+        return pref === "know" || pref === "generate" ? pref : "";
+    });
+    const [pdType, setPdType] = useState<"single" | "dual">(() => {
+        const type = locationState?.pdType ?? flow?.pdType;
+        return type === "dual" ? "dual" : "single";
+    });
     const [pdSingle, setPdSingle] = useState<string>(() => locationState?.pdSingle ?? flow?.pdSingle ?? "");
     const [pdRight, setPdRight] = useState<string>(() => locationState?.pdRight ?? flow?.pdRight ?? "");
     const [pdLeft, setPdLeft] = useState<string>(() => locationState?.pdLeft ?? flow?.pdLeft ?? "");
@@ -113,6 +119,33 @@ const AddPrescription: React.FC = () => {
         }
         
         return closest;
+    };
+
+    // Helper function to get lens type display text
+    const getLensTypeText = () => {
+        const lensType = state?.lensType;
+        const tier = state?.prescriptionTier;
+        
+        if (lensType === "progressive" && tier) {
+            // Map tier to display name
+            const tierMap: { [key: string]: string } = {
+                precision: "Precision+ Options",
+                advanced: "Advanced Options",
+                standard: "Standard Options"
+            };
+            return `Progressive - ${tierMap[tier] || tier}`;
+        }
+        
+        switch (lensType) {
+            case "single":
+                return "Single Vision";
+            case "bifocal":
+                return "Bifocal";
+            case "progressive":
+                return "Progressive";
+            default:
+                return "Multifocal";
+        }
     };
 
     const handleSelection = (
@@ -412,7 +445,7 @@ const AddPrescription: React.FC = () => {
                 <CheckoutStepper
                     currentStep={3}
                     selections={{
-                        2: "Bifocal/Progressive Eyeglasses",
+                        2: `${getLensTypeText()} Eyeglasses`,
                     }}
                 />
             </div>

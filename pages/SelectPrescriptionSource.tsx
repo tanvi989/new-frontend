@@ -240,6 +240,33 @@ const SelectPrescriptionSource: React.FC = () => {
     }
   };
 
+  // Helper function to get lens type display text
+  const getLensTypeText = () => {
+    const lensType = state?.lensType;
+    const tier = state?.prescriptionTier;
+    
+    if (lensType === "progressive" && tier) {
+      // Map tier to display name
+      const tierMap: { [key: string]: string } = {
+        precision: "Precision+ Options",
+        advanced: "Advanced Options",
+        standard: "Standard Options"
+      };
+      return `Progressive - ${tierMap[tier] || tier}`;
+    }
+    
+    switch (lensType) {
+      case "single":
+        return "Single Vision";
+      case "bifocal":
+        return "Bifocal";
+      case "progressive":
+        return "Progressive";
+      default:
+        return "Multifocal";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F3F0E7] font-sans py-8 px-4 md:px-8 relative">
       {/* TOP HEADER STRIP (Stepper) */}
@@ -247,7 +274,7 @@ const SelectPrescriptionSource: React.FC = () => {
         <CheckoutStepper
           currentStep={3}
           selections={{
-            2: "Bifocal/Progressive Eyeglasses",
+            2: `${getLensTypeText()} Eyeglasses`,
           }}
         />
       </div>
@@ -258,7 +285,7 @@ const SelectPrescriptionSource: React.FC = () => {
           {/* Desktop Title */}
           <div className="hidden md:flex items-center justify-center gap-2">
             <p className="text-xl md:text-2xl font-medium text-[#1F1F1F] uppercase tracking-[0.1em]">
-              Select a Pupillary Distance (PD) Option
+              Select a Pupillary Distance (PD) Option 
             </p>
             <HelpButton onClick={() => openHelp("Pupillary Distance")} />
           </div>
@@ -270,7 +297,7 @@ const SelectPrescriptionSource: React.FC = () => {
           <div className="md:hidden flex items-center justify-between border-b border-black pb-4 -mx-4 px-4 bg-[#F3F0E7]">
             <div className="flex items-center gap-2 min-w-0 flex-1">
               <p className="text-[18px] font-medium text-[#1F1F1F] uppercase tracking-[0.1em] truncate">
-                Select a Pupillary Distance (PD) Option
+                PD Option - {getLensTypeText()}
               </p>
               <HelpButton onClick={() => openHelp("Pupillary Distance")} />
             </div>

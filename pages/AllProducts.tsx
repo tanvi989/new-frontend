@@ -705,10 +705,16 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
     }
   };
 
-  const handleTopMfitToggle = () => {
-    if (!topMfitEnabled && !captureSession?.measurements?.face_width) return; // need face width
-    setTopMfitEnabled((prev) => !prev);
-  };
+const handleTopMfitToggle = () => {
+  if (!topMfitEnabled && !captureSession?.measurements?.face_width) return; // need face width
+  const newTopMfitState = !topMfitEnabled;
+  setTopMfitEnabled(newTopMfitState);
+  
+  // If turning OFF Top Matches, also turn OFF MFit
+  if (!newTopMfitState) {
+    setFitEnabled(false);
+  }
+};
 
   // Get capture session for VTO product display (merge live frame adjustments)
   const captureSession = fitEnabled && captureSessionState
@@ -726,7 +732,6 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
   /** Frame width range for MFit Top Matches: face−6 to face+15 mm (e.g. face 120 → 114–135 mm) */
   const FRAME_WIDTH_MIN_OFFSET_MM = -6; // frame can be 6mm smaller than face
   const FRAME_WIDTH_MAX_OFFSET_MM = 15; // frame can be 15mm bigger than face
-  const TOP_M_FIT_LIMIT = 200; // show more than 50
 
   // Products whose frame width is in range [faceWidth−6, faceWidth+15] mm, sorted by closest match.
   // Use CSV frame width (getFrameWidth) first, then API dimensions string. Use gender-filtered list.
@@ -743,8 +748,8 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
         withWidth.push({ product: p, width: frameWidth });
       }
     }
-    withWidth.sort((a, b) => Math.abs(a.width - faceWidthMm) - Math.abs(b.width - faceWidthMm));
-    return withWidth.slice(0, TOP_M_FIT_LIMIT).map(({ product }) => product);
+ withWidth.sort((a, b) => Math.abs(a.width - faceWidthMm) - Math.abs(b.width - faceWidthMm));
+    return withWidth.map(({ product }) => product);
   }, [captureSession?.measurements?.face_width, allProductsFilteredByGender]);
 
   const filteredAndSortedProducts = useMemo(() => {
@@ -849,17 +854,26 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
           <span className="font-semibold text-xs uppercase tracking-wider">Back</span>
         </button>
       </div> */}
-
-      {/* --- Shop Our Range Banner --- */}
-      <div className={`w-full max-w-[1200px] mx-auto mb-0 md:mb-8 px-0 md:px-4 ${mobileLayout ? 'overflow-hidden' : ''}`}>
-        <img
-          src="/men-collection-banner.png"
-          alt="Shop Our Range"
-          className={`w-full h-auto ${mobileLayout ? 'object-contain max-w-full' : 'object-cover md:object-contain scale-110 md:scale-100'}`}
-        />
-      </div>
-
-
+{/* --- Shop Our Range Banner --- */}
+{/* --- Shop Our Range Banner --- */}
+<div className="w-full mx-auto mb-0 md:mb-8 px-0 overflow-hidden">
+  {/* Mobile Banner */}
+  <div className="block lg:hidden w-full h-[200px] sm:h-[250px]">
+    <img
+      src="/glasses _mobile.jpg"
+      alt="Shop Our Range"
+      className="w-full h-full object-cover"
+    />
+  </div>
+  {/* Desktop Banner */}
+  <div className="hidden lg:block w-full h-[500px] xl:h-[500px]">
+    <img
+      src="/glasses_desktop.jpg"
+      alt="Shop Our Range"
+      className="w-full h-full object-cover"
+    />
+  </div>
+</div>
       {/* Gender Filter Tabs */}
       {/* <div className="max-w-[1600px] mx-auto px-4 md:px-8 mb-6">
         <div className="flex gap-3 justify-center">

@@ -50,6 +50,19 @@ const CoatingInfoModal: React.FC<CoatingInfoModalProps> = ({ isOpen, onClose, in
         }
     ];
 
+    // Cumulative inclusion map:
+    // Anti-Reflective tab  → Anti-Reflective ✓
+    // Water-Resistant tab  → Anti-Reflective ✓, Water-Resistant ✓
+    // Oil-Resistant tab    → Anti-Reflective ✓, Water-Resistant ✓, Oil-Resistant ✓
+    const isCoatingIncluded = (coatingId: string): boolean => {
+        const inclusionMap: Record<string, string[]> = {
+            'anti-reflective': ['anti-reflective'],
+            'water-resistant': ['anti-reflective', 'water-resistant'],
+            'oil-resistant':   ['anti-reflective', 'water-resistant', 'oil-resistant'],
+        };
+        return inclusionMap[activeTab]?.includes(coatingId) ?? false;
+    };
+
     return (
         <div className="fixed inset-0 w-screen h-screen bg-black/50 z-[9999] flex items-center justify-center animate-in fade-in duration-200">
             <div
@@ -116,27 +129,30 @@ const CoatingInfoModal: React.FC<CoatingInfoModalProps> = ({ isOpen, onClose, in
                             <div className="inc-div mb-6 md:mb-8">
                                 <h6 className="text-center font-bold text-red-600 uppercase tracking-wider text-sm md:text-base mb-6 md:mb-8">INCLUDED</h6>
                                 <div className="row flex justify-between gap-2 md:gap-4">
-                                    {coatingIcons.map(coating => (
-                                        <div key={coating.id} className="flex-1">
-                                            <div className="icon_wrapper text-center">
-                                                <div className="icon_wrap mb-2 md:mb-4">
-                                                    <img 
-                                                        src={coating.image} 
-                                                        alt={coating.label}
-                                                        className="mx-auto h-10 md:h-16 lg:h-20 max-w-full"
-                                                    />
-                                                </div>
-                                                <div className="text_wrap">
-                                                    <p className="text-xs md:text-sm font-bold mb-1 md:mb-2">{coating.label}</p>
-                                                    <div className={`tick2 ${activeTab === coating.id ? 'active' : ''}`} data-id={coating.id}>
-                                                        <span className="d-flex flex justify-center">
-                                                            <i className={`fa ${activeTab === coating.id ? 'fa-check' : 'fa-times'} text-lg md:text-2xl ${activeTab === coating.id ? 'text-green-500' : 'text-gray-300'}`}></i>
-                                                        </span>
+                                    {coatingIcons.map(coating => {
+                                        const included = isCoatingIncluded(coating.id);
+                                        return (
+                                            <div key={coating.id} className="flex-1">
+                                                <div className="icon_wrapper text-center">
+                                                    <div className="icon_wrap mb-2 md:mb-4">
+                                                        <img 
+                                                            src={coating.image} 
+                                                            alt={coating.label}
+                                                            className="mx-auto h-10 md:h-16 lg:h-20 max-w-full"
+                                                        />
+                                                    </div>
+                                                    <div className="text_wrap">
+                                                        <p className="text-xs md:text-sm font-bold mb-1 md:mb-2">{coating.label}</p>
+                                                        <div className={`tick2 ${included ? 'active' : ''}`} data-id={coating.id}>
+                                                            <span className="d-flex flex justify-center">
+                                                                <i className={`fa ${included ? 'fa-check' : 'fa-times'} text-lg md:text-2xl ${included ? 'text-green-500' : 'text-gray-300'}`}></i>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>

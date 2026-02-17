@@ -1,4 +1,3 @@
-
 // export default SelectLensCoatings;
 import React, { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -53,6 +52,33 @@ const SelectLensCoatings: React.FC = () => {
     if (tier === "advanced") return "PREMIUM PROGRESSIVE EYEGLASSES";
     if (tier === "standard") return "STANDARD PROGRESSIVE EYEGLASSES";
     return "BIFOCAL/PROGRESSIVE EYEGLASSES";
+  };
+
+  // Helper function to get lens type display text for stepper
+  const getLensTypeText = () => {
+    const lensType = state?.lensType;
+    const tier = state?.prescriptionTier;
+    
+    if (lensType === "progressive" && tier) {
+      // Map tier to display name
+      const tierMap: { [key: string]: string } = {
+        precision: "Precision+ Options",
+        advanced: "Advanced Options",
+        standard: "Standard Options"
+      };
+      return `Progressive - ${tierMap[tier] || tier}`;
+    }
+    
+    switch (lensType) {
+      case "single":
+        return "Single Vision";
+      case "bifocal":
+        return "Bifocal";
+      case "progressive":
+        return "Progressive";
+      default:
+        return "Multifocal";
+    }
   };
 
   const product = state?.product || (apiProduct ? {
@@ -354,7 +380,7 @@ const SelectLensCoatings: React.FC = () => {
       <CheckoutStepper
         currentStep={4}
         selections={{
-          2: "Bifocal/Progressive Eyeglasses",
+          2: `${getLensTypeText()} Eyeglasses`,
           3: "Prescription Details",
         }}
       />

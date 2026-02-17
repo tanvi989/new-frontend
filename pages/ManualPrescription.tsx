@@ -222,6 +222,32 @@ const ManualPrescription: React.FC = () => {
     }),
   });
 
+  // Helper function to get lens type display text
+  const getLensTypeText = () => {
+    const lensType = state?.lensType;
+    const tier = state?.prescriptionTier;
+    
+    if (lensType === "progressive" && tier) {
+      // Map tier to display name
+      const tierMap: { [key: string]: string } = {
+        precision: "Precision+ Options",
+        advanced: "Advanced Options",
+        standard: "Standard Options"
+      };
+      return `Progressive - ${tierMap[tier] || tier}`;
+    }
+    
+    switch (lensType) {
+      case "single":
+        return "Single Vision";
+      case "bifocal":
+        return "Bifocal";
+      case "progressive":
+        return "Progressive";
+      default:
+        return "Multifocal";
+    }
+  };
 
   const handleFormSubmit = (values: typeof initialValues) => {
     // Only validate PD section if preference is 'know'
@@ -495,8 +521,8 @@ const ManualPrescription: React.FC = () => {
         <CheckoutStepper
           currentStep={3}
           selections={{
-            2: "Bifocal/Progressive Eyeglasses",
-            3: "Bifocal/Progressive Eyeglasses",
+            2: `${getLensTypeText()} Eyeglasses`,
+            3: `${getLensTypeText()} Eyeglasses`,
           }}
         />
       </div>
