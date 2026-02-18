@@ -55,6 +55,16 @@ export const Navigation: React.FC = () => {
 
   const effectiveScrolled = isScrolled;
 
+  // Close global overlays (MFit, search, mobile menu) whenever the route changes.
+  // This prevents leftover fullscreen layers from blocking navigation on new pages.
+  useEffect(() => {
+    setIsGetMyFitOpen(false);
+    setIsGetMyFitPopupOpen(false);
+    setIsSearchOpen(false);
+    setIsMobileMenuOpen(false);
+    document.body.style.overflow = "unset";
+  }, [location.pathname]);
+
   useEffect(() => {
     const handleAuthChange = () => {
       setUserLoggedIn(isLoggedIn());

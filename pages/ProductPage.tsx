@@ -124,7 +124,8 @@ const ProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const { state } = useLocation();
+  const location = useLocation();
+  const { state } = location;
   const { capturedData, setCapturedData } = useCaptureData();
   const [product, setProduct] = useState<Product | null>(null);
 
@@ -139,10 +140,17 @@ const ProductPage: React.FC = () => {
     }
     // Merge session data: croppedPreviewDataUrl and frameAdjustments so /glasses alignment shows on product page and share
     const updates: Partial<typeof capturedData> = {};
-    if (session.croppedPreviewDataUrl && !capturedData.croppedPreviewDataUrl) {
+    if (
+      session.croppedPreviewDataUrl &&
+      session.croppedPreviewDataUrl !== capturedData.croppedPreviewDataUrl
+    ) {
       updates.croppedPreviewDataUrl = session.croppedPreviewDataUrl;
     }
-    if (session.frameAdjustments) {
+    if (
+      session.frameAdjustments &&
+      JSON.stringify(session.frameAdjustments) !==
+        JSON.stringify(capturedData.frameAdjustments)
+    ) {
       updates.frameAdjustments = session.frameAdjustments;
     }
     if (Object.keys(updates).length > 0) {
@@ -187,6 +195,14 @@ const ProductPage: React.FC = () => {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  // Ensure the VTO modal is closed if the user navigates away from this exact product path.
+  useEffect(() => {
+    const productPath = id ? `/product/${id}` : null;
+    if (productPath && location.pathname !== productPath && vtoModalOpen) {
+      setVtoModalOpen(false);
+    }
+  }, [location.pathname, id, vtoModalOpen]);
 
   const handleFitComplete = (data: any) => {
     if (data.image) {
