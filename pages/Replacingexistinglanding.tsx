@@ -7,18 +7,18 @@ const LANDING_IMG2 = "https://cdn.multifolks.com/desktop/images/landing-img2.svg
 const steps = [
   {
     number: "01",
-    title: "Share Your Prescription",
-    body: "Upload your prescription or send us a photo at support@multifolks.com. If you're unsure how to read it, we'll explain each part — SPH, CYL, ADD — in plain language.",
+    title: "Upload Your Updated Prescription",
+    body: "Share your prescription or send us a photo at support@multifolks.com. We'll take it from there — no guesswork, no confusion.",
   },
   {
     number: "02",
-    title: "Measure Your Fit",
-    body: "Use our smart fitting tool to measure your pupillary distance (PD) and fitting height. This ensures your vision zones are perfectly aligned with your eyes.",
+    title: "Get a Precise Fit",
+    body: "Our proprietary tool measures your PD and fitting height, so your next pair is truly aligned to your eyes — not just close enough.",
   },
   {
     number: "03",
-    title: "Choose Your Lenses",
-    body: "During checkout, we guide you step by step to choose lenses that fit your lifestyle — whether you're retired, working on screens, or constantly on the go.",
+    title: "Lenses Matched to Your Routine",
+    body: "We recommend lenses tailored to how you actually live — sharper screen vision, seamless distance clarity, or smoother transitions across all zones.",
   },
 ];
 
@@ -28,7 +28,7 @@ const coatings = [
   { icon: "◎", label: "Anti-Reflective" },
 ];
 
-const Newtomultifocals: React.FC = () => {
+const ReplacingExistingLanding: React.FC = () => {
   return (
     <div
       className="min-h-screen bg-white font-sans text-[#1F1F1F]"
@@ -66,6 +66,7 @@ const Newtomultifocals: React.FC = () => {
           color: #e8e2d9;
           line-height: 1;
           font-style: italic;
+          flex-shrink: 0;
         }
 
         .mf-step-title {
@@ -74,11 +75,6 @@ const Newtomultifocals: React.FC = () => {
           font-weight: 700;
           color: #1a1a18;
           line-height: 1.3;
-        }
-
-        .mf-divider {
-          border: none;
-          border-top: 1px solid #e8e2d9;
         }
 
         .mf-callout {
@@ -134,14 +130,6 @@ const Newtomultifocals: React.FC = () => {
           color: #3d3930;
         }
 
-        .mf-intro-large {
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(17px, 2.2vw, 22px);
-          line-height: 1.65;
-          color: #2d2a25;
-          font-weight: 400;
-        }
-
         .mf-step-card {
           border-top: 1px solid #e8e2d9;
           padding-top: 28px;
@@ -149,19 +137,6 @@ const Newtomultifocals: React.FC = () => {
         }
         .mf-step-card:last-child {
           border-bottom: 1px solid #e8e2d9;
-        }
-
-        .mf-perks-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1px;
-          background: #e8e2d9;
-          border: 1px solid #e8e2d9;
-        }
-        .mf-perk-cell {
-          background: #fff;
-          padding: 28px 20px;
-          text-align: center;
         }
 
         .mf-footnote-block {
@@ -177,12 +152,11 @@ const Newtomultifocals: React.FC = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 0 0 0 0;
           min-height: 320px;
           background: #fff;
         }
 
-        /* Two-column content layout (matching screenshot) */
+        /* Two-column content layout */
         .mf-two-col {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -197,12 +171,6 @@ const Newtomultifocals: React.FC = () => {
 
         .mf-col-right {
           padding: 56px 48px 56px 64px;
-        }
-
-        /* Steps and rest of page — full width with inner padding */
-        .mf-section-full {
-          width: 100%;
-          padding: 0 48px;
         }
 
         /* ── Mobile responsive ── */
@@ -260,10 +228,10 @@ const Newtomultifocals: React.FC = () => {
             style={{ height: "auto", objectFit: "contain", flexShrink: 0 }}
           />
           <div style={{ flex: 1, textAlign: "center", padding: "0 40px" }}>
-            <p className="mf-section-label" style={{ marginBottom: "16px" }}>First-time multifocal wearer</p>
+            <p className="mf-section-label" style={{ marginBottom: "16px" }}>Already wearing multifocals</p>
             <h1 className="mf-hero-title">
-              New to multifocals?<br />
-              Let's make your first pair feel easy.
+              Time for a<br />
+              <em style={{ fontStyle: "italic", fontWeight: 400 }}>smarter upgrade.</em>
             </h1>
           </div>
           <img
@@ -274,25 +242,28 @@ const Newtomultifocals: React.FC = () => {
           />
         </div>
 
-        {/* ── Two-Column Section (matching screenshot layout) ── */}
+        {/* ── Two-Column Section ── */}
         <div className="mf-two-col" style={{ borderTop: "1px solid #e8e2d9", marginTop: "40px" }}>
+
           {/* Left Column */}
           <div className="mf-col-left">
-            <p className="mf-step-title" style={{ marginBottom: "16px" }}>Your First Pair Made Easy</p>
-            <p className="mf-body" style={{ marginBottom: "24px" }}>
-              If you've ever juggled two pairs of glasses — one for reading, one for
-              everything else — multifocals can sound like a complicated upgrade. But
-              they don't have to be.
+            <p className="mf-step-title" style={{ marginBottom: "16px" }}>
+              Your eyes have changed. Your lenses should too.
             </p>
-            <p className="mf-body" style={{ marginBottom: "24px" }}>
-              <strong>Multifocal lenses are designed to give you clear vision at every distance</strong> —
-              far, near, and everything in between — without the need to swap glasses.
-              They work by smoothly transitioning between zones within a single lens, so
-              you can go from laptop to phone to across the room, effortlessly.
+            <p className="mf-body" style={{ marginBottom: "20px" }}>
+              Maybe your current pair isn't keeping up — or your screen hours have gone up.
+              Maybe you just want something lighter, clearer, and better aligned with how you live now.
+            </p>
+            <p className="mf-body" style={{ marginBottom: "20px" }}>
+              Whatever the reason, <strong>you shouldn't have to settle for lenses that almost work.</strong>
+            </p>
+            <p className="mf-body" style={{ marginBottom: "40px" }}>
+              At MultiFolks, we help experienced multifocal wearers upgrade with confidence — using
+              precise fitting tools, optical expertise, and lenses that feel right from day one.
             </p>
 
             {/* Steps */}
-            <div style={{ marginTop: "40px" }}>
+            <div>
               <p className="mf-section-label" style={{ marginBottom: "24px" }}>Here is how it works</p>
               {steps.map((step) => (
                 <div key={step.number} className="mf-step-card">
@@ -314,40 +285,38 @@ const Newtomultifocals: React.FC = () => {
 
           {/* Right Column */}
           <div className="mf-col-right">
-            <p className="mf-body" style={{ marginBottom: "24px" }}>
-              Every pair comes with <strong>premium multifocal lenses</strong>, complete with all the
-              coatings you actually need:
+            {/* What's included */}
+            <p className="mf-step-title" style={{ marginBottom: "16px" }}>Built-in. No extras needed.</p>
+            <p className="mf-body" style={{ marginBottom: "16px" }}>
+              Every pair comes with <strong>high-performance multifocal lenses</strong> and all the
+              right coatings already included:
             </p>
-            <ul style={{ listStyle: "disc", paddingLeft: "20px", marginBottom: "16px" }}>
+            <ul style={{ listStyle: "disc", paddingLeft: "20px", marginBottom: "12px" }}>
               {coatings.map((c) => (
                 <li key={c.label} className="mf-body" style={{ marginBottom: "6px" }}>{c.label}</li>
               ))}
             </ul>
             <p className="mf-body" style={{ marginBottom: "40px", color: "#6b6560" }}>
-              All included. No hidden extras. No complicated upgrades.
+              No mystery pricing. Just a better pair, built for your real day-to-day.
             </p>
 
-            {/* What to expect */}
-            <p className="mf-step-title" style={{ marginBottom: "16px" }}>What to expect:</p>
-            <p className="mf-body" style={{ marginBottom: "24px" }}>
-              Most people adapt to multifocals within a few days. Here's what to keep in mind:
-            </p>
+            {/* Callout */}
             <div className="mf-callout" style={{ padding: "20px 24px", marginBottom: "24px" }}>
               <p className="mf-body" style={{ margin: 0 }}>
-                It may take a few days for your eyes to fully adjust to the different zones in
-                multifocals — especially if it's your first pair. That's completely normal. Think
-                of it like switching to a new phone — your brain adapts quickly, and it soon
-                becomes second nature.
+                Upgrading doesn't mean starting over. We use everything we know about your existing
+                prescription to build a pair that feels like a natural step forward — not a reset.
               </p>
             </div>
+
+            {/* Guarantee block */}
             <div className="mf-footnote-block" style={{ marginBottom: "40px" }}>
               <p className="mf-step-title" style={{ marginBottom: "12px", fontStyle: "normal", fontSize: "16px" }}>
                 Not feeling quite right?
               </p>
               <p className="mf-adjust-note" style={{ margin: 0 }}>
                 If your glasses don't feel quite right, we'll adjust or remake them at no cost.
-                We also have step-by-step guides to help you get used to your new lenses, along
-                with real support from our team if you need it.
+                We know what it feels like to get a pair that's almost there — and we're committed
+                to making sure yours isn't.
               </p>
             </div>
 
@@ -372,19 +341,18 @@ const Newtomultifocals: React.FC = () => {
                   lineHeight: 1.3,
                 }}
               >
-                We make your first multifocals feel easy —<br />
-                <em>because they should be.</em>
+                A new fit for your upgraded life.
               </p>
               <Link to="/collection" className="mf-cta">
                 Explore Our Collection
               </Link>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
   );
 };
 
-export default Newtomultifocals;
+export default ReplacingExistingLanding;

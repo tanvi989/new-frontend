@@ -67,6 +67,7 @@ const DesktopCart: React.FC = () => {
     const cartUpdateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const hasAutoAppliedCouponRef = useRef(false);
     const isAutoApplyingCouponRef = useRef(false);
+    const prevCartIdsRef = useRef<Map<string, number>>(new Map());
 
     // Handle initial mount - show loader immediately
     useEffect(() => {
@@ -129,6 +130,7 @@ const DesktopCart: React.FC = () => {
                 if (token && !authData.isAuthenticated) {
                     setShowLoginModal(false);
                     setShowSignUpModal(false);
+                    hasAutoAppliedCouponRef.current = false; // re-apply coupon after login
                     
                     // Check for redirect destination
                     const returnTo = sessionStorage.getItem("returnTo");
@@ -301,12 +303,54 @@ const DesktopCart: React.FC = () => {
     const cartData = cartResponse; // Contains summary, coupon, shipping info
 
     // Sync shipping method from server response when available
-    useEffect(() => {
-        if (cartData?.shipping_method?.id) {
-            setShippingMethod(cartData.shipping_method.id);
-        }
-    }, [cartData?.shipping_method?.id]);
+   useEffect(() => {
+    if (!cartItems?.length) return;
+    cartItems.forEach((item: CartItem) => {
+        const lensAny = item.lens as any;
+        const itemAny = item as any;
+        const sku = item.product?.products?.skuid || item.product_id;
+        const override = getCartLensOverride(item.cart_id);
 
+        // Migrate override if cart_id changed after login
+        const oldCartId = prevCartIdsRef.current.get(String(sku));
+        if (oldCartId && oldCartId !== item.cart_id) {
+            const oldOverride = getCartLensOverride(oldCartId);
+            if (oldOverride && Object.keys(oldOverride).length > 0) {
+                console.log(`🔄 Migrating lens override ${oldCartId} → ${item.cart_id}`);
+                setCartLensOverride(item.cart_id, oldOverride);
+            }
+        }
+        if (sku) prevCartIdsRef.current.set(String(sku), item.cart_id);
+
+        // Restore lens price from backend if override is missing/zero
+        const freshOverride = getCartLensOverride(item.cart_id);
+        const overridePriceIsEmpty =
+            !freshOverride?.lensPackagePrice ||
+            Number(freshOverride.lensPackagePrice) === 0;
+
+        if (overridePriceIsEmpty && lensAny) {
+            const backendPrice =
+                Number(lensAny.selling_price) ||
+                Number(lensAny.price) ||
+                Number(lensAny.cost) ||
+                Number(lensAny.lens_price) ||
+                0;
+            if (backendPrice > 0) {
+                console.log(`✅ Restoring lens price £${backendPrice} for cart_id ${item.cart_id}`);
+                setCartLensOverride(item.cart_id, {
+                    ...freshOverride,
+                    lensPackagePrice: backendPrice,
+                    lensPackage: freshOverride?.lensPackage || lensAny?.lens_package,
+                    lensCategory: freshOverride?.lensCategory || lensAny?.lens_category,
+                    mainCategory: freshOverride?.mainCategory || lensAny?.main_category,
+                    lensType: freshOverride?.lensType,
+                    coatingTitle: freshOverride?.coatingTitle || lensAny?.coating,
+                    coatingPrice: freshOverride?.coatingPrice ?? 0,
+                });
+            }
+        }
+    });
+}, [cartItems]);
     // Coupon Mutations
     const { mutate: applyCouponMutation } = useMutation({
         mutationFn: applyCoupon,
@@ -1031,14 +1075,25 @@ const DesktopCart: React.FC = () => {
 
         // Get the lens index number
         let indexNumber = "1.61"; // default
-        let lensPackagePrice = sellingPrice;
+        let lensPackagePrice: number =
+    (override?.lensPackagePrice && Number(override.lensPackagePrice) > 0)
+        ? Number(override.lensPackagePrice)
+        : (itemAny?.lensPackagePrice && Number(itemAny.lensPackagePrice) > 0)
+            ? Number(itemAny.lensPackagePrice)
+            : (lensAny?.selling_price && Number(lensAny.selling_price) > 0)
+                ? Number(lensAny.selling_price)
+                : (lensAny?.price && Number(lensAny.price) > 0)
+                    ? Number(lensAny.price)
+                    : (lensAny?.cost && Number(lensAny.cost) > 0)
+                        ? Number(lensAny.cost)
+                        : sellingPrice;
 
         // 1. Try to get from item-level fields (from selectLens API call)
         if (override?.lensPackage) {
             indexNumber = String(override.lensPackage);
         } else if (itemAny?.lensPackage) {
             indexNumber = String(itemAny.lensPackage);
-            lensPackagePrice = Number(itemAny?.lensPackagePrice ?? itemAny?.lens_package_price ?? sellingPrice);
+            
         }
         // 2. Try to get from lens_package field in lens object
         else if (lensAny?.lens_package) {

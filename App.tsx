@@ -54,6 +54,7 @@ import UploadPrescription from './pages/UploadPrescription';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentCancel from './pages/PaymentCancel';
+import ReplacingExistingLanding from './pages/Replacingexistinglanding';
 
 // Footer Pages - Ensuring imports exist
 import Insurance from './pages/Insurance';
@@ -133,7 +134,8 @@ const App: React.FC = () => {
     '/claim-report',
     '/lens',
     '/knowledge-base',
-'new-to-multifocals',
+'/new-to-multifocals',
+'/replacing-Existing-Landing',
 
     '/select-prescription-type',
     '/select-prescription-source',
@@ -288,7 +290,7 @@ const App: React.FC = () => {
               <Route path="/appoitments" element={<Appointments />} />
               <Route path="/inventory" element={<Inventory />} />
               <Route path="/knowledge-base" element={<KnowledgeBase />} />
-
+   <Route path="/replacing-existing-landing " element={<ReplacingExistingLanding />} />
               <Route path="/reports" element={<div className="p-8 text-center text-gray-600 font-bold text-xl">Reports Module Coming Soon</div>} />
 
               {/* Placeholder routes for sidebar links */}
