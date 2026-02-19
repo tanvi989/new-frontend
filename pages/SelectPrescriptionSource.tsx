@@ -277,9 +277,9 @@ const SelectPrescriptionSource: React.FC = () => {
     if (lensType === "progressive" && tier) {
       // Map tier to display name
       const tierMap: { [key: string]: string } = {
-        precision: "Precision+ Options",
-        advanced: "Advanced Options",
-        standard: "Standard Options"
+        precision: "Precision+",
+        advanced: "Advanced",
+        standard: "Standard"
       };
       return `Progressive - ${tierMap[tier] || tier}`;
     }
