@@ -11,6 +11,7 @@ import { useFaceDetection } from '@/hooks/useFaceDetection';
 import { useVoiceGuidance } from '@/hooks/useVoiceGuidance';
 import { FaceGuideOverlay } from '@/components/try-on/FaceGuideOverlay';
 import { saveCaptureSession } from '@/utils/captureSession';
+import { DEFAULT_ADJUSTMENTS } from '@/utils/frameOverlayUtils';
 import { toast } from 'sonner';
 import type { FaceLandmarks } from '@/types/face-validation';
 
@@ -288,16 +289,22 @@ const GetMyFitPopupMobile: React.FC<GetMyFitPopupMobileProps> = ({ open, onClose
       const passport = await cropToPassportStyle(processedUrl, landmarks);
       const finalImage = passport?.croppedDataUrl ?? processedUrl;
       const cropRect = passport?.cropRect;
+      // Use cropped image as preview for VTO thumbnail on product page
+      const croppedPreviewDataUrl = passport?.croppedDataUrl ?? processedUrl;
 
+      // Default frame adjustments so product page shows image immediately without needing "Align" step (mobile: scale 1.33)
+      const mobileFrameAdjustments = { ...DEFAULT_ADJUSTMENTS, scaleAdjust: 1.33 };
       const capturedPayload = {
         imageDataUrl: originalUrl,
         processedImageDataUrl: finalImage,
+        croppedPreviewDataUrl: croppedPreviewDataUrl,
         glassesDetected,
         landmarks,
         measurements: measurementsNormalized,
         faceShape,
         apiResponse: measureResult,
         timestamp: Date.now(),
+        frameAdjustments: mobileFrameAdjustments,
         ...(cropRect ? { cropRect } : {}),
       };
       setCapturedData(capturedPayload);

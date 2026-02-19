@@ -12,6 +12,7 @@ import { useFaceDetection } from '@/hooks/useFaceDetection';
 import { useVoiceGuidance } from '@/hooks/useVoiceGuidance';
 import { FaceGuideOverlay } from '@/components/try-on/FaceGuideOverlay';
 import { getCaptureSession, saveCaptureSession } from '@/utils/captureSession';
+import { DEFAULT_ADJUSTMENTS_DESKTOP } from '@/utils/frameOverlayUtils';
 import { toast } from 'sonner';
 
 interface GetMyFitPopupProps {
@@ -21,6 +22,12 @@ interface GetMyFitPopupProps {
   initialStep?: Step;
   /** When provided, auto-fill PD and close without showing result page (extra feature, doesn't affect normal VTO flow) */
   onPDCaptured?: (pdData: { pdSingle?: number; pdRight?: number; pdLeft?: number }) => void;
+  /**
+   * When true (product page only): after scanning, shows the Align UI briefly then
+   * auto-closes (or closes immediately when user clicks Align). Image is already saved
+   * to context/session. All other pages omit this prop and get the full step 4 flow.
+   */
+  skipStep4?: boolean;
 }
 
 type Step = '1' | '2' | '3' | '4';
@@ -33,7 +40,7 @@ const PROCESSING_MESSAGES = [
   "Almost there...",
 ];
 
-const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialStep, onPDCaptured }) => {
+const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialStep, onPDCaptured, skipStep4 }) => {
   const { capturedData, setCapturedData } = useCaptureData();
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
@@ -52,6 +59,20 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
   const [step4Tab, setStep4Tab] = useState<'measurements' | 'frames'>('measurements');
   /** Show "Click SNAP" hint only after 10 seconds on step 3 */
   const [showSnapHint, setShowSnapHint] = useState(false);
+  /** Countdown display for product page auto-close */
+  const [autoCloseCountdown, setAutoCloseCountdown] = useState<number>(4);
+
+  const autoCloseTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  /** Helper: sync session → context then close */
+  const doClose = useCallback(() => {
+    if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    const session = getCaptureSession();
+    if (session) setCapturedData(session);
+    onClose();
+  }, [onClose, setCapturedData]);
 
   useEffect(() => {
     if (currentStep !== '3' || capturedImageData) {
@@ -76,10 +97,37 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
     return () => clearInterval(interval);
   }, [isProcessing]);
 
-  // When entering step 4, start on Measurements tab so voice instruction matches
+  // When entering step 4:
+  // - Always start on measurements tab
+  // - If product page flow (skipStep4), start 4-second auto-close countdown
   useEffect(() => {
-    if (currentStep === '4') setStep4Tab('measurements');
-  }, [currentStep]);
+    if (currentStep !== '4') return;
+    setStep4Tab('measurements');
+
+    if (!skipStep4) return;
+
+    // Start countdown
+    setAutoCloseCountdown(4);
+    countdownIntervalRef.current = setInterval(() => {
+      setAutoCloseCountdown(prev => {
+        if (prev <= 1) {
+          if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    // Auto-close after 4 seconds
+    autoCloseTimerRef.current = setTimeout(() => {
+      doClose();
+    }, 4000);
+
+    return () => {
+      if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
+      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    };
+  }, [currentStep, skipStep4, doClose]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -126,9 +174,13 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
     } else if (currentStep === '3' && !capturedImageData && !isProcessing) {
       speak('Position your face in the oval. Align your eyes with the blue horizontal line. Keep your head straight and look at the camera. We will capture automatically when everything is aligned. If you are not able to get a photo, click the SNAP button to take your photo.');
     } else if (currentStep === '4') {
-      speak('Align your face how you would like to wear your frames. Then click View MFit Collection to browse glasses, or click View Measurement to see your measurements.');
+      if (skipStep4) {
+        speak('Almost done! You can adjust alignment now, or we will close automatically in a few seconds.');
+      } else {
+        speak('Align your face how you would like to wear your frames. Then click View MFit Collection to browse glasses, or click View Measurement to see your measurements.');
+      }
     }
-  }, [open, currentStep, speak]);
+  }, [open, currentStep, speak, skipStep4]);
 
   useEffect(() => {
     if (open && currentStep === '3' && !capturedImageData && !isProcessing && faceValidationState.faceDetected) {
@@ -146,7 +198,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
         if (session) setCapturedData(session);
         setCurrentStep('4');
         setPrivacyAgreed(true);
-        // Keep existing context capturedData; no local capture reset
       } else {
         setCurrentStep('1');
         setPrivacyAgreed(false);
@@ -159,6 +210,9 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
     } else {
       stopCamera();
       cancelVoice();
+      // Clean up any running auto-close timers when popup is closed externally
+      if (autoCloseTimerRef.current) clearTimeout(autoCloseTimerRef.current);
+      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
     }
   }, [open, initialStep ?? '1']);
 
@@ -196,11 +250,9 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
       }
-
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } }
       });
-      
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -240,7 +292,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
       const imageDataUrl = canvas.toDataURL('image/jpeg', 0.9);
       setCapturedImageData(imageDataUrl);
       stopCamera();
-      
       speak('Image captured');
 
       setProcessingStep('Detecting glasses...');
@@ -283,7 +334,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
     try {
       const measureResult = await detectLandmarks(processedUrl);
 
-      // Support multiple API response shapes (landmarks.mm, measurements, data.mm)
       const measurements =
         measureResult?.landmarks?.mm ??
         measureResult?.measurements ??
@@ -298,20 +348,18 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
       const passport = await cropToPassportStyle(processedUrl, landmarks);
       const finalImage = passport?.croppedDataUrl ?? processedUrl;
       const cropRect = passport?.cropRect;
-
+      const croppedPreviewDataUrl = passport?.croppedDataUrl ?? processedUrl;
       const faceShape = measureResult?.landmarks?.face_shape ?? measureResult?.face_shape ?? measureResult?.data?.face_shape ?? '';
       
-      // EXTRA FEATURE: If onPDCaptured callback provided, auto-fill PD and close (skip result page)
+      // Prescription pages only — auto-fill PD and close
       if (onPDCaptured && measurements) {
         const pdSingle = measurements.pd ? Number(measurements.pd.toFixed(2)) : undefined;
         const pdRight = measurements.pd_right ? Number(measurements.pd_right.toFixed(2)) : undefined;
         const pdLeft = measurements.pd_left ? Number(measurements.pd_left.toFixed(2)) : undefined;
-        
-        // Only call callback if we have PD data
         if (pdSingle != null || (pdRight != null && pdLeft != null)) {
           setIsProcessing(false);
           onPDCaptured({ pdSingle, pdRight, pdLeft });
-          onClose(); // Close popup without showing step 4
+          onClose();
           return;
         }
       }
@@ -319,19 +367,28 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
       const capturedPayload = {
         imageDataUrl: originalUrl,
         processedImageDataUrl: finalImage,
+        croppedPreviewDataUrl: croppedPreviewDataUrl,
         glassesDetected,
         landmarks,
         measurements,
         faceShape,
         apiResponse: measureResult,
         timestamp: Date.now(),
+        frameAdjustments: { ...DEFAULT_ADJUSTMENTS_DESKTOP },
         ...(cropRect ? { cropRect } : {}),
       };
       setCapturedData(capturedPayload);
-      // Save to session so select-prescription-source can auto-fill PD when user lands there after closing the popup
       saveCaptureSession(capturedPayload);
 
       setIsProcessing(false);
+
+      // PRODUCT PAGE FLOW: show Align UI briefly, then auto-close via the useEffect timer above
+      if (skipStep4) {
+        setCurrentStep('4');
+        return;
+      }
+
+      // DEFAULT FLOW: show full step 4
       setCurrentStep('4');
       speak('Success! Measurements complete. You can now try on different frames.');
     } catch (err) {
@@ -355,13 +412,12 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
     setRemovedPreviewUrl(null);
     setIsProcessing(true);
     setProcessingStep('Removing glasses...');
-    
     try {
       const removeResult = await removeGlasses(capturedImageData);
       if (removeResult.success && removeResult.edited_image_base64) {
         const processedUrl = `data:image/png;base64,${removeResult.edited_image_base64}`;
         setProcessedImageData(processedUrl);
-        setRemovedPreviewUrl(processedUrl); // Show photo after AI remove, then user clicks "Go ahead"
+        setRemovedPreviewUrl(processedUrl);
       } else {
         throw new Error('Glasses removal failed');
       }
@@ -406,7 +462,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
   const handleStepClick = (step: Step) => {
     if (step === '3' && !privacyAgreed) return;
     if (step === '4' && !capturedImageData && !capturedData) return;
-    // From Results (step 4), clicking SNAP (step 3) should restart camera flow
     if (currentStep === '4' && step === '3') {
       retakePhoto();
       return;
@@ -416,14 +471,12 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
 
   const handleNext = () => {
     if (currentStep === '1' && !privacyAgreed) return;
-    
     const stepNum = parseInt(currentStep);
     if (stepNum < 4) {
       setCurrentStep(String(stepNum + 1) as Step);
     }
   };
 
-  /* Exact same as perfect-fit-cam: face guide oval, validation colors, alignment overlay */
   const fadeInStyles = `
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -453,12 +506,11 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
   `;
 
   if (isMobile) {
-    return <GetMyFitPopupMobile open={open} onClose={onClose} onPDCaptured={onPDCaptured} />;
+    return <GetMyFitPopupMobile open={open} onClose={onClose} onPDCaptured={onPDCaptured} skipStep4={skipStep4} />;
   }
 
   if (!open) return null;
 
-  /* Step 3: full-screen capture (same output as perfect-fit-cam – no popup sidebar/content) */
   if (currentStep === '3') {
     return (
       <>
@@ -486,7 +538,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
             )}
           </div>
 
-          {/* Voice Prompt */}
           {currentMessage && !capturedImageData && (
             <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-6 py-2 rounded-full text-white flex items-center gap-3 z-20 pointer-events-none">
               <Volume2 className="w-4 h-4 text-primary animate-pulse" />
@@ -494,7 +545,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
             </div>
           )}
 
-          {/* Back button – return to Step 2 */}
           <button
             onClick={() => setCurrentStep('2')}
             className="absolute top-4 left-4 w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all z-30 border border-white/20 pointer-events-auto"
@@ -502,7 +552,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
             <ChevronLeft className="w-6 h-6" />
           </button>
 
-          {/* Close (X) – top right */}
           <button
             onClick={onClose}
             className="absolute top-4 right-4 w-10 h-10 bg-black/60 hover:bg-black/80 rounded-full flex items-center justify-center text-white z-30 pointer-events-auto"
@@ -581,7 +630,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
           }`}
           style={{ maxWidth: '100%', maxHeight: '100%' }}
         >
-          {/* Voice Prompt UI Overlay */}
           {currentMessage && (
             <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-6 py-2 rounded-full text-white flex items-center gap-3 z-[1002] shadow-xl border border-white/10">
               <Volume2 className="w-4 h-4 text-primary animate-pulse" />
@@ -589,7 +637,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
             </div>
           )}
 
-          {/* Close Button */}
           <button
             onClick={onClose}
             className="absolute top-4 right-4 w-10 h-10 bg-black rounded-full flex items-center justify-center cursor-pointer z-[1001] shadow-lg hover:bg-gray-100 transition-all hover:rotate-90 group"
@@ -598,7 +645,7 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
           </button>
 
           <div className="flex w-full h-full">
-            {/* Left Section - Original Steps UI */}
+            {/* Left Section */}
             <div className="w-1/3 px-14 py-0" style={{ backgroundColor: '#f3F3F3' }}>
               {[
                 { id: '1', label: 'SET UP', icon: '/icons/setup-img.png' },
@@ -620,7 +667,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
                   </div>
                   <div className={`font-bold flex items-center justify-center gap-2 ${currentStep === step.id ? 'text-black' : 'text-gray-500'}`}>
                     <span>{step.label}</span>
-                    {/* Completed steps: show right (check) symbol */}
                     {(() => {
                       const curr = parseInt(currentStep, 10);
                       const id = parseInt(step.id, 10);
@@ -636,13 +682,11 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
               ))}
             </div>
 
-            {/* White Divider Line */}
             <div className="w-1 bg-white"></div>
 
-            {/* Right Section - Content Area */}
+            {/* Right Section */}
             <div className="w-2/3 bg-gray-100 flex flex-col justify-center items-center p-6 text-center relative overflow-hidden">
               
-              {/* Step 1 Content */}
               {currentStep === '1' && (
                 <div className="flex flex-col items-center animate-fadeIn max-w-[500px] w-full">
                   <h1 className="font-semibold text-[17px] leading-[100%] tracking-[0.2em] text-center uppercase mb-6 text-black">
@@ -664,7 +708,6 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
                 </div>
               )}
 
-              {/* Step 2 Content */}
               {currentStep === '2' && (
                 <div className="flex flex-col items-center animate-fadeIn max-w-[500px] w-full text-center">
                   <h2 className="text-3xl font-bold mb-12 text-black uppercase">Before We Begin</h2>
@@ -686,45 +729,68 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
                 </div>
               )}
 
-              {/* Step 3 is full-screen (rendered above when currentStep === '3') */}
-
               {/* Step 4 Content */}
               {currentStep === '4' && (
                 <div className="flex flex-col items-center animate-fadeIn w-full max-w-[850px] h-full overflow-y-auto pt-6 px-6">
                   <div className="flex items-center justify-center w-full mb-6">
                     <div className="flex flex-col items-center w-full">
                       <h2 className="text-4xl font-black tracking-[0.15em] text-black text-center">MFit</h2>
-                      {/*
-                      <div className="flex gap-4 mt-2">
-                        <button onClick={downloadResult} className="flex items-center gap-1.5 text-[10px] font-black bg-primary/10 text-primary px-3 py-1 rounded-full hover:bg-primary/20 transition-all uppercase italic">
-                          <Download className="w-3 h-3" /> Save Photo
-                        </button>
-                        <Link to="/glasses" onClick={onClose} className="flex items-center gap-1.5 text-[10px] font-black bg-black text-white px-3 py-1 rounded-full hover:bg-gray-800 transition-all uppercase italic">
-                          <ExternalLink className="w-3 h-3 text-primary" /> Explore Lenses
-                        </Link>
-                      </div>
-                      */}
-                    {/*
-                    <button onClick={retakePhoto} className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-black transition-all">
-                      <RotateCcw className="w-3 h-3" /> RETAKE
-                    </button>
-                    */}
+
+                      {/* Product page: countdown banner + manual close button */}
+                      {skipStep4 && (
+                        <div className="mt-3 mb-1 flex items-center gap-3 bg-[#D96C47]/10 border border-[#D96C47]/30 rounded-full px-5 py-2">
+                          <span className="text-sm text-[#D96C47] font-semibold">
+                            Returning to product page in <strong>{autoCloseCountdown}s</strong>
+                          </span>
+                          <button
+                            onClick={doClose}
+                            className="text-xs font-black bg-[#D96C47] text-white px-4 py-1 rounded-full hover:bg-[#c45e3a] transition-colors uppercase tracking-wider"
+                          >
+                            Done
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
-                  
-                  <Tabs value={step4Tab} onValueChange={(v) => setStep4Tab(v as 'measurements' | 'frames')} className="w-full">
-                    <TabsList className="grid grid-cols-2 h-12 bg-gray-100 p-1 rounded-xl mb-6">
-                      <TabsTrigger value="measurements" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm font-bold uppercase text-[10px] tracking-widest">
-                        Perfect MFit
-                      </TabsTrigger>
-                      <TabsTrigger value="frames" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm font-bold uppercase text-[10px] tracking-widest">
-                        Measurement
-                      </TabsTrigger>
-                    </TabsList>
 
-                    <TabsContent value="measurements" className="mt-0 focus-visible:outline-none bg-white p-6 rounded-2xl shadow-sm border border-gray-100"><MeasurementsTab onViewMeasurements={() => setStep4Tab('frames')} /></TabsContent>
-                    <TabsContent value="frames" className="mt-0 focus-visible:outline-none bg-white p-6 rounded-2xl shadow-sm border border-gray-100"><FramesTab measurementsOnly onBackToMeasurements={() => setStep4Tab('measurements')} useDesktopDefaults /></TabsContent>
-                  </Tabs>
+                  {/*
+                    PRODUCT PAGE FLOW (skipStep4=true):
+                    Show MeasurementsTab (Align UI). Clicking Align saves adjustments.
+                    Clicking the Align button OR the Done button OR waiting 4s closes popup.
+                  */}
+                  {skipStep4 ? (
+                    <div
+                      className="w-full bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
+                      onClick={(e) => {
+                        const target = e.target as HTMLElement;
+                        const btn = target.closest('button');
+                        // Close 300ms after any button click so the action (Align) saves first
+                        if (btn) {
+                          setTimeout(doClose, 300);
+                        }
+                      }}
+                    >
+                      <MeasurementsTab onViewMeasurements={() => {}} />
+                    </div>
+                  ) : (
+                    /* DEFAULT FLOW: full tabs */
+                    <Tabs value={step4Tab} onValueChange={(v) => setStep4Tab(v as 'measurements' | 'frames')} className="w-full">
+                      <TabsList className="grid grid-cols-2 h-12 bg-gray-100 p-1 rounded-xl mb-6">
+                        <TabsTrigger value="measurements" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm font-bold uppercase text-[10px] tracking-widest">
+                          Perfect MFit
+                        </TabsTrigger>
+                        <TabsTrigger value="frames" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm font-bold uppercase text-[10px] tracking-widest">
+                          Measurement
+                        </TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="measurements" className="mt-0 focus-visible:outline-none bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <MeasurementsTab onViewMeasurements={() => setStep4Tab('frames')} />
+                      </TabsContent>
+                      <TabsContent value="frames" className="mt-0 focus-visible:outline-none bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <FramesTab measurementsOnly onBackToMeasurements={() => setStep4Tab('measurements')} useDesktopDefaults />
+                      </TabsContent>
+                    </Tabs>
+                  )}
                 </div>
               )}
             </div>

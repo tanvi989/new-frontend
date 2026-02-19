@@ -1089,7 +1089,7 @@ const handleTopMfitToggle = () => {
                 )}
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-bold text-[#333] uppercase tracking-wider">
-                    MFit
+                    Try-MFit
                   </span>
                   <button
                     type="button"

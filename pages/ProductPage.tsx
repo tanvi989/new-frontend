@@ -17,6 +17,7 @@ import { VtoProductOverlay } from "@/components/VtoProductOverlay";
 import { getCaptureSession } from "@/utils/captureSession";
 import { saveProduct } from "@/utils/productFlowStorage";
 import { trackViewItem } from "@/utils/analytics";
+import GetMyFitPopup from "../components/getMyFitPopup/GetMyFitPopup";
 
 interface ColorVariant {
   id: string;
@@ -1507,7 +1508,35 @@ const ProductPage: React.FC = () => {
           </div>
         </div>
       </div>
+ {!capturedData && product && (
+        <button
+          type="button"
+          onClick={() => setIsGetMyFitOpen(true)}
+          className={`fixed z-[100] cursor-pointer transition-all duration-500 ease-out group ${
+            isMobile
+              ? `left-4 top-[4.5rem] w-14 h-14 ${vtoThumbHidden ? "opacity-0 pointer-events-none" : "opacity-100"}`
+              : `left-1/2 -translate-x-1/2 ${vtoThumbHidden ? "bottom-full opacity-0 pointer-events-none" : "bottom-4 opacity-100"}`
+          }`}
+          aria-label="Try MFit - Virtual Try On"
+        >
+          {isMobile ? (
+            <div className="w-full h-full rounded-full bg-[#D96C47] shadow-lg ring-2 ring-white flex items-center justify-center hover:bg-[#c45e3a] transition-colors">
+              <svg width="28" height="11" viewBox="0 0 46 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M46 2.09996C42.18 2.31792 39.0943 0.035123 34.8499 0.000709066C32.6244 -0.0222336 30.0893 0.505447 26.9576 2.47851C26.0399 1.60669 19.9601 1.60669 19.0424 2.47851C15.9107 0.505447 13.3756 -0.0222336 11.1501 0.000709066C6.90574 0.035123 3.80848 2.31792 0 2.09996V5.95433C1.53716 6.00021 1.8813 6.18375 2.01895 7.26206C3.98055 22.1518 20.7057 18.9284 20.809 6.47053C17.012 2.89148 28.9651 2.89148 25.1796 6.47053C25.2828 18.9284 42.008 22.1404 43.9696 7.26206C44.1187 6.17228 44.4514 6.00021 45.9885 5.95433V2.09996H46ZM1.35362 3.88949C1.5601 3.88949 1.73217 4.06156 1.73217 4.26804C1.73217 4.47452 1.5601 4.64659 1.35362 4.64659C1.14713 4.64659 0.975062 4.47452 0.975062 4.26804C0.975062 4.06156 1.14713 3.88949 1.35362 3.88949ZM44.6349 3.88949C44.4284 3.88949 44.2564 4.06156 44.2564 4.26804C44.2564 4.47452 44.4284 4.64659 44.6349 4.64659C44.8414 4.64659 45.0135 4.47452 45.0135 4.26804C45.0135 4.06156 44.8414 3.88949 44.6349 3.88949ZM34.6549 1.27403C38.8878 1.27403 42.3177 3.44211 42.3177 7.48001C42.3177 11.5179 38.8878 15.9458 34.6549 15.9458C32.2459 15.9458 29.9057 14.6611 28.5062 12.6765C27.4394 11.1738 26.992 9.22365 26.992 7.48001C26.992 3.44211 30.4219 1.27403 34.6549 1.27403ZM11.3337 1.27403C7.10075 1.27403 3.67082 3.44211 3.67082 7.48001C3.67082 11.5179 7.10075 15.9458 11.3337 15.9458C13.7426 15.9458 16.0828 14.6611 17.4823 12.6765C18.5491 11.1738 18.9965 9.22365 18.9965 7.48001C18.9965 3.44211 15.5666 1.27403 11.3337 1.27403Z" fill="white"/>
+              </svg>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3 bg-[#D96C47] hover:bg-[#c45e3a] text-white px-5 py-3 rounded-full shadow-xl ring-2 ring-white transition-colors duration-200">
+              <svg width="36" height="14" viewBox="0 0 46 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd" d="M46 2.09996C42.18 2.31792 39.0943 0.035123 34.8499 0.000709066C32.6244 -0.0222336 30.0893 0.505447 26.9576 2.47851C26.0399 1.60669 19.9601 1.60669 19.0424 2.47851C15.9107 0.505447 13.3756 -0.0222336 11.1501 0.000709066C6.90574 0.035123 3.80848 2.31792 0 2.09996V5.95433C1.53716 6.00021 1.8813 6.18375 2.01895 7.26206C3.98055 22.1518 20.7057 18.9284 20.809 6.47053C17.012 2.89148 28.9651 2.89148 25.1796 6.47053C25.2828 18.9284 42.008 22.1404 43.9696 7.26206C44.1187 6.17228 44.4514 6.00021 45.9885 5.95433V2.09996H46ZM1.35362 3.88949C1.5601 3.88949 1.73217 4.06156 1.73217 4.26804C1.73217 4.47452 1.5601 4.64659 1.35362 4.64659C1.14713 4.64659 0.975062 4.47452 0.975062 4.26804C0.975062 4.06156 1.14713 3.88949 1.35362 3.88949ZM44.6349 3.88949C44.4284 3.88949 44.2564 4.06156 44.2564 4.26804C44.2564 4.47452 44.4284 4.64659 44.6349 4.64659C44.8414 4.64659 45.0135 4.47452 45.0135 4.26804C45.0135 4.06156 44.8414 3.88949 44.6349 3.88949ZM34.6549 1.27403C38.8878 1.27403 42.3177 3.44211 42.3177 7.48001C42.3177 11.5179 38.8878 15.9458 34.6549 15.9458C32.2459 15.9458 29.9057 14.6611 28.5062 12.6765C27.4394 11.1738 26.992 9.22365 26.992 7.48001C26.992 3.44211 30.4219 1.27403 34.6549 1.27403ZM11.3337 1.27403C7.10075 1.27403 3.67082 3.44211 3.67082 7.48001C3.67082 11.5179 7.10075 15.9458 11.3337 15.9458C13.7426 15.9458 16.0828 14.6611 17.4823 12.6765C18.5491 11.1738 18.9965 9.22365 18.9965 7.48001C18.9965 3.44211 15.5666 1.27403 11.3337 1.27403Z" fill="white"/>
+              </svg>
+              <span className="text-xs font-bold uppercase tracking-widest whitespace-nowrap">Try MFit</span>
+            </div>
+          )}
+        </button>
+      )}
 
+     
       {/* VTO: mobile = top-left below navbar; desktop = bottom center until scroll to RECOMMENDED */}
       {capturedData && product && (
         <>
@@ -1588,12 +1617,15 @@ const ProductPage: React.FC = () => {
         products={allProducts}
         currentProductId={product?.id || product?.skuid}
       />
-
-      <GetMyFitModal
-        open={isGetMyFitOpen}
-        onClose={() => setIsGetMyFitOpen(false)}
-        onComplete={handleFitComplete}
-      />
+<GetMyFitPopup
+  open={isGetMyFitOpen}
+  onClose={() => {
+    setIsGetMyFitOpen(false);
+    const session = getCaptureSession();
+    if (session) setCapturedData(session);
+  }}
+  skipStep4
+/>
 
       <ChatWidget />
     </div>

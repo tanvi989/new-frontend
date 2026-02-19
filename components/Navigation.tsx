@@ -292,7 +292,7 @@ export const Navigation: React.FC = () => {
                 onClick={() => setIsGetMyFitPopupOpen(true)}
                 className="text-white hover:text-[#F3CB0A] transition-colors text-base lg:text-lg font-normal whitespace-nowrap"
               >
-                MFit
+               Try-MFit
               </button>
             </nav>
             <div className="flex items-center gap-3 ml-4 relative">
