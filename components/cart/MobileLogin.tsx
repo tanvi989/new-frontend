@@ -55,14 +55,10 @@ export const MobileLogin: React.FC<MobileLoginProps> = ({
             if (response && response.data && response.data.is_registered) {
                 setStep("password");
             } else {
-                // Not registered -> Go to Sign Up
                 onNext(email);
             }
         } catch (err) {
             console.error("Error checking email:", err);
-            // If error (e.g. network), we could assume sign up or show error.
-            // For safety, let's assume sign up if we can't verify, or show error.
-            // onNext(email);
             setError("Something went wrong. Please try again.");
         } finally {
             setLoading(false);
@@ -81,8 +77,6 @@ export const MobileLogin: React.FC<MobileLoginProps> = ({
 
         try {
             const response = await authService.login(email, password);
-            // login handles storage and event dispatch
-
             const token = response?.token ?? response?.data?.token;
             if (response?.success || token || response?.status) {
                 await syncLocalCartToBackend();
@@ -102,304 +96,449 @@ export const MobileLogin: React.FC<MobileLoginProps> = ({
         }
     };
 
-    // Consistent styling with the provided screenshot
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 font-sans">
-            {/* Background with Image */}
-            <div className="absolute inset-0 z-0">
-                <img
-                    src="/Login Background.png"
-                    alt="Background"
-                    className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/10"></div>
+        <div className="fixed inset-0 z-[100] flex items-end justify-center p-0 font-sans">
+            {/* Background Image */}
+            <div className="absolute inset-0 bg-[url('/login-bg.png')] bg-cover bg-center bg-no-repeat">
+                <div className="absolute inset-0 bg-black/10 backdrop-blur-[1px]"></div>
             </div>
 
-            {/* Content Card */}
-            <div className="relative z-10 w-full max-w-[400px] bg-white rounded-[24px] overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-300">
-                {/* Gradient Header */}
-                <div className="bg-gradient-to-r from-[#E85131] to-[#01AF9A] py-3.5 px-6 flex items-center justify-between">
-                    <div className="flex-1 text-center">
-                        <span className="text-white font-bold text-[17px] tracking-tight">Complete Your Checkout</span>
-                    </div>
-                    <button
-                        onClick={onClose}
-                        className="text-white/80 hover:text-white transition-colors"
-                    >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
+            {/* Close Button - Top Right */}
+            <button
+                onClick={onClose}
+                className="absolute top-6 right-6 text-white hover:text-gray-200 transition-colors z-20 bg-black/20 hover:bg-black/40 p-2 rounded-full backdrop-blur-md border border-white/20"
+            >
+                <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
 
-                <div className="p-8 pb-10">
-                    {loading ? (
-                        <div className="py-12">
-                            <Loader2 />
-                        </div>
-                    ) : (
-                        <>
-                            {step === "password" ? (
-                                <div className="text-center">
-                                    <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-1">
-                                        Enter Password
+            {/* Content Card — slides up from bottom on mobile */}
+            <div className="relative z-10 w-full bg-white rounded-t-[24px] shadow-2xl p-8 animate-in slide-in-from-bottom-10 duration-300 border border-gray-100">
+                {loading ? (
+                    <div className="py-12">
+                        <Loader2 />
+                    </div>
+                ) : (
+                    <>
+                        {/* Email Step */}
+                        {step === "email" && (
+                            <>
+                                <div className="mb-8">
+                                    <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-3 font-sans leading-tight tracking-tight">
+                                        Welcome to Multifolks
                                     </h2>
-                                    <div className="flex items-center justify-center gap-2 mb-8">
-                                        <p className="text-[#757575] text-[15px]">{email}</p>
-                                        <button onClick={() => setStep("email")} className="text-[#1F1F1F] text-sm font-bold underline">Change?</button>
+                                    <p className="text-[#757575] text-[15px] leading-relaxed font-medium">
+                                        Enter your email to Login / Signup
+                                    </p>
+                                </div>
+
+                                <form onSubmit={handleEmailSubmit} className="flex flex-col gap-5">
+                                    <div className="flex flex-col gap-2 relative">
+                                        <label htmlFor="mobile-email-input" className="sr-only">Email</label>
+                                        <input
+                                            id="mobile-email-input"
+                                            type="email"
+                                            placeholder="Email Address"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            className="w-full bg-white border border-[#E5E5E5] rounded-xl px-4 py-4 text-[#1F1F1F] font-medium placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1F1F1F] focus:ring-0 transition-all shadow-sm text-base"
+                                            required
+                                            autoFocus
+                                        />
                                     </div>
 
-                                    <form onSubmit={handleLoginSubmit} className="flex flex-col gap-8">
-                                        <div className="relative">
-                                            <label className="absolute -top-2.5 left-4 bg-white px-2 text-[13px] font-semibold text-[#0066CC] z-10">
-                                                Password
-                                            </label>
-                                            <div className="relative">
-                                                <input
-                                                    type={showPassword ? "text" : "password"}
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                    className="w-full bg-white border border-[#CED4DA] rounded-[10px] px-5 py-3.5 text-[#1F1F1F] font-medium focus:outline-none focus:border-[#1F1F1F] transition-all text-base pr-12"
-                                                    required
-                                                    autoFocus
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
-                                                >
-                                                    {showPassword ? (
-                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
-                                                    ) : (
-                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                                    )}
-                                                </button>
-                                            </div>
+                                    {error && (
+                                        <div className="bg-red-50 border border-red-100 text-red-600 text-xs p-3 rounded-lg">
+                                            {error}
                                         </div>
+                                    )}
 
-                                        {error && (
-                                            <div className="bg-red-50 border border-red-100 text-red-600 text-xs p-3 rounded-lg -mt-4">
-                                                {error}
-                                            </div>
-                                        )}
+                                    <button
+                                        type="submit"
+                                        className="w-full bg-[#232320] text-white py-4 rounded-full font-bold text-[15px] hover:bg-black transition-all shadow-lg hover:shadow-xl active:scale-[0.98] mt-2"
+                                    >
+                                        Continue
+                                    </button>
 
-                                        <button
-                                            type="submit"
-                                            className="w-full bg-[#1F1F1F] text-white py-4 rounded-full font-bold text-[15px] hover:bg-black transition-all shadow-md uppercase tracking-widest"
-                                        >
-                                            Login
-                                        </button>
-
-                                        <div className="flex flex-col gap-3">
-                                            <button
-                                                type="button"
-                                                onClick={async () => {
-                                                    try {
-                                                        setLoading(true);
-                                                        await authService.requestPin(email);
-                                                        setStep("pin");
-                                                    } catch (err) {
-                                                        setError("Failed to request PIN");
-                                                    } finally {
-                                                        setLoading(false);
-                                                    }
-                                                }}
-                                                className="text-sm font-bold underline text-[#1F1F1F]"
-                                            >
-                                                Login with PIN?
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            ) : step === "email" ? (
-                                <div className="text-center">
-                                    <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-2 leading-tight">
-                                     Login/SignUp
-                                    </h2>
-                                    <p className="text-[#757575] text-[15px] leading-snug font-medium mb-10 px-4">
-                                        To place an order and get your favourite eyewear at your doorstep.
+                                    <p className="text-[#757575] text-[10px] leading-relaxed font-medium">
+                                        We'll use your email to send order updates and important service messages.
                                     </p>
 
-                                    <form onSubmit={handleEmailSubmit} className="flex flex-col gap-8">
-                                        <div className="relative">
-                                            {/* Label on Border */}
-                                            <label className="absolute -top-2.5 left-4 bg-white px-2 text-[13px] font-semibold text-[#0066CC] z-10">
-                                                Email
-                                            </label>
-                                            <input
-                                                type="email"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
-                                                className="w-full bg-white border border-[#CED4DA] rounded-[10px] px-5 py-3.5 text-[#1F1F1F] font-medium placeholder:text-transparent focus:outline-none focus:border-[#1F1F1F] transition-all text-base"
-                                                required
-                                                autoFocus
-                                            />
-                                        </div>
-
-                                        {error && (
-                                            <div className="bg-red-50 border border-red-100 text-red-600 text-xs p-3 rounded-lg -mt-4">
-                                                {error}
-                                            </div>
-                                        )}
-
-                                        <button
-                                            type="submit"
-                                            className="w-full bg-[#1F1F1F] text-white py-4 rounded-full font-bold text-[15px] hover:bg-black transition-all shadow-md active:scale-[0.98] tracking-widest uppercase"
+                                    <div className="flex items-start gap-2">
+                                        <input
+                                            type="checkbox"
+                                            id="mobileMarketingOptIn"
+                                            defaultChecked
+                                            className="mt-0.5 cursor-pointer w-3.5 h-3.5 accent-black"
+                                        />
+                                        <label
+                                            htmlFor="mobileMarketingOptIn"
+                                            className="text-[#757575] text-[10px] leading-relaxed font-medium cursor-pointer"
                                         >
-                                            Next
-                                        </button>
-                                    </form>
+                                            With your permission, we may also share helpful offers and vision care tips — you can opt out anytime.
+                                        </label>
+                                    </div>
+                                </form>
+                            </>
+                        )}
+
+                        {/* Password Step */}
+                        {step === "password" && (
+                            <form onSubmit={handleLoginSubmit} className="flex flex-col gap-5">
+                                <div className="mb-2">
+                                    <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-1 font-sans leading-tight tracking-tight">
+                                        Login to Multifolks
+                                    </h2>
+                                    <p className="text-[#757575] text-[15px] leading-relaxed font-medium">
+                                        Welcome Back
+                                    </p>
                                 </div>
-                            ) : step === "pin" ? (
-                                <div className="text-center">
-                                    <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-1">
+
+                                {/* Email display */}
+                                <div className="w-full bg-white border border-[#E5E5E5] rounded-xl px-4 py-3.5 flex justify-between items-center">
+                                    <span className="text-[#1F1F1F] font-medium text-sm truncate mr-2 break-all">
+                                        {email}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        onClick={() => setStep("email")}
+                                        className="text-[#1F1F1F] font-bold text-sm underline hover:opacity-80 whitespace-nowrap"
+                                    >
+                                        Change?
+                                    </button>
+                                </div>
+
+                                {/* Password Input */}
+                                <div className="flex flex-col gap-2 relative">
+                                    <label htmlFor="mobile-password-input" className="sr-only">Password</label>
+                                    <div className="relative">
+                                        <input
+                                            id="mobile-password-input"
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder="Password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            className="w-full bg-white border border-[#E5E5E5] rounded-xl px-4 py-4 text-[#1F1F1F] font-medium placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1F1F1F] focus:ring-0 transition-all shadow-sm text-base pr-10"
+                                            required
+                                            autoFocus
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        >
+                                            {showPassword ? (
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                                                </svg>
+                                            ) : (
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {error && (
+                                    <div className="bg-red-50 border border-red-100 text-red-600 text-xs p-3 rounded-lg">
+                                        {error}
+                                    </div>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    className="w-full bg-[#232320] text-white py-4 rounded-full font-bold text-[15px] hover:bg-black transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
+                                >
+                                    Proceed
+                                </button>
+
+                                <div className="flex justify-center items-center gap-4 -mt-2">
+                                    <button
+                                        type="button"
+                                        onClick={async () => {
+                                            try {
+                                                setLoading(true);
+                                                setError("");
+                                                await authService.requestPin(email);
+                                                setStep("pin");
+                                            } catch (err: any) {
+                                                console.error("Failed to send PIN:", err);
+                                                setError("Failed to send PIN. Please try again.");
+                                            } finally {
+                                                setLoading(false);
+                                            }
+                                        }}
+                                        className="text-sm text-[#1F1F1F] hover:opacity-80 underline font-bold"
+                                    >
+                                        Request PIN?
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+
+                        {/* PIN Step */}
+                        {step === "pin" && (
+                            <form onSubmit={async (e) => {
+                                e.preventDefault();
+                                if (!pin || pin.length !== 6) {
+                                    setError("Please enter a valid 6-digit PIN");
+                                    return;
+                                }
+                                setLoading(true);
+                                setError("");
+                                try {
+                                    const response = await authService.loginWithPin(email, pin);
+                                    if (response.success || response.token || response.status) {
+                                        await syncLocalCartToBackend();
+                                        setSuccessMessage("Login successful");
+                                    } else {
+                                        setError(response.message || "Invalid PIN");
+                                    }
+                                } catch (err: any) {
+                                    setError(
+                                        err?.response?.data?.detail?.msg ||
+                                        err?.response?.data?.message ||
+                                        "Invalid PIN. Please try again."
+                                    );
+                                } finally {
+                                    setLoading(false);
+                                }
+                            }} className="flex flex-col gap-5">
+                                <div className="text-center mb-1">
+                                    <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-1 font-sans">
                                         PIN Sent
                                     </h2>
-                                    <p className="text-[#757575] text-[15px] mb-1">PIN sent to</p>
-                                    <p className="text-[#1F1F1F] font-bold text-[15px] mb-1">{email}</p>
-                                    <button onClick={() => setStep("email")} className="text-[#757575] text-sm underline mb-8 block mx-auto">Change?</button>
-
-                                    <form onSubmit={async (e) => {
-                                        e.preventDefault();
-                                        if (!pin || pin.length !== 6) {
-                                            setError("Please enter a valid 6-digit PIN");
-                                            return;
-                                        }
-                                        setLoading(true);
-                                        setError("");
-                                        try {
-                                            const response = await authService.loginWithPin(email, pin);
-                                            if (response.success || response.token || response.status) {
-                                                await syncLocalCartToBackend();
-                                                setSuccessMessage("Login successful");
-                                            } else {
-                                                setError(response.message || "Invalid PIN");
-                                            }
-                                        } catch (err: any) {
-                                            setError(err?.response?.data?.detail?.msg || err?.response?.data?.message || "Invalid PIN. Please try again.");
-                                        } finally {
-                                            setLoading(false);
-                                        }
-                                    }} className="flex flex-col gap-8">
-                                        <div className="relative">
-                                            <label className="absolute -top-2.5 left-4 bg-white px-2 text-[13px] font-semibold text-[#0066CC] z-10">
-                                                PIN
-                                            </label>
-                                            <input
-                                                type="text"
-                                                value={pin}
-                                                onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                                                className="w-full bg-white border border-[#CED4DA] rounded-[10px] px-5 py-3.5 text-[#1F1F1F] font-medium focus:outline-none focus:border-[#1F1F1F] transition-all text-base tracking-[0.5em] text-center"
-                                                required
-                                                autoFocus
-                                                maxLength={6}
-                                            />
-                                        </div>
-
-                                        {error && (
-                                            <div className="bg-red-50 border border-red-100 text-red-600 text-xs p-3 rounded-lg -mt-4">
-                                                {error}
-                                            </div>
-                                        )}
-
-                                        <button type="submit" className="w-full bg-[#1F1F1F] text-white py-4 rounded-full font-bold text-[15px] hover:bg-black transition-all shadow-md uppercase tracking-widest">
-                                            Verify
-                                        </button>
-
-                                        <div className="space-y-3">
-                                            <p className="text-sm text-[#757575]">
-                                                Not received your code?{" "}
-                                                <button type="button" onClick={async () => {
-                                                    try {
-                                                        setLoading(true);
-                                                        await authService.requestPin(email);
-                                                        setError("");
-                                                    } catch (err) { setError("Failed to resend code"); } finally { setLoading(false); }
-                                                }} className="font-bold underline text-[#1F1F1F]">Resend Code</button>
-                                            </p>
-                                            <button type="button" onClick={() => setStep("password")} className="text-sm font-bold underline text-[#1F1F1F]">Use Password?</button>
-                                        </div>
-                                    </form>
+                                    <p className="text-[16px] text-[#6C757D]">PIN sent to</p>
+                                    <p className="text-[16px] text-[#6C757D]">{email}</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => setStep("email")}
+                                        className="text-[16px] text-[#6C757D] underline hover:opacity-80 block mx-auto"
+                                    >
+                                        Change?
+                                    </button>
                                 </div>
-                            ) : step === "forgot_password" ? (
-                                <div className="text-center">
-                                    <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-1">
+
+                                <div className="mb-4">
+                                    <label htmlFor="mobile-pin-input" className="sr-only">PIN</label>
+                                    <input
+                                        id="mobile-pin-input"
+                                        type="text"
+                                        value={pin}
+                                        onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                                        className="w-full h-[48px] bg-white border border-[#CED4DA] rounded px-4 py-2 text-[16px] text-[#1F1F1F] font-medium placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1F1F1F] focus:ring-0 transition-all"
+                                        required
+                                        autoFocus
+                                        maxLength={6}
+                                    />
+                                </div>
+
+                                {error && (
+                                    <div className="bg-red-50 border border-red-100 text-red-600 text-xs p-3 rounded-lg mb-4">
+                                        {error}
+                                    </div>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    className="w-full bg-[#343A40] text-white px-4 py-3 rounded text-[16px] font-normal hover:bg-black transition-all mb-3"
+                                >
+                                    Verify
+                                </button>
+
+                                <div className="text-center mb-2">
+                                    <p className="text-[14px] text-[#212529]">
+                                        Not received your code?{" "}
+                                        <button
+                                            type="button"
+                                            onClick={async () => {
+                                                try {
+                                                    setLoading(true);
+                                                    await authService.requestPin(email);
+                                                    setError("");
+                                                } catch (err) {
+                                                    setError("Failed to resend code");
+                                                } finally {
+                                                    setLoading(false);
+                                                }
+                                            }}
+                                            className="font-bold underline hover:opacity-80"
+                                        >
+                                            Resend Code
+                                        </button>
+                                    </p>
+                                </div>
+
+                                <div className="text-center mb-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setStep("password")}
+                                        className="text-[14px] text-[#212529] underline hover:opacity-80 block mx-auto"
+                                    >
+                                        Use Password?
+                                    </button>
+                                </div>
+
+                                <p className="text-[12.8px] text-center text-[#212529] leading-relaxed">
+                                    By continuing, you agree to Multifolks's{" "}
+                                    <a href="/terms" className="underline hover:text-black">Terms of Use</a>
+                                    {" "}and{" "}
+                                    <a href="/privacy" className="underline hover:text-black">Privacy Policy</a>.
+                                </p>
+                            </form>
+                        )}
+
+                        {/* Forgot Password Step */}
+                        {step === "forgot_password" && (
+                            <form onSubmit={async (e) => {
+                                e.preventDefault();
+                                if (!pin || pin.length !== 6) {
+                                    setError("Please enter a valid 6-digit PIN");
+                                    return;
+                                }
+                                if (!newPassword || newPassword.length < 6) {
+                                    setError("Password must be at least 6 characters");
+                                    return;
+                                }
+                                setLoading(true);
+                                setError("");
+                                try {
+                                    const response = await authService.resetPassword(email, pin, newPassword);
+                                    if (response?.success || response?.status) {
+                                        await syncLocalCartToBackend();
+                                        onClose();
+                                        window.dispatchEvent(new Event("cart-updated"));
+                                    } else {
+                                        setError(response?.message || "Failed to reset password");
+                                    }
+                                } catch (err: any) {
+                                    setError(
+                                        err?.response?.data?.detail?.msg ||
+                                        err?.response?.data?.message ||
+                                        "Failed to reset password. Please try again."
+                                    );
+                                } finally {
+                                    setLoading(false);
+                                }
+                            }} className="flex flex-col gap-5">
+                                <div className="text-center mb-1">
+                                    <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-1 font-sans">
                                         Forgot Password
                                     </h2>
-                                    <div className="flex items-center justify-center gap-2 mb-8">
-                                        <p className="text-[#757575] text-[15px]">{email}</p>
-                                        <button onClick={() => setStep("email")} className="text-[#1F1F1F] text-sm font-bold underline">Change?</button>
-                                    </div>
-
-                                    <form onSubmit={async (e) => {
-                                        e.preventDefault();
-                                        if (!pin || pin.length !== 6) { setError("Please enter a valid 6-digit PIN"); return; }
-                                        if (!newPassword || newPassword.length < 6) { setError("Password must be at least 6 characters"); return; }
-                                        setLoading(true);
-                                        setError("");
-                                        try {
-                                            const response = await authService.resetPassword(email, pin, newPassword);
-                                            if (response.success || response.status) {
-                                                await syncLocalCartToBackend();
-                                                setSuccessMessage("Login successful");
-                                            } else { setError(response.message || "Failed to reset password"); }
-                                        } catch (err: any) { setError(err?.response?.data?.detail?.msg || err?.response?.data?.message || "Failed to reset password. Please try again."); } finally { setLoading(false); }
-                                    }} className="flex flex-col gap-6">
-                                        <div className="relative">
-                                            <label className="absolute -top-2.5 left-4 bg-white px-2 text-[13px] font-semibold text-[#0066CC] z-10">
-                                                Enter PIN
-                                            </label>
-                                            <input
-                                                type="text"
-                                                value={pin}
-                                                onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                                                className="w-full bg-white border border-[#CED4DA] rounded-[10px] px-5 py-3.5 text-[#1F1F1F] font-medium focus:outline-none focus:border-[#1F1F1F] transition-all text-base"
-                                                required
-                                                autoFocus
-                                                maxLength={6}
-                                            />
-                                        </div>
-
-                                        <div className="relative">
-                                            <label className="absolute -top-2.5 left-4 bg-white px-2 text-[13px] font-semibold text-[#3D2E28] z-10">
-                                                Set Password
-                                            </label>
-                                            <div className="relative">
-                                                <input
-                                                    type={showPassword ? "text" : "password"}
-                                                    value={newPassword}
-                                                    onChange={(e) => setNewPassword(e.target.value)}
-                                                    className="w-full bg-white border border-[#CED4DA] rounded-[10px] px-5 py-3.5 text-[#1F1F1F] font-medium focus:outline-none focus:border-[#1F1F1F] transition-all text-base pr-12"
-                                                    required
-                                                />
-                                                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                                                    {showPassword ? (
-                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
-                                                    ) : (
-                                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        {error && (
-                                            <div className="bg-red-50 border border-red-100 text-red-600 text-xs p-3 rounded-lg -mt-2">
-                                                {error}
-                                            </div>
-                                        )}
-
-                                        <button type="submit" className="w-full bg-[#1F1F1F] text-white py-4 rounded-full font-bold text-[15px] hover:bg-black transition-all shadow-md uppercase tracking-widest">
-                                            Update
-                                        </button>
-                                    </form>
+                                    <p className="text-[16px] text-[#6C757D]">Reset code sent to</p>
+                                    <p className="text-[16px] text-[#6C757D]">{email}</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => setStep("email")}
+                                        className="text-[16px] text-[#6C757D] underline hover:opacity-80 block mx-auto"
+                                    >
+                                        Change?
+                                    </button>
                                 </div>
-                            ) : null}
-                            {/* PIN and Forgot Password steps would follow same pattern */}
-                        </>
-                    )}
-                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="mobile-forgot-pin-input" className="sr-only">PIN</label>
+                                    <input
+                                        id="mobile-forgot-pin-input"
+                                        type="text"
+                                        placeholder="Enter 6-digit PIN"
+                                        value={pin}
+                                        onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                                        className="w-full h-[48px] bg-white border border-[#CED4DA] rounded px-4 py-2 text-[16px] text-[#1F1F1F] font-medium placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1F1F1F] focus:ring-0 transition-all"
+                                        required
+                                        autoFocus
+                                        maxLength={6}
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="mobile-new-password-input" className="block text-[10px] font-bold text-gray-400 uppercase ml-2 mt-1 mb-1">
+                                        New Password
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            id="mobile-new-password-input"
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder="At least 6 characters"
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            className="w-full h-[48px] bg-white border border-[#CED4DA] rounded px-4 py-2 pr-12 text-[16px] text-[#1F1F1F] font-medium focus:outline-none focus:border-[#1F1F1F] focus:ring-0 transition-all"
+                                            required
+                                            minLength={6}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        >
+                                            {showPassword ? (
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                                            ) : (
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {error && (
+                                    <div className="bg-red-50 border border-red-100 text-red-600 text-xs p-3 rounded-lg">
+                                        {error}
+                                    </div>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    className="w-full bg-[#232320] text-white py-4 rounded-full font-bold text-[15px] hover:bg-black transition-all shadow-lg"
+                                >
+                                    Update Password
+                                </button>
+
+                                <div className="flex justify-center gap-4 flex-wrap">
+                                    <button
+                                        type="button"
+                                        onClick={async () => {
+                                            try {
+                                                setLoading(true);
+                                                setError("");
+                                                await authService.requestPin(email);
+                                            } catch (err) {
+                                                setError("Failed to resend code");
+                                            } finally {
+                                                setLoading(false);
+                                            }
+                                        }}
+                                        className="text-sm text-[#1F1F1F] hover:opacity-80 underline font-bold"
+                                    >
+                                        Resend Code
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => { setStep("password"); setPin(""); setNewPassword(""); setError(""); }}
+                                        className="text-sm text-[#1F1F1F] hover:opacity-80 underline font-bold"
+                                    >
+                                        Use Password?
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+                    </>
+                )}
             </div>
+
             {successMessage && (
                 <Toast
                     message={successMessage}

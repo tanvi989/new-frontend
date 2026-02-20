@@ -1870,7 +1870,23 @@ const Payment: React.FC = () => {
                             </div>
                         </div>
                     )}
-
+{/* Summary Card - Cart item count + View Details */}
+<div>
+  <h3 className="text-sm font-bold text-[#1F1F1F] mb-3 font-sans">
+    Summary
+  </h3>
+  <div className="bg-white border border-gray-300 p-4 flex justify-between items-center rounded-sm shadow-sm">
+    <span className="text-sm font-bold text-[#1F1F1F]">
+      Your Cart ( {carts.length} Item{carts.length !== 1 ? "s" : ""} )
+    </span>
+    <button
+      onClick={handleOpenCartView}
+      className="text-xs font-bold text-[#FF9900] underline hover:text-[#e68a00] transition-colors bg-transparent border-none p-0 focus:outline-none"
+    >
+      View Details
+    </button>
+  </div>
+</div>
                     {/* Shipping Method Card - Replicated from desktop logic */}
                     {(() => {
                         const methodId = (locationState as any)?.shippingMethod
