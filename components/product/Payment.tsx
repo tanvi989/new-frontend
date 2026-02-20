@@ -1196,18 +1196,17 @@ const PaymentModes: React.FC<{
           Payment Options
         </h1>
 
-        {/* Promotional Banner */}
-        <div className="w-full rounded-lg overflow-hidden">
-          <img
-            src="/payment-banner-new.jpg"
-            alt="Complete Your Order Upgrade Your Style"
-            className="w-full h-auto object-cover"
-          />
-        </div>
-
+   
+<div className="w-full rounded-lg overflow-hidden hidden md:block">
+  <img
+    src="/payment-banner-new.jpg"
+    alt="Complete Your Order Upgrade Your Style"
+    className="w-full h-auto object-cover"
+  />
+</div>
         {/* Satisfaction Guarantee Banner */}
         <div className="bg-[#E8F5E9] text-[#2E7D32] py-3 px-4 text-center font-bold text-sm rounded-md border border-[#C8E6C9]">
-          Satisfaction Guaranteed - Hassle Free 30 Days Refunds.
+          30-Day Zero-Questions Return. Guaranteed.
         </div>
 
         {/* Payment Options Section */}

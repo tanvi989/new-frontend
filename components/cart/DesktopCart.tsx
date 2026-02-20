@@ -1561,9 +1561,7 @@ useEffect(() => {
                                             </button>
                                         </div>
                                     )}
-                                    <div className="mt-2 text-xs text-gray-500">
-                                        Available codes: LAUNCH50 (50% Off)
-                                    </div>
+                                   
                                 </div>
 
                                 {/* Shipping Method */}

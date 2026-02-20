@@ -561,7 +561,7 @@ export const Navigation: React.FC = () => {
                     {/* Card 1 - Buying First */}
                     <div
                       className="group flex flex-col cursor-pointer rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl h-full bg-[#E94D37] hover:bg-white min-w-0"
-                      onClick={() => handleLinkClick("/glasses")}
+                      onClick={() => handleLinkClick("/multifocals/new")}
                     >
                       <div className="p-4 sm:p-6 flex flex-col h-full transition-all duration-300 rounded-lg border-2 border-transparent group-hover:border-red-200 min-w-0">
                         <div className="flex justify-between items-start w-full">
@@ -604,7 +604,7 @@ export const Navigation: React.FC = () => {
                     {/* Card 2 - Replacing */}
                     <div
                       className="group flex flex-col cursor-pointer rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl h-full bg-[#E94D37] hover:bg-white min-w-0"
-                      onClick={() => handleLinkClick("/glasses")}
+                      onClick={() => handleLinkClick("/multifocals/replacing")}
                     >
                       <div className="p-4 sm:p-6 flex flex-col h-full transition-all duration-300 rounded-lg border-2 border-transparent group-hover:border-red-200 min-w-0">
                         <div className="flex justify-between items-start w-full">
@@ -690,7 +690,11 @@ export const Navigation: React.FC = () => {
                     {/* Card 4 - Style */}
                     <div
                       className="group flex flex-col cursor-pointer rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl h-full bg-[#E94D37] hover:bg-white min-w-0"
-                      onClick={() => handleLinkClick("/glasses")}
+               onClick={(e) => {
+  e.stopPropagation();
+  setActiveDropdown(null);
+  setIsGetMyFitPopupOpen(true);
+}}
                     >
                       <div className="p-4 sm:p-6 flex flex-col h-full transition-all duration-300 rounded-lg border-2 border-transparent group-hover:border-red-200 min-w-0">
                         <div className="flex justify-between items-start w-full">
@@ -800,7 +804,7 @@ export const Navigation: React.FC = () => {
                         className="py-4 px-6 border-b border-gray-100 last:border-0 text-[#1F1F1F] font-bold hover:bg-[#F3F0E7] hover:text-[#D96C47] cursor-pointer transition-colors text-sm md:text-base"
                         onClick={() => {
                           setIsSearchOpen(false);
-                          navigate("/glasses/men");
+                          navigate("/glasses");
                         }}
                       >
                         {item}
@@ -894,7 +898,7 @@ export const Navigation: React.FC = () => {
                           className="py-3 border-b border-gray-100 last:border-0 text-[#1F1F1F] font-medium hover:text-[#D96C47] cursor-pointer transition-colors text-base"
                           onClick={() => {
                             setIsSearchOpen(false);
-                            navigate("/glasses/men");
+                            navigate("/glasses");
                           }}
                         >
                           {item}
@@ -1087,7 +1091,7 @@ export const Navigation: React.FC = () => {
                       </li>
                       <li>
                         <Link
-                          to="/glasses/men"
+                          to="/glasses"
                           className="flex items-center gap-2 text-base font-medium text-black hover:bg-gray-100 p-2 rounded transition-all duration-200"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
@@ -1337,11 +1341,12 @@ export const Navigation: React.FC = () => {
         onClose={() => setIsGetMyFitOpen(false)}
       />
 
-      {/* MFit Popup */}
-      <GetMyFitPopup
-        open={isGetMyFitPopupOpen}
-        onClose={() => setIsGetMyFitPopupOpen(false)}
-      />
+  <GetMyFitPopup
+  open={isGetMyFitPopupOpen}
+  onClose={() => setIsGetMyFitPopupOpen(false)}
+/>
+
     </>
+    
   );
 };

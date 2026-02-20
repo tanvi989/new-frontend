@@ -154,7 +154,7 @@ const SelectLensPackages: React.FC = () => {
       title: "1.74 Blue Protect High Index",
       price: "+£59",
       features: [
-        "40% thinner than 1.50 Standard lenses",
+        "35% thinner than 1.50 Standard lenses",
         "Optimum clarity",
         "Highly recommended for high powers",
         "Prescriptions between +8.00/-12.00",
@@ -203,7 +203,7 @@ const SelectLensPackages: React.FC = () => {
       title: "1.74 High Index",
       price: "+£49",
       features: [
-        "40% thinner than 1.50 Standard lenses",
+        "35% thinner than 1.50 Standard lenses",
         "Optimum clarity",
         "Highly recommended for high powers",
         "Prescriptions between +8.00/-12.00",
@@ -255,7 +255,7 @@ const SelectLensPackages: React.FC = () => {
       title: "1.74 Photochromic High Index",
       price: "+£79",
       features: [
-        "40% thinner than 1.56 Standard lenses",
+        "35% thinner than 1.56 Standard lenses",
         "Free Blue Protect Coating",
         "Optimum clarity",
         "Highly recommended for high powers",
@@ -309,7 +309,7 @@ const SelectLensPackages: React.FC = () => {
       title: "1.74 Blue Protect High Index",
       price: "+£119",
       features: [
-        "40% thinner than 1.50 Standard lenses",
+        "35% thinner than 1.50 Standard lenses",
         "Optimum clarity",
         "Highly recommended for high powers",
         "Prescriptions between +8.00/-12.00",
@@ -348,7 +348,7 @@ const SelectLensPackages: React.FC = () => {
       title: "1.74 Blue Protect High Index",
       price: "+£89",
       features: [
-        "40% thinner than 1.50 Standard lenses",
+        "35% thinner than 1.50 Standard lenses",
         "Optimum clarity",
         "Highly recommended for high powers",
         "Prescriptions between +8.00/-12.00",
@@ -389,7 +389,7 @@ const SelectLensPackages: React.FC = () => {
       title: "1.74 Photochromic High Index",
       price: "+£99",
       features: [
-        "40% thinner than 1.56 Standard lenses",
+        "35% thinner than 1.56 Standard lenses",
         "Free Blue Protect Coating",
         "Optimum clarity",
         "Highly recommended for high powers",
@@ -429,7 +429,7 @@ const SelectLensPackages: React.FC = () => {
       title: "1.74 High Index",
       price: "+£89",
       features: [
-        "40% thinner than 1.50 Standard lenses",
+        "35% thinner than 1.50 Standard lenses",
         "Optimum clarity",
         "Highly recommended for high powers",
         "Prescriptions between +8.00/-12.00",
@@ -468,7 +468,7 @@ const SelectLensPackages: React.FC = () => {
       title: "1.74 High Index",
       price: "+£79",
       features: [
-        "40% thinner than 1.50 Standard lenses",
+        "35% thinner than 1.50 Standard lenses",
         "Optimum clarity",
         "Highly recommended for high powers",
         "Prescriptions between +8.00/-12.00",
@@ -501,17 +501,17 @@ const SelectLensPackages: React.FC = () => {
   const STANDARD_PROG_CLEAR = [
     { id: "1.61", title: "1.61 High Index", price: "+£0", features: ["20% thinner than 1.50 Standard lenses", "Superior clarity", "Prescriptions between +4.00/-6.00"], recommended: true },
     { id: "1.67", title: "1.67 High Index", price: "+£39", features: ["30% thinner than 1.50 Standard lenses", "High clarity", "Prescriptions between +6.00/-8.00"], recommended: false },
-    { id: "1.74", title: "1.74 High Index", price: "+£79", features: ["40% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
+    { id: "1.74", title: "1.74 High Index", price: "+£79", features: ["35% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const STANDARD_PROG_BLUE = [
     { id: "1.61", title: "1.61 Blue Protect High Index", price: "+£39", features: ["20% thinner than 1.50 Standard lenses", "Superior clarity", "Prescriptions between +4.00/-6.00"], recommended: true },
     { id: "1.67", title: "1.67 Blue Protect High Index", price: "+£59", features: ["30% thinner than 1.50 Standard lenses", "High clarity", "Prescriptions between +6.00/-8.00"], recommended: false },
-    { id: "1.74", title: "1.74 Blue Protect High Index", price: "+£89", features: ["40% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
+    { id: "1.74", title: "1.74 Blue Protect High Index", price: "+£89", features: ["35% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const STANDARD_PROG_PHOTO = [
     { id: "1.61", title: "1.61 Photochromic High Index", price: "+£59", features: ["20% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +4.00/-6.00"], recommended: true },
     { id: "1.67", title: "1.67 Photochromic High Index", price: "+£79", features: ["30% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +6.00/-8.00"], recommended: false },
-    { id: "1.74", title: "1.74 Photochromic High Index", price: "+£99", features: ["40% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +8.00/-12.00"], recommended: false },
+    { id: "1.74", title: "1.74 Photochromic High Index", price: "+£99", features: ["35% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const STANDARD_PROG_SUN = [
     { id: "1.61", title: "1.61 Sunglasses", price: "+£29", features: ["Standard Progressive", "20% thinner than 1.50 Standard lenses", "Full UV protection", "Prescriptions between +4.00/-6.00"], recommended: true },
@@ -521,12 +521,12 @@ const SelectLensPackages: React.FC = () => {
   const ADVANCED_PROG_CLEAR = [
     { id: "1.61", title: "1.61 High Index", price: "+£39", features: ["20% thinner than 1.50 Standard lenses", "Superior clarity", "Prescriptions between +4.00/-6.00"], recommended: true },
     { id: "1.67", title: "1.67 High Index", price: "+£59", features: ["30% thinner than 1.50 Standard lenses", "High clarity", "Prescriptions between +6.00/-8.00"], recommended: false },
-    { id: "1.74", title: "1.74 High Index", price: "+£99", features: ["40% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
+    { id: "1.74", title: "1.74 High Index", price: "+£99", features: ["35% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const ADVANCED_PROG_BLUE = [
     { id: "1.61", title: "1.61 Blue Protect High Index", price: "+£49", features: ["20% thinner than 1.50 Standard lenses", "Superior clarity", "Prescriptions between +4.00/-6.00"], recommended: true },
     { id: "1.67", title: "1.67 Blue Protect High Index", price: "+£69", features: ["30% thinner than 1.50 Standard lenses", "High clarity", "Prescriptions between +6.00/-8.00"], recommended: false },
-    { id: "1.74", title: "1.74 Blue Protect High Index", price: "+£119", features: ["40% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
+    { id: "1.74", title: "1.74 Blue Protect High Index", price: "+£119", features: ["35% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const ADVANCED_PROG_SUN = [
     { id: "1.61", title: "1.61 Sunglasses", price: "+£49", features: ["Advanced Progressive", "20% thinner than 1.50 Standard lenses", "Full UV protection", "Prescriptions between +4.00/-6.00"], recommended: true },
@@ -536,24 +536,24 @@ const SelectLensPackages: React.FC = () => {
   const ADVANCED_PROG_PHOTO = [
     { id: "1.61", title: "1.61 Photochromic High Index", price: "+£69", features: ["20% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +4.00/-6.00"], recommended: true },
     { id: "1.67", title: "1.67 Photochromic High Index", price: "+£89", features: ["30% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +6.00/-8.00"], recommended: false },
-    { id: "1.74", title: "1.74 Photochromic High Index", price: "+£139", features: ["40% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +8.00/-12.00"], recommended: false },
+    { id: "1.74", title: "1.74 Photochromic High Index", price: "+£139", features: ["35% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
 
   // Precision Progressive: 1.61 clear 59, blue 69, photo 79, sun 69; 1.67 clear 79, blue 99, photo 109; 1.74 clear 109, blue 139, photo 159
   const PRECISION_PROG_CLEAR = [
     { id: "1.61", title: "1.61 High Index", price: "+£59", features: ["20% thinner than 1.50 Standard lenses", "Superior clarity", "Prescriptions between +4.00/-6.00"], recommended: true },
     { id: "1.67", title: "1.67 High Index", price: "+£79", features: ["30% thinner than 1.50 Standard lenses", "High clarity", "Prescriptions between +6.00/-8.00"], recommended: false },
-    { id: "1.74", title: "1.74 High Index", price: "+£119", features: ["40% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
+    { id: "1.74", title: "1.74 High Index", price: "+£119", features: ["35% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const PRECISION_PROG_BLUE = [
     { id: "1.61", title: "1.61 Blue Protect High Index", price: "+£79", features: ["20% thinner than 1.50 Standard lenses", "Superior clarity", "Prescriptions between +4.00/-6.00"], recommended: true },
     { id: "1.67", title: "1.67 Blue Protect High Index", price: "+£99", features: ["30% thinner than 1.50 Standard lenses", "High clarity", "Prescriptions between +6.00/-8.00"], recommended: false },
-    { id: "1.74", title: "1.74 Blue Protect High Index", price: "+£139", features: ["40% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
+    { id: "1.74", title: "1.74 Blue Protect High Index", price: "+£139", features: ["35% thinner than 1.50 Standard lenses", "Optimum clarity", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const PRECISION_PROG_PHOTO = [
     { id: "1.61", title: "1.61 Photochromic High Index", price: "+£99", features: ["20% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +4.00/-6.00"], recommended: true },
     { id: "1.67", title: "1.67 Photochromic High Index", price: "+£119", features: ["30% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +6.00/-8.00"], recommended: false },
-    { id: "1.74", title: "1.74 Photochromic High Index", price: "+£159", features: ["40% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +8.00/-12.00"], recommended: false },
+    { id: "1.74", title: "1.74 Photochromic High Index", price: "+£159", features: ["35% thinner than 1.56 Standard lenses", "Free Blue Protect Coating", "Prescriptions between +8.00/-12.00"], recommended: false },
   ];
   const PRECISION_PROG_SUN = [
     { id: "1.61", title: "1.61 Sunglasses", price: "+£79", features: ["Precision Progressive", "20% thinner than 1.50 Standard lenses", "Full UV protection", "Prescriptions between +4.00/-6.00"], recommended: true },

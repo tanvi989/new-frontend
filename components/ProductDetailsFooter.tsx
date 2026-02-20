@@ -314,12 +314,7 @@ const ProductDetailsFooter: React.FC<ProductDetailsFooterProps> = ({
           </div>
         </div>
 
-        {/* Bottom Row: HSA/FSA Text - Only on Mobile (md:hidden) */}
-        <div className="md:hidden px-4 pb-4 pt-1">
-          <p className="text-[12px] text-center text-gray-600">
-            Use your benefits—we accept HSA/FSA Payments.
-          </p>
-        </div>
+       
       </div>
       {/* Spacer to prevent content being hidden behind footer */}
       <div className="h-[100px]"></div>

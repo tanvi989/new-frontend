@@ -463,7 +463,7 @@ const SelectLensType: React.FC = () => {
         title: `1.74 ${categoryName} High Index`,
         price: "+£89",
         features: [
-          "40% thinner than 1.50 Standard lenses",
+          "35% thinner than 1.50 Standard lenses",
           "Optimum clarity",
           "Highly recommended for high powers",
           "Prescriptions between +8.00/-12.00",

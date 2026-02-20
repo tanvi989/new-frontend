@@ -404,7 +404,7 @@ const SelectPrescriptionSource: React.FC = () => {
               "
             >
               <h3 className="text-lg font-bold text-[#1F1F1F] mb-3">
-                Generate new PD value with MFit and autofill
+                Generate new PD value with MFit 
               </h3>
 
               <p className="text-base text-gray-700 leading-relaxed">

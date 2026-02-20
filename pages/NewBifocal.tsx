@@ -150,7 +150,7 @@ const NewBifocal: React.FC = () => {
         {/* CTA */}
         <div className="flex justify-center mt-16">
           <button
-            onClick={() => navigate("/glasses/men")}
+            onClick={() => navigate("/glasses")}
             className="bg-[#232320] text-white px-8 sm:px-12 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base uppercase tracking-[0.15em] hover:bg-black transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 w-full max-w-[300px] sm:w-auto"        >
             EXPLORE OUR COLLECTION
           </button>

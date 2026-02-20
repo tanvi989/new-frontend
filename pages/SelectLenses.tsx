@@ -228,7 +228,7 @@ const SelectLenses: React.FC = () => {
       price: "+£119",
       priceValue: 119,
       features: [
-        "40% thinner than 1.56 Standard lenses",
+        "35% thinner than 1.56 Standard lenses",
         "Optimum clarity",
         "Highly recommended for high powers",
         "Prescriptions between +8.00/-12.00",

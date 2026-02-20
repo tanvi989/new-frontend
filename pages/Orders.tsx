@@ -187,7 +187,7 @@ const Orders: React.FC = () => {
                   Looks like you haven't placed any orders yet.
                 </p>
                 <button
-                  onClick={() => navigate("/glasses/men")}
+                  onClick={() => navigate("/glasses")}
                   className="px-8 py-3 bg-[#232320] text-white font-bold text-sm uppercase tracking-widest rounded-full hover:bg-black transition-all"
                 >
                   Start Shopping

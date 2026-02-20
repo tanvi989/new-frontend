@@ -23,20 +23,27 @@ export const Home: React.FC = () => {
     <>
       <HeroSection />
 
-      {/* MFit Banner */}
-      <div
-        className="w-full cursor-pointer"
-        onClick={() => setIsGetMyFitPopupOpen(true)}
-      >
-        <img
-          src="/mfit_desktop_banner.jpg"
-          alt="Try MFit"
-          width="1920"
-          height="auto"
-          loading="lazy"
-          className="w-full h-auto block"
-        />
-      </div>
+{/* MFit Banner */}
+<div
+  className="w-full cursor-pointer"
+  onClick={() => setIsGetMyFitPopupOpen(true)}
+>
+  {/* Mobile Banner */}
+  <img
+    src="/mfit_mobile_banner.jpg"
+    alt="Try MFit"
+    loading="lazy"
+    className="w-full h-auto block md:hidden"
+  />
+
+  {/* Desktop Banner */}
+  <img
+    src="/mfit_desktop_banner.jpg"
+    alt="Try MFit"
+    loading="lazy"
+    className="w-full h-auto hidden md:block"
+  />
+</div>
 
       <MultifocalHero />
       <FeaturesSectionSecond />
