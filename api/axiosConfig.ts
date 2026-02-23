@@ -12,7 +12,7 @@ const error = (message: string) => ({ type: 'ERROR', payload: message });
 const success = (message: string) => ({ type: 'SUCCESS', payload: message });
 
 // Backend URL: use VITE_API_TARGET / VITE_API_URL from .env; default production backend
-export const API_BASE_URL = "http://localhost:5000";
+export const API_BASE_URL = "https://testbackend.multifolks.com/";
 
 const env = (import.meta as any)?.env ?? {};
 let ENV_API_TARGET = (env.VITE_API_TARGET || env.VITE_API_URL || "").trim();
