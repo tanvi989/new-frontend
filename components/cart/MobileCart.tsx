@@ -8,6 +8,7 @@ import {
     getLensPackagePrice,
     getCartLensOverride,
     getCartLensOverrideBySku,
+    parsePrice,
 } from "../../utils/priceUtils";
 import WhyMutlifolks from "../WhyMutlifolks";
 import CouponTermsDialog from "../product/CouponTermsDialog";
@@ -226,13 +227,10 @@ const MobileCart: React.FC<MobileCartProps> = ({
         try {
             const activeCartIds = new Set(cartItems.map(ci => String(ci.cart_id)));
             
-            if (cartItem?.prescription) {
-                const presCartId = cartItem.prescription?.associatedProduct?.cartId || 
-                                   cartItem.prescription?.data?.associatedProduct?.cartId ||
-                                   cartItem.prescription?.cartId ||
-                                   cartItem.prescription?.data?.cartId;
-                
-                if (presCartId && String(presCartId) === String(cartId) && activeCartIds.has(String(presCartId))) {
+            if (cartItem?.prescription && typeof cartItem.prescription === "object" && Object.keys(cartItem.prescription).length > 0) {
+                const pres = cartItem.prescription as any;
+                const presCartId = pres?.associatedProduct?.cartId || pres?.data?.associatedProduct?.cartId || pres?.cartId || pres?.data?.cartId;
+                if (!presCartId || (String(presCartId) === String(cartId) && activeCartIds.has(String(cartId)))) {
                     return cartItem.prescription;
                 }
             }
@@ -467,7 +465,7 @@ const MobileCart: React.FC<MobileCartProps> = ({
                                 <tr className="border-b border-gray-200">
                                     <td className="py-3 px-2 font-bold text-[#1F1F1F] border-r border-gray-200">Frame Price:</td>
                                     <td className="py-3 px-2 text-[#525252]"></td>
-                                    <td className="py-3 px-2 text-right font-bold text-[#1F1F1F] whitespace-nowrap bg-gray-50 rounded-[1px]">£{Number(item.product?.products?.list_price || 0).toFixed(2)}</td>
+                                    <td className="py-3 px-2 text-right font-bold text-[#1F1F1F] whitespace-nowrap bg-gray-50 rounded-[1px]">£{parsePrice(item.product?.products?.list_price ?? item.product?.products?.price ?? (item as any).price ?? 0).toFixed(2)}</td>
                                 </tr>
                                 <tr className="border-b border-gray-200">
                                     <td className="py-3 px-2 font-bold text-[#1F1F1F] border-r border-gray-200">Frame Size:</td>
@@ -528,7 +526,24 @@ const MobileCart: React.FC<MobileCartProps> = ({
                                 if (prescription) {
                                     return (
                                         <div className="flex flex-col gap-2">
-                                            <button onClick={() => { setViewPrescription(prescription); setViewPrescriptionCartId(item.cart_id); }} className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded transition-colors w-full">View Prescription</button>
+                                            <button onClick={() => {
+                                                const pd = item.product_details || {};
+                                                const pdSingle = pd.pd_single_mm ?? pd.pd_single ?? prescription?.pdSingle;
+                                                const pdRight = pd.pd_right_mm ?? pd.pd_right ?? prescription?.pdRight;
+                                                const pdLeft = pd.pd_left_mm ?? pd.pd_left ?? prescription?.pdLeft;
+                                                const base = prescription?.prescriptionDetails || prescription?.data || {};
+                                                const merged = {
+                                                    ...prescription,
+                                                    pdSingle: prescription?.pdSingle ?? base?.pdSingle ?? pdSingle,
+                                                    pdRight: prescription?.pdRight ?? base?.pdRight ?? pdRight,
+                                                    pdLeft: prescription?.pdLeft ?? base?.pdLeft ?? pdLeft,
+                                                    pdType: prescription?.pdType ?? base?.pdType ?? (pdRight != null && pdLeft != null ? "dual" : pdSingle != null ? "single" : undefined),
+                                                    prescriptionDetails: { ...base, pdSingle: base?.pdSingle ?? pdSingle, pdRight: base?.pdRight ?? pdRight, pdLeft: base?.pdLeft ?? pdLeft, pdType: base?.pdType },
+                                                    data: { ...(prescription?.data || {}), ...base, pdSingle: base?.pdSingle ?? pdSingle, pdRight: base?.pdRight ?? pdRight, pdLeft: base?.pdLeft ?? pdLeft, pdType: base?.pdType },
+                                                };
+                                                setViewPrescription(merged);
+                                                setViewPrescriptionCartId(item.cart_id);
+                                            }} className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded transition-colors w-full">View Prescription</button>
                                             {!isEditing ? (
                                                 <button onClick={() => toggleEditMode(item.cart_id)} className="text-teal-700 hover:text-teal-800 text-sm font-medium underline transition-colors self-start">Edit Prescription</button>
                                             ) : (

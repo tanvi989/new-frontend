@@ -24,7 +24,7 @@ import DeleteDialog from "../DeleteDialog";
 import { LoginModal } from "../LoginModal";
 import SignUpModal from "../SignUpModal";
 import ManualPrescriptionModal from "../ManualPrescriptionModal";
-import { getLensCoating, getTintInfo, calculateCartSubtotal, calculateItemTotal, getLensPackagePrice, getCartLensOverride, getCartLensOverrideBySku, setCartLensOverride, getLensTypeDisplay, getLensIndex } from "../../utils/priceUtils";
+import { getLensCoating, getTintInfo, calculateCartSubtotal, calculateItemTotal, getLensPackagePrice, getCartLensOverride, getCartLensOverrideBySku, setCartLensOverride, getLensTypeDisplay, getLensIndex, parsePrice } from "../../utils/priceUtils";
 import { getProductFlow } from "../../utils/productFlowStorage";
 import { trackBeginCheckout } from "../../utils/analytics";
 
@@ -791,13 +791,18 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
         cartItem?: CartItem
     ): any | null => {
         try {
-            console.log(`🔍 [getPrescriptionByCartId] Checking for cartId: ${cartId}, productSku: ${productSku}`);
-            console.log(`🔍 [getPrescriptionByCartId] Cart item prescription:`, cartItem?.prescription);
-            
-            // Get list of active cart IDs to filter out old order prescriptions
             const activeCartIds = new Set(cartItems.map(ci => String(ci.cart_id)));
             
-            // 1) Check localStorage FIRST so take-photo / just-uploaded prescription wins over old API ones
+            // 1) Prefer prescription stored ON the cart item (from backend) so it shows on other devices/browsers
+            if (cartItem?.prescription && typeof cartItem.prescription === "object" && Object.keys(cartItem.prescription).length > 0) {
+                const pres = cartItem.prescription as any;
+                const presCartId = pres?.associatedProduct?.cartId ?? pres?.data?.associatedProduct?.cartId ?? pres?.cartId ?? pres?.data?.cartId;
+                if (!presCartId || (String(presCartId) === String(cartId) && activeCartIds.has(String(cartId)))) {
+                    return cartItem.prescription;
+                }
+            }
+            
+            // 2) Check localStorage (current device only)
             try {
                 const localPrescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
                 const localMatches = localPrescriptions.filter((p: any) => {
@@ -813,14 +818,13 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                         return 0;
                     };
                     const localPrescription = localMatches.sort((a: any, b: any) => getLocalDate(b) - getLocalDate(a))[0];
-                    console.log('✅ [getPrescriptionByCartId] Using prescription from localStorage (take-photo/recent upload)');
                     return localPrescription;
                 }
             } catch (e) {
                 console.error("❌ [getPrescriptionByCartId] Error checking localStorage:", e);
             }
 
-            // 2) Session storage for product (from product page flow)
+            // 3) Session storage for product (from product page flow)
             try {
                 if (productSku) {
                     const sessionPrescriptions = JSON.parse(sessionStorage.getItem('productPrescriptions') || '{}');
@@ -833,7 +837,6 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                                 sessionPrescriptions[productSku] = productPrescription;
                                 sessionStorage.setItem('productPrescriptions', JSON.stringify(sessionPrescriptions));
                             }
-                            console.log('✅ [getPrescriptionByCartId] Using prescription from sessionStorage');
                             return productPrescription;
                         }
                     }
@@ -842,7 +845,7 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                 console.error("❌ [getPrescriptionByCartId] Error checking sessionStorage:", e);
             }
 
-            // 3) User prescriptions from database (only when explicitly linked to this cartId)
+            // 4) User prescriptions from database (only when explicitly linked to this cartId)
             if (userPrescriptions && userPrescriptions.length > 0) {
                 console.log(`🔍 [getPrescriptionByCartId] Checking ${userPrescriptions.length} user prescriptions...`);
                 
@@ -907,23 +910,8 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                     console.log('✅ [getPrescriptionByCartId] Returning prescription from database:', prescription);
                     return prescription;
                 }
-            } else {
-                console.log(`⚠️ [getPrescriptionByCartId] No user prescriptions available (count: ${userPrescriptions?.length || 0})`);
             }
 
-            // 4) Fallback: use prescription stored on cart item
-            if (cartItem?.prescription) {
-                const presCartId = cartItem.prescription?.associatedProduct?.cartId ||
-                    cartItem.prescription?.data?.associatedProduct?.cartId ||
-                    cartItem.prescription?.cartId ||
-                    cartItem.prescription?.data?.cartId;
-                if (presCartId && String(presCartId) === String(cartId) && activeCartIds.has(String(presCartId))) {
-                    console.log('✅ [getPrescriptionByCartId] Using prescription from cart item (fallback)');
-                    return cartItem.prescription;
-                }
-            }
-
-            console.log(`❌ [getPrescriptionByCartId] No prescription found for cartId: ${cartId}`);
             return null;
         } catch (error) {
             console.error("❌ [getPrescriptionByCartId] Error fetching prescription:", error);
@@ -1292,7 +1280,7 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                                                             <tr className="border-b border-gray-200">
                                                                 <td className="p-3 font-bold text-[#1F1F1F] border-r border-gray-200">Frame Price:</td>
                                                                 <td className="p-3 text-[#525252]"></td>
-                                                                <td className="p-3 text-right font-bold text-[#1F1F1F] whitespace-nowrap bg-gray-50 rounded-[1px]">£{Number(item.product?.products?.list_price || item.product_details?.price || 0).toFixed(2)}</td>
+                                                                <td className="p-3 text-right font-bold text-[#1F1F1F] whitespace-nowrap bg-gray-50 rounded-[1px]">£{parsePrice(item.product?.products?.list_price ?? item.product?.products?.price ?? item.product_details?.price ?? (item as any).price ?? 0).toFixed(2)}</td>
                                                             </tr>
                                                             <tr className="border-b border-gray-200">
                                                                 <td className="p-3 font-bold text-[#1F1F1F] border-r border-gray-200">Frame Size:</td>
@@ -1341,17 +1329,21 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                                                                                 <button
                                                                                     onClick={() => {
                                                                                         const flow = getProductFlow(productSku || "");
+                                                                                        const pd = item.product_details || {};
+                                                                                        const pdSingle = pd.pd_single_mm ?? pd.pd_single ?? prescription?.pdSingle;
+                                                                                        const pdRight = pd.pd_right_mm ?? pd.pd_right ?? prescription?.pdRight;
+                                                                                        const pdLeft = pd.pd_left_mm ?? pd.pd_left ?? prescription?.pdLeft;
                                                                                         const hasFlowPd = flow && (flow.pdSingle || flow.pdRight || flow.pdLeft);
                                                                                         const base = prescription?.prescriptionDetails || prescription?.data || {};
-                                                                                        const merged = hasFlowPd ? {
+                                                                                        const merged = {
                                                                                             ...prescription,
-                                                                                            pdSingle: prescription?.pdSingle ?? base?.pdSingle ?? flow?.pdSingle,
-                                                                                            pdRight: prescription?.pdRight ?? base?.pdRight ?? flow?.pdRight,
-                                                                                            pdLeft: prescription?.pdLeft ?? base?.pdLeft ?? flow?.pdLeft,
-                                                                                            pdType: prescription?.pdType ?? base?.pdType ?? flow?.pdType,
-                                                                                            prescriptionDetails: { ...base, pdSingle: base?.pdSingle ?? flow?.pdSingle, pdRight: base?.pdRight ?? flow?.pdRight, pdLeft: base?.pdLeft ?? flow?.pdLeft, pdType: base?.pdType ?? flow?.pdType },
-                                                                                            data: { ...(prescription?.data || {}), ...base, pdSingle: base?.pdSingle ?? flow?.pdSingle, pdRight: base?.pdRight ?? flow?.pdRight, pdLeft: base?.pdLeft ?? flow?.pdLeft, pdType: base?.pdType ?? flow?.pdType },
-                                                                                        } : prescription;
+                                                                                            pdSingle: prescription?.pdSingle ?? base?.pdSingle ?? pdSingle ?? flow?.pdSingle,
+                                                                                            pdRight: prescription?.pdRight ?? base?.pdRight ?? pdRight ?? flow?.pdRight,
+                                                                                            pdLeft: prescription?.pdLeft ?? base?.pdLeft ?? pdLeft ?? flow?.pdLeft,
+                                                                                            pdType: prescription?.pdType ?? base?.pdType ?? (pdRight != null && pdLeft != null ? "dual" : pdSingle != null ? "single" : undefined) ?? flow?.pdType,
+                                                                                            prescriptionDetails: { ...base, pdSingle: base?.pdSingle ?? pdSingle ?? flow?.pdSingle, pdRight: base?.pdRight ?? pdRight ?? flow?.pdRight, pdLeft: base?.pdLeft ?? pdLeft ?? flow?.pdLeft, pdType: base?.pdType ?? flow?.pdType },
+                                                                                            data: { ...(prescription?.data || {}), ...base, pdSingle: base?.pdSingle ?? pdSingle ?? flow?.pdSingle, pdRight: base?.pdRight ?? pdRight ?? flow?.pdRight, pdLeft: base?.pdLeft ?? pdLeft ?? flow?.pdLeft, pdType: base?.pdType ?? flow?.pdType },
+                                                                                        };
                                                                                         setViewPrescription(merged);
                                                                                         setViewPrescriptionCartId(item.cart_id);
                                                                                     }}

@@ -79,29 +79,23 @@ export const authService = {
         localStorage.setItem("firstName", firstName || localStorage.getItem("firstName") || "User");
         if (lastName) localStorage.setItem("lastName", lastName);
         if (phone) localStorage.setItem("phone", phone);
-
-        window.dispatchEvent(new Event("auth-change"));
       } else {
         // If no userData, ensure we at least have a fallback firstName
         if (!localStorage.getItem("firstName")) {
           localStorage.setItem("firstName", "User");
         }
-        window.dispatchEvent(new Event("auth-change"));
       }
 
-      // Merge guest cart with user cart after successful login
-      // This will transfer all items from guest session to the authenticated user's cart
-      console.log("🔍 Login successful, checking for guest cart merge...");
-      console.log("🔍 Token:", token ? "Present" : "Missing");
-      console.log("🔍 Guest ID:", localStorage.getItem('guest_id'));
-
+      // Merge guest cart with user cart BEFORE firing auth-change, so cart refetch sees merged cart
+      console.log("🔍 Login successful, merging guest cart...");
       try {
         await syncLocalCartToBackend();
         console.log("✅ Guest cart merged successfully after login");
       } catch (error) {
         console.error("⚠️ Failed to merge guest cart, but login was successful:", error);
-        // Don't throw - login was successful, cart merge is a nice-to-have
       }
+
+      window.dispatchEvent(new Event("auth-change"));
     }
 
     return response.data;
@@ -146,15 +140,13 @@ export const authService = {
         localStorage.setItem("email", response.data.email || "");
         localStorage.setItem("firstName", response.data.first_name || "");
         localStorage.setItem("lastName", response.data.last_name || "");
-        window.dispatchEvent(new Event("auth-change"));
 
-        // Merge guest cart with user cart after successful Google login
         try {
           await syncLocalCartToBackend();
-          console.log("✅ Guest cart merged successfully after Google login");
         } catch (error) {
           console.error("⚠️ Failed to merge guest cart after Google login:", error);
         }
+        window.dispatchEvent(new Event("auth-change"));
       }
 
       return response.data;
@@ -179,15 +171,13 @@ export const authService = {
         localStorage.setItem("email", response.data.email || "");
         localStorage.setItem("firstName", response.data.first_name || "");
         localStorage.setItem("lastName", response.data.last_name || "");
-        window.dispatchEvent(new Event("auth-change"));
 
-        // Merge guest cart with user cart after successful Facebook login
         try {
           await syncLocalCartToBackend();
-          console.log("✅ Guest cart merged successfully after Facebook login");
         } catch (error) {
           console.error("⚠️ Failed to merge guest cart after Facebook login:", error);
         }
+        window.dispatchEvent(new Event("auth-change"));
       }
 
       return response.data;
@@ -220,15 +210,13 @@ export const authService = {
       localStorage.setItem("lastName", last_name || "");
       localStorage.setItem("phone", mobile || "");
       localStorage.setItem("customerID", id || "");
-      window.dispatchEvent(new Event("auth-change"));
 
-      // Merge guest cart with user cart after successful PIN login
       try {
         await syncLocalCartToBackend();
-        console.log("✅ Guest cart merged successfully after PIN login");
       } catch (error) {
         console.error("⚠️ Failed to merge guest cart after PIN login:", error);
       }
+      window.dispatchEvent(new Event("auth-change"));
     }
 
     return response.data;

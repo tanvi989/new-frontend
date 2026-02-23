@@ -984,6 +984,7 @@ const CheckoutSummary = ({
   onCheckout,
   isFormDisabled,
   buttonText,
+  enrichedCarts,
 }: {
   cartItems: CartItem[];
   subtotal: number;
@@ -996,6 +997,7 @@ const CheckoutSummary = ({
   onCheckout?: () => void;
   isFormDisabled?: boolean;
   buttonText?: string;
+  enrichedCarts?: any[];
 }) => {
   return (
     <div className="flex flex-col gap-6">
@@ -1064,6 +1066,100 @@ const CheckoutSummary = ({
           </button>
         </div>
       </div>
+
+
+
+{/* Prescription Details per cart item */}
+{enrichedCarts && enrichedCarts.length > 0 && (
+  <div>
+    <h3 className="text-sm font-bold text-[#1F1F1F] mb-4 font-sans">
+      Prescriptions
+    </h3>
+    <div className="bg-white border border-gray-300 rounded-sm shadow-sm divide-y divide-gray-100">
+      {enrichedCarts.map((item: any, idx: number) => {
+        const productName =
+          item.product?.products?.naming_system ||
+          item.product?.products?.brand ||
+          item.name ||
+          `Item ${idx + 1}`;
+        const pres = item.prescription;
+        const details = pres?.prescriptionDetails || pres?.data || pres;
+
+        return (
+          <div key={idx} className="p-4">
+            <p className="text-sm font-bold text-[#1F1F1F] mb-2">{productName}</p>
+
+            {!pres ? (
+              <span className="text-xs text-red-500 font-semibold">
+                ⚠ No prescription added
+              </span>
+            ) : (
+              <>
+          
+                {/* OD / OS table */}
+                {details && (details.rightSph || details.leftSph || details.rightCyl || details.leftCyl) && (
+                  <div className="w-full text-xs border border-gray-100 rounded overflow-hidden mb-2">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="bg-gray-50 text-gray-500">
+                          <th className="p-1.5 text-left font-semibold"></th>
+                          <th className="p-1.5 text-center font-semibold">Right (OD)</th>
+                          <th className="p-1.5 text-center font-semibold">Left (OS)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(details.rightSph || details.leftSph) && (
+                          <tr className="border-t border-gray-100">
+                            <td className="p-1.5 font-semibold text-[#1F1F1F]">SPH</td>
+                            <td className="p-1.5 text-center text-[#525252]">{details.rightSph || "—"}</td>
+                            <td className="p-1.5 text-center text-[#525252]">{details.leftSph || "—"}</td>
+                          </tr>
+                        )}
+                        {(details.rightCyl || details.leftCyl) && (
+                          <tr className="border-t border-gray-100">
+                            <td className="p-1.5 font-semibold text-[#1F1F1F]">CYL</td>
+                            <td className="p-1.5 text-center text-[#525252]">{details.rightCyl || "—"}</td>
+                            <td className="p-1.5 text-center text-[#525252]">{details.leftCyl || "—"}</td>
+                          </tr>
+                        )}
+                        {(details.rightAxis || details.leftAxis) && (
+                          <tr className="border-t border-gray-100">
+                            <td className="p-1.5 font-semibold text-[#1F1F1F]">AXIS</td>
+                            <td className="p-1.5 text-center text-[#525252]">{details.rightAxis || "—"}</td>
+                            <td className="p-1.5 text-center text-[#525252]">{details.leftAxis || "—"}</td>
+                          </tr>
+                        )}
+                        {(details.rightAdd || details.leftAdd) && (
+                          <tr className="border-t border-gray-100">
+                            <td className="p-1.5 font-semibold text-[#1F1F1F]">ADD</td>
+                            <td className="p-1.5 text-center text-[#525252]">{details.rightAdd || "—"}</td>
+                            <td className="p-1.5 text-center text-[#525252]">{details.leftAdd || "—"}</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+
+                {/* PD */}
+                {(details?.pdSingle || details?.pdRight || details?.pdLeft) && (
+                  <p className="text-xs text-[#525252]">
+                    <span className="font-semibold text-[#1F1F1F]">PD: </span>
+                    {details.pdType === "dual" || details.pdType === "Dual"
+                      ? `R: ${details.pdRight || "—"} / L: ${details.pdLeft || "—"}`
+                      : `${details.pdSingle || "—"} mm`}
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+)}
+
+
 
       {/* Why Multifolks? Trust Section - Mobile Only */}
       <div className="md:hidden">
@@ -1465,21 +1561,19 @@ const Payment: React.FC = () => {
     refetch: refetchCart,
     isLoading: cartsLoading,
   } = useQuery({
-    queryKey: ["carts", locationState?.order_id],
+    queryKey: ["cart"],
     queryFn: async () => {
-      try {
-        const response: any = await getCart({
-          order_id: locationState?.order_id,
-        });
-        if (response?.data?.status) {
-          return response?.data;
-        }
-        return { cart: [] };
-      } catch (error) {
-        console.error("Failed to load cart", error);
-        return { cart: [] };
-      }
-    },
+  try {
+    const response: any = await getCart({
+      order_id: locationState?.order_id,
+    });
+    // Return data regardless of status flag — don't silently drop cart
+    return response?.data || { cart: [] };
+  } catch (error) {
+    console.error("Failed to load cart", error);
+    return { cart: [] };
+  }
+},
     retry: false,
     staleTime: 0,
     refetchOnMount: true,
@@ -1487,17 +1581,26 @@ const Payment: React.FC = () => {
 
   const [waitingForMergedCart, setWaitingForMergedCart] = useState(false);
 
-  // When cart was just merged after login, refetch so Payment shows merged items
+  // Refetch cart when it was merged after login (cart-updated) or when auth changed (login/logout)
   useEffect(() => {
     const onCartUpdated = () => {
-      queryClient.invalidateQueries({ queryKey: ["carts"] });
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
       refetchCart();
     };
+    const onAuthChange = () => {
+      setWaitingForMergedCart(true);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      refetchCart().finally(() => setWaitingForMergedCart(false));
+    };
     window.addEventListener("cart-updated", onCartUpdated);
-    return () => window.removeEventListener("cart-updated", onCartUpdated);
+    window.addEventListener("auth-change", onAuthChange);
+    return () => {
+      window.removeEventListener("cart-updated", onCartUpdated);
+      window.removeEventListener("auth-change", onAuthChange);
+    };
   }, [queryClient, refetchCart]);
 
-  // After login, cart can be empty on first load — refetch once when empty and user is logged in
+  // After login, if cart still empty refetch once (merge may complete just after auth-change)
   useEffect(() => {
     const cartItems = (cartData?.cart as CartItem[]) || [];
     const isAuthenticated = !!localStorage.getItem("token");
@@ -1510,9 +1613,9 @@ const Payment: React.FC = () => {
       hasRefetchedAfterEmpty.current = true;
       setWaitingForMergedCart(true);
       const t = setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ["carts"] });
+        queryClient.invalidateQueries({ queryKey: ["cart"] });
         refetchCart().finally(() => setWaitingForMergedCart(false));
-      }, 400);
+      }, 600);
       return () => clearTimeout(t);
     }
     if (cartItems.length > 0) setWaitingForMergedCart(false);
@@ -1533,7 +1636,11 @@ const Payment: React.FC = () => {
       </div>
     );
   }
-  const shippingCost = cartData?.shipping_cost || 0;
+const shippingCost = Number(
+  cartData?.shipping_cost ??
+  cartData?.shipping_method?.cost ??
+  0
+);
 
   // Build prescription from product_details (PD from SelectPrescriptionSource: Single or Dual)
   const buildPdPrescription = (pd: any) => {
@@ -1607,7 +1714,20 @@ const Payment: React.FC = () => {
 
   // Calculate totals directly from backend response (matches Cart.tsx)
   // LAUNCH50 = always 50% off subtotal (same as cart)
-  const listPrice = calculateCartSubtotal(carts);
+ const listPrice = (() => {
+  // calculateCartSubtotal reads localStorage lens overrides — may return 0 on payment page
+  const frontend = calculateCartSubtotal(carts);
+  if (frontend > 0) return frontend;
+  // Fallback: sum directly from backend item prices
+  const fromItems = carts.reduce((sum: number, item: any) => {
+    const price = Number(item.price ?? item.total_price ?? item.item_total ?? 0);
+    const qty = Number(item.quantity ?? 1);
+    return sum + price * qty;
+  }, 0);
+  if (fromItems > 0) return fromItems;
+  // Last resort: use backend subtotal
+  return Number(cartData?.subtotal ?? 0);
+})();
   const isLaunch50 = (cartData?.coupon?.code || "").toUpperCase() === "LAUNCH50";
   const offerAmount = isLaunch50 ? listPrice * 0.5 : (cartData?.discount_amount || 0);
   // Calculate total payable consistent with Cart.tsx
@@ -1690,20 +1810,28 @@ const Payment: React.FC = () => {
             prescription: item.prescription,
           }));
 
-        // Serializable cart for backend to persist on order (so order details show items and totals, not £0)
-        const cart_items = enrichedCarts.map((item: any) => ({
-          cart_id: item.cart_id,
-          product_id: item.product_id,
-          name: item.name,
-          quantity: item.quantity ?? 1,
-          price: item.price,
-          product: item.product,
-          lens: item.lens,
-          prescription: item.prescription,
-          product_details: item.product_details,
-          flag: item.flag,
-        }));
-
+      const cart_items = enrichedCarts.map((item: any) => ({
+  cart_id: item.cart_id,
+  product_id: item.product_id,
+  name: item.name,
+  quantity: item.quantity ?? 1,
+  // Strip £ symbol — send as number
+  price: parseFloat(String(item.price).replace(/[^0-9.]/g, "")) || 0,
+  // Only essential product fields, not full nested object
+  product: {
+    skuid: item.product?.products?.skuid,
+    name: item.product?.products?.name,
+    image: item.product?.products?.image,
+  },
+  lens: item.lens ? {
+    id: item.lens.id,
+    main_category: item.lens.main_category,
+    selling_price: item.lens.selling_price,
+  } : null,
+  prescription: item.prescription,
+  flag: item.flag,
+}));
+console.log("💳 Sending to Stripe:", { totalPayable, listPrice, offerAmount, shippingCost });
         const sessionRes = await createPaymentSession({
           order_id: orderId,
           amount: totalPayable,
@@ -2035,21 +2163,22 @@ const Payment: React.FC = () => {
                 })()}
 
                 <div className="pt-6">
-                  <CheckoutSummary
-                    cartItems={carts}
-                  subtotal={listPrice}
-                  discountAmount={offerAmount}
-                  total={totalPayable}
-                  couponCode={offer?.code}
-                  taxAmount={taxAmount}
-                  shippingCost={shippingCost}
-                  onOpenCart={handleOpenCartView}
-                  isFormDisabled={step === "address" && !isAddressFormValid}
-                  buttonText={step === "address" ? "Checkout Now" : "Pay Now"}
-                  onCheckout={step === "address" ? () => {
-                    addressFormRef.current?.submit();
-                  } : () => handlePlaceOrder()}
-                  />
+                 <CheckoutSummary
+  cartItems={carts}
+  subtotal={listPrice}
+  discountAmount={offerAmount}
+  total={totalPayable}
+  couponCode={offer?.code}
+  taxAmount={taxAmount}
+  shippingCost={shippingCost}
+  onOpenCart={handleOpenCartView}
+  isFormDisabled={step === "address" && !isAddressFormValid}
+  buttonText={step === "address" ? "Checkout Now" : "Pay Now"}
+  enrichedCarts={enrichedCarts}
+  onCheckout={step === "address" ? () => {
+    addressFormRef.current?.submit();
+  } : () => handlePlaceOrder()}
+  />
                 </div>
               </div>
 

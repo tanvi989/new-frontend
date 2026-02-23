@@ -5,6 +5,16 @@ const toNumber = (value: unknown, fallback = 0): number => {
     return Number.isFinite(n) ? n : fallback;
 };
 
+/** Parse price from "£139.00", "139", 139, etc. Returns number (avoid NaN). */
+export const parsePrice = (value: unknown): number => {
+    if (value == null || value === "") return 0;
+    const n = Number(value);
+    if (Number.isFinite(n)) return n;
+    const str = String(value).replace(/[^\d.]/g, "");
+    const parsed = parseFloat(str);
+    return Number.isFinite(parsed) ? parsed : 0;
+};
+
 type LensSelectionOverride = {
     lensPackage?: string;
     lensPackagePrice?: number;
@@ -167,20 +177,22 @@ export const getLensCoating = (item: CartItem): { name: string; price: number } 
         return result;
     }
 
-    // 2. Check lens object coating field
+    // 2. Check lens object coating field (with fallback price when backend didn't store coating_price)
     if (lensAny?.coating) {
-        const result = {
-            name: String(lensAny.coating),
-            price: toNumber(lensAny.coating_price ?? 0, 0)
-        };
-        console.log("✅ getLensCoating result (from lens.coating):", result);
+        let coatingPrice = toNumber(lensAny.coating_price ?? 0, 0);
+        if (coatingPrice === 0) {
+            const c = String(lensAny.coating);
+            if (c.includes("Oil Resistant")) coatingPrice = 15;
+            else if (c.includes("Water Resistant")) coatingPrice = 10;
+            else if (c.includes("Scratch Resistant")) coatingPrice = 15;
+        }
+        const result = { name: String(lensAny.coating), price: coatingPrice };
         return result;
     }
 
     // 2.5 If price exists on lens but name doesn't, still show price
     if (lensAny?.coating_price != null) {
         const result = { name: "Coating", price: toNumber(lensAny.coating_price, 0) };
-        console.log("✅ getLensCoating result (from lens.coating_price):", result);
         return result;
     }
 
@@ -264,7 +276,8 @@ export const getTintInfo = (item: CartItem): { type: string; color: string; pric
 };
 
 export const calculateItemTotal = (item: CartItem): number => {
-    const framePrice = Number(item.product?.products?.list_price || 0);
+    const products = item.product?.products;
+    const framePrice = parsePrice(products?.list_price ?? products?.price ?? (item as any).price ?? 0);
     const lensPrice = getLensPackagePrice(item);
     const tintInfo = getTintInfo(item);
 

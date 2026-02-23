@@ -12,7 +12,7 @@ const error = (message: string) => ({ type: 'ERROR', payload: message });
 const success = (message: string) => ({ type: 'SUCCESS', payload: message });
 
 // Backend URL: use VITE_API_TARGET / VITE_API_URL from .env; default production backend
-export const API_BASE_URL = "https://livebackend.multifolks.com";
+export const API_BASE_URL = "http://localhost:5000";
 
 const env = (import.meta as any)?.env ?? {};
 let ENV_API_TARGET = (env.VITE_API_TARGET || env.VITE_API_URL || "").trim();
@@ -99,15 +99,17 @@ axios.interceptors.response.use(function (response: AxiosResponse) {
   const originalRequest = err.config as InternalAxiosRequestConfig & { _retry?: boolean };
   
   if (err.response?.status === 401 && originalRequest && !originalRequest._retry) {
-    // Do NOT retry cart mutations (add, update, delete) with guest_id when user had a token.
-    // Retrying would add to guest cart instead of user cart, causing old items to disappear.
     const url = originalRequest.url || '';
-    const isCartMutation = originalRequest.method?.toUpperCase() !== 'GET' &&
+    const method = (originalRequest.method || 'GET').toUpperCase();
+    const hadToken = !!localStorage.getItem('token');
+    // Do NOT retry cart mutations with guest_id when user had a token (would add to wrong cart).
+    const isCartMutation = method !== 'GET' &&
       (url.includes('/api/v1/cart/add') || url.includes('/api/v1/cart/item/') ||
        url.includes('/api/v1/cart/quantity') || url.includes('/api/v1/cart/clear'));
-    const hadToken = !!localStorage.getItem('token');
-    if (isCartMutation && hadToken) {
-      localStorage.removeItem('token'); // Session invalid; let add fail so frontend can use localStorage
+    // Do NOT retry GET /api/v1/cart with guest when user had a token: retry would return empty guest cart and UI would show 0 items.
+    const isCartGet = method === 'GET' && url.includes('/api/v1/cart');
+    if (hadToken && (isCartMutation || isCartGet)) {
+      if (isCartMutation) localStorage.removeItem('token');
       return Promise.reject(err);
     }
 
