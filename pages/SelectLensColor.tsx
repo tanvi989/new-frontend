@@ -158,7 +158,7 @@ const SelectLensColor: React.FC = () => {
       if (state?.lensType === "bifocal") {
         mainCategory = "Bifocal Lenses";
       } else if (state?.prescriptionTier === "advanced") {
-        mainCategory = "Premium Progressive Lenses";
+        mainCategory = "Advanced Progressive Lenses";
       } else if (state?.prescriptionTier === "standard") {
         mainCategory = "Standard Progressive Lenses";
       } else if (state?.prescriptionTier || state?.lensType === "progressive") {
