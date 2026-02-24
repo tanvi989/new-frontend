@@ -99,8 +99,8 @@ export const selectLens = (skuid: string, cart_id: number, lens_id: string | num
 export const addPrescription = (_customer_id: any, _type: any, _mode: any, data: any, cart_id: any) => {
   const formData = new FormData();
   if (cart_id) formData.append("cart_id", String(cart_id));
-  formData.append("mode", "manual");
-  formData.append("prescription_data", JSON.stringify({ type: "manual", mode: "manual", data: data?.data ?? data }));
+  formData.append("mode", _mode || "manual");  // Use the actual mode parameter
+  formData.append("prescription_data", JSON.stringify({ type: _type || "manual", mode: _mode || "manual", data: data?.data ?? data }));
   return axios.put("/api/v1/cart/prescription", formData);
 };
 

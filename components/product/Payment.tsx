@@ -1852,8 +1852,8 @@ console.log("💳 Sending to Stripe:", { totalPayable, listPrice, offerAmount, s
               subtotal: listPrice,
               discount: offerAmount,
               tax: taxAmount,
-              shipping: shippingCost
-            }).substring(0, 490)
+              shipping: shippingCost,
+            }, null, 2).substring(0, 490)
           }
         });
 

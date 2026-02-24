@@ -94,6 +94,7 @@ import BustingTheMyth from './pages/BustingTheMyth';
 import OurGuarantee from './pages/OurGuarantee';
 import AllArticles from './pages/AllArticles';
 import AddPrescription from './pages/AddPrescription';
+import Logs from './pages/Logs';
 // import { Checkout } from './pages/Checkout';
 import { PerfectFitApp } from './perfect-fit-cam/PerfectFitApp';
 import PerfectFitIndex from './perfect-fit-cam/pages/Index';
@@ -280,6 +281,8 @@ const App: React.FC = () => {
             <Route path="/my-prescriptions" element={<MyPrescription />} />
             <Route path="/recently-viewed" element={<RecentlyViewed />} />
             <Route path="/offers" element={<Offers />} />
+            <Route path="/logs" element={<Logs />} />
+            <Route path="/data" element={<Logs />} />
 
             {/* Dashboard/Protected Routes Wrapped in Layout */}
             <Route element={<Layout />}>

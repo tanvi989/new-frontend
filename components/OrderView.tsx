@@ -97,13 +97,25 @@ const OrderView: React.FC<OrderViewProps> = () => {
     const metaList: any[] = order.metadata?.prescriptions ?? [];
     const byCartId = new Map<number, any>();
     const byProductId = new Map<string, any>();
+    
+    console.log("OrderView: metaList (prescriptions from metadata):", metaList);
+    
     metaList.forEach((p: any) => {
       const cartId = p.cart_id ?? p.cartId;
       const productId = p.product_id ?? p.productId;
-      const pres = p.prescription ?? p;
+      // Handle different prescription data structures
+      let pres = p.prescription?.prescriptionDetails || p.prescription || p;
+      
+      // Fix missing protocol in image_url
+      if (pres?.image_url && !pres.image_url.startsWith('http')) {
+        pres.image_url = 'https:' + pres.image_url;
+      }
+      
+      console.log(`OrderView: Processing prescription for cart_id ${cartId}, product_id ${productId}:`, pres);
       if (cartId != null) byCartId.set(Number(cartId), pres);
       if (productId != null) byProductId.set(String(productId), pres);
     });
+    
     const accountByProduct = new Map<string, any>();
     accountPrescriptions.forEach((p: any) => {
       const sku = p?.data?.associatedProduct?.productSku ?? p?.associatedProduct?.productSku;
@@ -114,7 +126,13 @@ const OrderView: React.FC<OrderViewProps> = () => {
       const cartId = item.cart_id ?? item.cartId;
       const productId = item.product_id ?? item.product?.products?.skuid ?? item.product?.products?.id;
       const productIdStr = productId != null ? String(productId) : "";
-      const fromOrder = item.prescription ?? byCartId.get(Number(cartId)) ?? byProductId.get(productIdStr);
+      let fromOrder = item.prescription?.prescriptionDetails || item.prescription || byCartId.get(Number(cartId)) || byProductId.get(productIdStr);
+      
+      // Fix missing protocol in image_url for item-level prescription too
+      if (fromOrder?.image_url && !fromOrder.image_url.startsWith('http')) {
+        fromOrder.image_url = 'https:' + fromOrder.image_url;
+      }
+      
       const fromAccount = !fromOrder && productIdStr ? accountByProduct.get(productIdStr) : null;
       const prescription = fromOrder ?? (fromAccount ? {
         type: fromAccount.type,
@@ -123,6 +141,8 @@ const OrderView: React.FC<OrderViewProps> = () => {
         data: fromAccount.data,
         created_at: fromAccount.created_at,
       } : null);
+      
+      console.log(`OrderView: Final prescription for cart item ${cartId}:`, prescription);
       return prescription ? { ...item, prescription } : item;
     });
   }, [productDetails?.order, accountPrescriptions]);
@@ -166,10 +186,12 @@ const OrderView: React.FC<OrderViewProps> = () => {
     label,
     value,
     isAlt,
+    isBold,
   }: {
     label: string;
     value: React.ReactNode;
     isAlt?: boolean;
+    isBold?: boolean;
   }) => (
     <div
       className={`flex justify-between items-center py-3 px-4 ${isAlt ? "bg-[#F9FAFB]" : "bg-white"
@@ -178,7 +200,7 @@ const OrderView: React.FC<OrderViewProps> = () => {
       <span className="text-[#1F1F1F] font-bold text-xs uppercase tracking-wider">
         {label}
       </span>
-      <span className="text-[#525252] font-medium text-sm text-right">
+      <span className={`text-[#525252] font-medium text-sm text-right ${isBold ? "font-bold" : ""}`}>
         {value}
       </span>
     </div>
@@ -208,117 +230,187 @@ const OrderView: React.FC<OrderViewProps> = () => {
             </h2>
             <div className="bg-white rounded-xl shadow-soft border border-gray-100 overflow-hidden">
               <SummaryRow
-                label="Order Id"
+                label="Order ID"
                 value={productDetails?.order?.order_id}
               />
               <SummaryRow
-                label="Date"
+                label="Order Date"
                 value={moment(productDetails?.order?.created).format(
-                  "DD MMMM YYYY"
+                  "DD MMMM YYYY, HH:mm"
                 )}
                 isAlt
               />
               <SummaryRow
-                label="Paid Via"
-                value={productDetails?.order?.pay_mode}
-              />
-              {/* <SummaryRow
-                label="Partial Payment"
-                value={productDetails?.pay_mode_partial || "-"}
-                isAlt
-              /> */}
-              <SummaryRow
-                label="Shipping Address"
-                value={productDetails?.shipping_address}
-              />
-              <SummaryRow
-                label="Billing Address"
-                value={productDetails?.billing_address}
+                label="Last Updated"
+                value={moment(productDetails?.order?.updated_at || productDetails?.order?.updated).format(
+                  "DD MMMM YYYY, HH:mm"
+                )}
                 isAlt
               />
               <SummaryRow
-                label="Status"
+                label="Payment Status"
                 value={
                   <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${productDetails?.order?.order_status === "Completed"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-yellow-100 text-yellow-800"
-                      }`}
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      productDetails?.order?.payment_status === "Paid" || productDetails?.order?.payment_status === "paid"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
                   >
-                    {productDetails?.order?.order_status}
+                    {productDetails?.order?.payment_status || "Pending"}
                   </span>
                 }
               />
-              {/* <SummaryRow
-                label="State"
-                value={productDetails?.order?.is_partial ? "Partial" : "Full"}
+              <SummaryRow
+                label="Order Status"
+                value={
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      productDetails?.order?.order_status === "Completed"
+                        ? "bg-green-100 text-green-800"
+                        : productDetails?.order?.order_status === "Confirmed" || productDetails?.order?.order_status === "Processing"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
+                    {productDetails?.order?.order_status || "Processing"}
+                  </span>
+                }
+              />
+              <SummaryRow
+                label="Payment Method"
+                value={productDetails?.order?.pay_mode || "Card"}
+              />
+              <SummaryRow
+                label="Customer Email"
+                value={productDetails?.order?.customer_email}
                 isAlt
               />
               <SummaryRow
-                label="RRN Number"
-                value={productDetails?.rrn_no || "N/A"}
-              />
-              <SummaryRow
-                label="Approval Code"
-                value={productDetails?.approval_code || "N/A"}
+                label="Order Type"
+                value={
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                    {productDetails?.order?.is_partial ? "Partial Payment" : "Full Payment"}
+                  </span>
+                }
                 isAlt
-              /> */}
-              {/* <SummaryRow
-                label="Coupon Applied"
-                value={offer?.coupon_code || "Not Applied"}
-              /> */}
+              />
+              {productDetails?.order?.transaction_id && (
+                <SummaryRow
+                  label="Transaction ID"
+                  value={
+                    <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">
+                      {productDetails?.order?.transaction_id}
+                    </span>
+                  }
+                  isAlt
+                />
+              )}
+              {productDetails?.order?.payment_intent_id && (
+                <SummaryRow
+                  label="Payment Intent ID"
+                  value={
+                    <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">
+                      {productDetails?.order?.payment_intent_id}
+                    </span>
+                  }
+                  isAlt
+                />
+              )}
+              <SummaryRow
+                label="Items Count"
+                value={productDetails?.order?.cart?.length || 0}
+                isAlt
+              />
             </div>
           </div>
 
-          {/* Price Summary */}
+          {/* Price Breakdown */}
           <div>
             <h2 className="text-xl font-bold text-[#1F1F1F] font-serif mb-4">
-              Price Summary
+              Price Breakdown
             </h2>
             <div className="bg-white rounded-xl shadow-soft border border-gray-100 overflow-hidden">
-              {(() => {
-                // Get pricing data directly from order database fields
-                const order = productDetails?.order;
+              <SummaryRow
+                label="Subtotal"
+                value={`£${parseFloat(productDetails?.order?.subtotal || 0).toFixed(2)}`}
+              />
+              {productDetails?.order?.discount_amount > 0 && (
+                <SummaryRow
+                  label="Discount Amount"
+                  value={`-£${parseFloat(productDetails?.order?.discount_amount || 0).toFixed(2)}`}
+                  isAlt
+                />
+              )}
+              {productDetails?.order?.lens_discount > 0 && (
+                <SummaryRow
+                  label="Lens Discount"
+                  value={`-£${parseFloat(productDetails?.order?.lens_discount || 0).toFixed(2)}`}
+                  isAlt
+                />
+              )}
+              {productDetails?.order?.retailer_lens_discount > 0 && (
+                <SummaryRow
+                  label="Retailer Lens Discount"
+                  value={`-£${parseFloat(productDetails?.order?.retailer_lens_discount || 0).toFixed(2)}`}
+                  isAlt
+                />
+              )}
+              <SummaryRow
+                label="Shipping Cost"
+                value={productDetails?.order?.shipping_cost > 0 ? `£${parseFloat(productDetails?.order?.shipping_cost || 0).toFixed(2)}` : "Free"}
+                isAlt
+              />
+              <SummaryRow
+                label="Order Total"
+                value={`£${parseFloat(productDetails?.order?.order_total || 0).toFixed(2)}`}
+                isAlt
+              />
+              <SummaryRow
+                label="Total Payable"
+                value={`£${parseFloat(productDetails?.order?.total_payable || productDetails?.order?.order_total || 0).toFixed(2)}`}
+                isBold
+              />
+            </div>
+          </div>
 
-                const subtotal = Number(order?.subtotal || 0);
-                const discount = Number(order?.discount_amount || order?.discount || 0);
-                const tax = Number(order?.tax || 0);
-                const shipping = Number(order?.shipping_cost || 0);
-                const totalPayable = Number(order?.total_payable || order?.order_total || 0);
-
-                return (
-                  <>
-                    <SummaryRow
-                      label="Subtotal"
-                      value={`£${subtotal.toFixed(2)}`}
-                    />
-                    <SummaryRow
-                      label="Discount"
-                      value={discount > 0 ? `-£${discount.toFixed(2)}` : `£0.00`}
-                      isAlt
-                    />
-                    {tax > 0 && (
-                      <SummaryRow
-                        label="Tax"
-                        value={`£${tax.toFixed(2)}`}
-                      />
+          {/* Address Information */}
+          <div>
+            <h2 className="text-xl font-bold text-[#1F1F1F] font-serif mb-4">
+              Address Information
+            </h2>
+            <div className="bg-white rounded-xl shadow-soft border border-gray-100 overflow-hidden">
+              <SummaryRow
+                label="Shipping Address"
+                value={
+                  <div className="text-sm">
+                    {productDetails?.order?.shipping_address ? (
+                      <div>
+                        <div className="font-medium text-[#1F1F1F] mb-1">{productDetails.order.customer_email}</div>
+                        <div>{productDetails.order.shipping_address}</div>
+                      </div>
+                    ) : (
+                      "Not provided"
                     )}
-                    <SummaryRow
-                      label="Shipping"
-                      value={`£${shipping.toFixed(2)}`}
-                      isAlt={tax > 0 ? false : true}
-                    />
-                    <div className="flex justify-between items-center py-4 px-4 bg-[#232320] text-white">
-                      <span className="font-bold text-sm uppercase tracking-wider">
-                        Total Paid
-                      </span>
-                      <span className="font-bold text-lg">
-                        £{totalPayable.toFixed(2)}
-                      </span>
-                    </div>
-                  </>
-                );
-              })()}
+                  </div>
+                }
+              />
+              <SummaryRow
+                label="Billing Address"
+                value={
+                  <div className="text-sm">
+                    {productDetails?.order?.billing_address ? (
+                      <div>
+                        <div className="font-medium text-[#1F1F1F] mb-1">{productDetails.order.customer_email}</div>
+                        <div>{productDetails.order.billing_address}</div>
+                      </div>
+                    ) : (
+                      <span className="text-gray-500">Same as shipping</span>
+                    )}
+                  </div>
+                }
+                isAlt
+              />
             </div>
           </div>
 
@@ -384,78 +476,74 @@ const OrderView: React.FC<OrderViewProps> = () => {
                         </div> */}
                         <div className="flex justify-between py-1 border-b border-gray-50">
                           <span className="text-xs font-bold text-gray-500 uppercase">
-                            Skuid
+                            Product ID
                           </span>
-                          <span className="text-sm font-medium text-[#1F1F1F] underline decoration-gray-300 underline-offset-2">
-                            {cartItem?.product?.products?.skuid}
+                          <span className="text-sm font-medium text-[#1F1F1F]">
+                            {cartItem.product_id}
                           </span>
                         </div>
                         <div className="flex justify-between py-1 border-b border-gray-50">
                           <span className="text-xs font-bold text-gray-500 uppercase">
-                            Shape
+                            Product Name
                           </span>
                           <span className="text-sm font-medium text-[#1F1F1F]">
-                            {cartItem?.product?.products?.shape}
+                            {cartItem.name}
                           </span>
                         </div>
                         <div className="flex justify-between py-1 border-b border-gray-50">
                           <span className="text-xs font-bold text-gray-500 uppercase">
-                            Style
+                            Quantity
                           </span>
                           <span className="text-sm font-medium text-[#1F1F1F]">
-                            {cartItem?.product?.products?.style}
+                            {cartItem.quantity}
                           </span>
                         </div>
                         <div className="flex justify-between py-1 border-b border-gray-50">
                           <span className="text-xs font-bold text-gray-500 uppercase">
-                            Color
+                            Frame Price
                           </span>
                           <span className="text-sm font-medium text-[#1F1F1F]">
-                            {cartItem?.product?.products?.framecolor}
+                            £{parseFloat(cartItem.price || 0).toFixed(2)}
                           </span>
                         </div>
+                        {cartItem.lens && (
+                          <>
+                            <div className="flex justify-between py-1 border-b border-gray-50">
+                              <span className="text-xs font-bold text-gray-500 uppercase">
+                                Lens Type
+                              </span>
+                              <span className="text-sm font-medium text-[#1F1F1F]">
+                                {cartItem.lens.main_category || "Standard"}
+                              </span>
+                            </div>
+                            {cartItem.lens.selling_price && (
+                              <div className="flex justify-between py-1 border-b border-gray-50">
+                                <span className="text-xs font-bold text-gray-500 uppercase">
+                                  Lens Price
+                                </span>
+                                <span className="text-sm font-medium text-[#1F1F1F]">
+                                  £{parseFloat(cartItem.lens.selling_price).toFixed(2)}
+                                </span>
+                              </div>
+                            )}
+                            <div className="flex justify-between py-1 border-b border-gray-50">
+                              <span className="text-xs font-bold text-gray-500 uppercase">
+                                Lens Coating
+                              </span>
+                              <span className="text-sm font-medium text-[#1F1F1F]">
+                                {cartItem.lens.id || "Standard"}
+                              </span>
+                            </div>
+                          </>
+                        )}
                         <div className="flex justify-between py-1 border-b border-gray-50">
                           <span className="text-xs font-bold text-gray-500 uppercase">
-                            Size
+                            Item Total
                           </span>
-                          <span className="text-sm font-medium text-[#1F1F1F]">
-                            {cartItem?.product?.products?.size}
-                          </span>
-                        </div>
-                        {/* <div className="flex justify-between py-1 border-b border-gray-50">
-                          <span className="text-xs font-bold text-gray-500 uppercase">
-                            Weight
-                          </span>
-                          <span className="text-sm font-medium text-[#1F1F1F]">
-                            {cartItem?.product?.products?.weight} gm
-                          </span>
-                        </div> */}
-                        {/* <div className="flex justify-between py-1 border-b border-gray-50">
-                          <span className="text-xs font-bold text-gray-500 uppercase">
-                            Lens ID
-                          </span>
-                          <span className="text-sm font-medium text-[#1F1F1F]">
-                            {cartItem?.lens?.lens_id || "-"}
-                          </span>
-                        </div> */}
-                        <div className="flex justify-between py-1 border-b border-gray-50">
-                          <span className="text-xs font-bold text-gray-500 uppercase">
-                            Lens Coating
-                          </span>
-                          <span className="text-sm font-medium text-[#1F1F1F]">
-                            {cartItem?.lens?.sub_category || "-"}
+                          <span className="text-sm font-bold text-[#4596F3]">
+                            £{(parseFloat(cartItem.price || 0) * (cartItem.quantity || 1)).toFixed(2)}
                           </span>
                         </div>
-                        {/* <div className="flex justify-between py-1 border-b border-gray-50">
-                          <span className="text-xs font-bold text-gray-500 uppercase">
-                            Lens Discount
-                          </span>
-                          <span className="text-sm font-medium text-[#1F1F1F]">
-                            £{" "}
-                            {cartItem?.retailer_lens_discount?.toFixed(2) ||
-                              "0.00"}
-                          </span>
-                        </div> */}
                       </div>
 
                       {/* View Prescription Button */}
@@ -466,7 +554,8 @@ const OrderView: React.FC<OrderViewProps> = () => {
                               setSelectedPrescription(cartItem.prescription);
                               setShowPrescriptionViewer(true);
                             }}
-                            className="px-4 py-2 bg-[#232320] text-white rounded-lg font-semibold text-sm hover:bg-black transition-colors shadow-sm">
+                            className="px-4 py-2 bg-[#232320] text-white rounded-lg font-semibold text-sm hover:bg-black transition-colors shadow-sm"
+                          >
                             👁️ View Prescription
                           </button>
                           {cartItem?.prescription_mode && (
@@ -476,15 +565,65 @@ const OrderView: React.FC<OrderViewProps> = () => {
                           )}
                         </div>
                       )}
+
+                      {/* Prescription Preview */}
+                      {cartItem?.prescription && (
+                        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                          <h4 className="text-sm font-bold text-blue-800 mb-3">Prescription Details</h4>
+                          <div className="flex items-start gap-4">
+                            {cartItem.prescription.image_url && (
+                              <img
+                                src={cartItem.prescription.image_url}
+                                alt="Prescription"
+                                className="w-20 h-20 object-cover rounded border border-blue-300"
+                              />
+                            )}
+                            <div className="flex-1 text-sm text-blue-700">
+                              <div className="font-medium">{cartItem.prescription.name || 'Prescription'}</div>
+                              <div className="text-xs text-blue-600 mt-1">
+                                Type: {cartItem.prescription.type || 'Upload'}
+                              </div>
+                              {cartItem.prescription.fileName && (
+                                <div className="text-xs text-blue-600">
+                                  File: {cartItem.prescription.fileName}
+                                </div>
+                              )}
+                              {/* Show PD values ONLY for manual prescriptions */}
+                              {cartItem.prescription.type === 'manual' && (
+                                <div className="mt-2 p-2 bg-blue-100 rounded border border-blue-200">
+                                  <div className="text-xs font-bold text-blue-800 mb-1">PD Values</div>
+                                  <div className="grid grid-cols-2 gap-2 text-xs">
+                                    <div>
+                                      <span className="font-medium">Right PD:</span> {cartItem.prescription.pdRight || 'N/A'}
+                                    </div>
+                                    <div>
+                                      <span className="font-medium">Left PD:</span> {cartItem.prescription.pdLeft || 'N/A'}
+                                    </div>
+                                    {cartItem.prescription.pdSingle && (
+                                      <div className="col-span-2">
+                                        <span className="font-medium">Single PD:</span> {cartItem.prescription.pdSingle}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Image Section */}
                     <div className="w-full md:w-[200px] shrink-0">
                       <div className="aspect-[4/3] w-full bg-gray-50 rounded-lg overflow-hidden border border-gray-100 flex items-center justify-center">
                         <img
-                          src={cartItem?.product?.products?.image || cartItem?.product?.image || `/api/v1/products/image/${cartItem.product_id}`}
-                          alt={cartItem?.product?.products?.name}
+                          src={`https://storage.googleapis.com/myapp-image-bucket-001/Spexmojo_images/Spexmojo_images/${cartItem.product_id}/${cartItem.product_id}.png`}
+                          alt={cartItem?.product?.products?.name || cartItem.name}
                           className="w-full h-full object-contain mix-blend-multiply p-2"
+                          onError={(e) => {
+                            // Fallback to API endpoint if GCS image fails
+                            e.currentTarget.src = `/api/v1/products/image/${cartItem.product_id}`;
+                          }}
                         />
                       </div>
                     </div>

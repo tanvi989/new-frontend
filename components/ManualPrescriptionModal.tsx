@@ -93,7 +93,7 @@ const ManualPrescriptionModal: React.FC<ManualPrescriptionModalProps> = ({
                         <div className="space-y-6">
                             <div className="bg-gray-50 p-4 rounded-lg">
                                 <h3 className="text-sm font-bold text-gray-500 uppercase mb-4">
-                                    Uploaded Prescription
+                                    aUploaded Prescription
                                 </h3>
                                 {details.image_url && (
                                     <div className="mb-4">
