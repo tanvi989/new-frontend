@@ -4,6 +4,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useGooglePlacesScript, parsePlaceToAddress } from "../../hooks/useGooglePlacesScript";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { loadStripe } from "@stripe/stripe-js";
+import { getProductFlow } from "../../utils/productFlowStorage";
 import {
   Elements,
   CardElement,
@@ -337,6 +338,24 @@ const AddressForm = React.forwardRef<
     }
   }, [user]);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   // Notify parent of form validity changes
   useEffect(() => {
     if (onFormValidityChange) {
@@ -1515,7 +1534,66 @@ const PaymentModes: React.FC<{
       </div>
     );
   };
+function buildMergedPrescription(prescription: any, cart?: any, productSku?: string): any {
+  if (!prescription) return prescription;
 
+  const base      = prescription?.prescriptionDetails || {};
+  const dataLayer = prescription?.data               || {};
+  const deepBase  = dataLayer?.prescriptionDetails   || {};
+  const pd        = cart?.product_details            || {};
+  const flow      = getProductFlow(productSku || "");
+
+  const firstDefined = (...vals: any[]): any =>
+    vals.find((v) => v !== undefined && v !== null);
+
+  const pdRight = firstDefined(
+    prescription?.pdRight, prescription?.pdOD, prescription?.pd_right, prescription?.pd_right_mm,
+    base?.pdRight,  base?.pdOD,  base?.pd_right,  base?.pd_right_mm,
+    deepBase?.pdRight, deepBase?.pdOD, deepBase?.pd_right,
+    dataLayer?.pdRight, dataLayer?.pdOD, dataLayer?.pd_right, dataLayer?.pd_right_mm,
+    pd?.pd_right_mm, pd?.pd_right, pd?.pdRight, pd?.pdOD,
+    flow?.pdRight,
+  );
+  const pdLeft = firstDefined(
+    prescription?.pdLeft, prescription?.pdOS, prescription?.pd_left, prescription?.pd_left_mm,
+    base?.pdLeft,  base?.pdOS,  base?.pd_left,  base?.pd_left_mm,
+    deepBase?.pdLeft, deepBase?.pdOS, deepBase?.pd_left,
+    dataLayer?.pdLeft, dataLayer?.pdOS, dataLayer?.pd_left, dataLayer?.pd_left_mm,
+    pd?.pd_left_mm, pd?.pd_left, pd?.pdLeft, pd?.pdOS,
+    flow?.pdLeft,
+  );
+  const pdSingle = firstDefined(
+    prescription?.pdSingle, prescription?.pd_single, prescription?.pd_single_mm,
+    base?.pdSingle,  base?.pd_single,  base?.pd_single_mm,
+    deepBase?.pdSingle, deepBase?.pd_single,
+    dataLayer?.pdSingle, dataLayer?.pd_single, dataLayer?.pd_single_mm,
+    pd?.pd_single_mm, pd?.pd_single, pd?.pdSingle,
+    flow?.pdSingle,
+  );
+
+  const rawPdType = firstDefined(
+    prescription?.pdType, base?.pdType, deepBase?.pdType, dataLayer?.pdType,
+    flow?.pdType,
+    pdRight !== undefined && pdLeft !== undefined ? "dual"
+      : pdSingle !== undefined ? "single" : undefined,
+  ) ?? "single";
+
+  const pdType = typeof rawPdType === "string"
+    ? rawPdType.charAt(0).toUpperCase() + rawPdType.slice(1).toLowerCase()
+    : "Single";
+
+  const pdPatch: Record<string, any> = { pdType };
+  if (pdSingle !== undefined) pdPatch.pdSingle = String(pdSingle);
+  if (pdRight  !== undefined) pdPatch.pdRight  = String(pdRight);
+  if (pdLeft   !== undefined) pdPatch.pdLeft   = String(pdLeft);
+
+  return {
+    ...prescription,
+    ...pdPatch,
+    prescriptionDetails: { ...deepBase, ...base, ...pdPatch },
+    data: { ...dataLayer, ...pdPatch },
+  };
+}
 const Payment: React.FC = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -1658,40 +1736,31 @@ const shippingCost = Number(
     return null;
   };
 
-  // ENRICH CARTS WITH PRESCRIPTIONS: Safety measure to ensure prescriptions are available
   const enrichedCarts = carts.map((item: any) => {
-    // If item already has a prescription from backend, use it
     if (item.prescription && Object.keys(item.prescription).length > 0) return item;
 
     try {
       const savedPrescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
       const sessionPrescriptions = JSON.parse(sessionStorage.getItem('productPrescriptions') || '{}');
       
-      // 1. Try to match by cart_id in localStorage
       let match = savedPrescriptions.find((p: any) => {
         const pCartId = p?.associatedProduct?.cartId || p?.data?.associatedProduct?.cartId;
         return pCartId && String(pCartId) === String(item.cart_id);
       });
 
-      // 2. Try to match by product skuid in sessionStorage if cart match fails
       if (!match) {
         const skuid = item.product?.products?.skuid || item.product?.skuid;
         if (skuid && sessionPrescriptions[skuid]) {
           match = sessionPrescriptions[skuid];
-          console.log(`✓ Found prescription match in SessionStorage for product: ${skuid}`);
         }
       }
 
-      if (match) {
-        console.log("✓ Found prescription match for cart item:", item.cart_id);
-        const details = match.prescriptionDetails || match.data || match;
-        return {
-          ...item,
-          prescription: details
-        };
-      }
-
-      // 3. Fallback: build prescription from product_details (Single or Dual PD from SelectPrescriptionSource)
+ // AFTER — mirrors CustomerCartView buildMergedPrescription logic
+if (match) {
+  const sku = String(item.product?.products?.skuid || item.product_id || "");
+  const merged = buildMergedPrescription(match, item, sku);
+  return { ...item, prescription: merged };
+}
       const pdPrescription = buildPdPrescription(item.product_details || {});
       if (pdPrescription) {
         return { ...item, prescription: pdPrescription };
@@ -1700,8 +1769,74 @@ const shippingCost = Number(
       console.warn("Failed to enrich cart item with prescription:", err);
     }
     return item;
-  });
+  }); // ← enrichedCarts ends here
 
+  // ============================================================
+  // 🔍 DEBUG — paste starts on THIS line, right after }); above
+  // ============================================================
+  console.group("📦 PAYMENT PAGE — PRESCRIPTION DEBUG");
+
+  console.group("🛒 enrichedCarts");
+  enrichedCarts.forEach((item: any, i: number) => {
+    const pres = item.prescription;
+    console.group(`[${i}] ${item.name || item.cart_id}`);
+    console.log("cart_id   :", item.cart_id);
+    console.log("pdType    :", pres?.pdType   ?? "❌ MISSING");
+    console.log("pdSingle  :", pres?.pdSingle ?? "—");
+    console.log("pdRight   :", pres?.pdRight  ?? "❌ MISSING");
+    console.log("pdLeft    :", pres?.pdLeft   ?? "❌ MISSING");
+    console.log("type      :", pres?.type     ?? "—");
+    console.log("image_url :", pres?.image_url ?? "—");
+    console.log("FULL obj  :", pres);
+    console.groupEnd();
+  });
+  console.groupEnd();
+
+  console.group("💾 localStorage 'prescriptions'");
+  try {
+    const raw = JSON.parse(localStorage.getItem('prescriptions') || '[]');
+    if (raw.length === 0) {
+      console.warn("⚠️ EMPTY — nothing saved in localStorage");
+    } else {
+      raw.forEach((p: any, i: number) => {
+        const d = p?.prescriptionDetails || p?.data || p;
+        console.group(`[${i}] assoc: ${JSON.stringify(p?.associatedProduct)}`);
+        console.log("pdType   :", d?.pdType   ?? "❌ MISSING");
+        console.log("pdSingle :", d?.pdSingle ?? "—");
+        console.log("pdRight  :", d?.pdRight  ?? "❌ MISSING");
+        console.log("pdLeft   :", d?.pdLeft   ?? "❌ MISSING");
+        console.log("FULL     :", d);
+        console.groupEnd();
+      });
+    }
+  } catch(e) { console.warn("parse error localStorage", e); }
+  console.groupEnd();
+
+  console.group("💾 sessionStorage 'productPrescriptions'");
+  try {
+    const sess = JSON.parse(sessionStorage.getItem('productPrescriptions') || '{}');
+    const keys = Object.keys(sess);
+    if (keys.length === 0) {
+      console.warn("⚠️ EMPTY — nothing saved in sessionStorage");
+    } else {
+      keys.forEach((sku) => {
+        const p = sess[sku];
+        const d = p?.prescriptionDetails || p?.data || p;
+        console.group(`sku: ${sku}`);
+        console.log("pdType   :", d?.pdType   ?? "❌ MISSING");
+        console.log("pdSingle :", d?.pdSingle ?? "—");
+        console.log("pdRight  :", d?.pdRight  ?? "❌ MISSING");
+        console.log("pdLeft   :", d?.pdLeft   ?? "❌ MISSING");
+        console.log("FULL     :", d);
+        console.groupEnd();
+      });
+    }
+  } catch(e) { console.warn("parse error sessionStorage", e); }
+  console.groupEnd();
+
+ 
+
+  
   const products =
     enrichedCarts?.map((cart) => {
       return {
@@ -1832,6 +1967,67 @@ const shippingCost = Number(
   flag: item.flag,
 }));
 console.log("💳 Sending to Stripe:", { totalPayable, listPrice, offerAmount, shippingCost });
+console.group("📦 FINAL PAYLOAD — PRE-STRIPE CHECK");
+
+console.group("🛒 enrichedCarts (what we built from localStorage)");
+enrichedCarts.forEach((item: any, i: number) => {
+  const pres = item.prescription;
+  console.group(`  [${i}] ${item.name || item.cart_id}`);
+  console.log("  cart_id          :", item.cart_id);
+  console.log("  pdType           :", pres?.pdType   ?? "❌ MISSING");
+  console.log("  pdSingle         :", pres?.pdSingle ?? "—");
+  console.log("  pdRight          :", pres?.pdRight  ?? "❌ MISSING");
+  console.log("  pdLeft           :", pres?.pdLeft   ?? "❌ MISSING");
+  console.log("  type             :", pres?.type     ?? "—");
+  console.log("  image_url        :", pres?.image_url ?? "—");
+  console.log("  prescription raw :", pres);
+  console.groupEnd();
+});
+console.groupEnd();
+
+console.group("📋 prescriptionsForOrder (sent as prescriptions[])");
+prescriptionsForOrder.forEach((p: any, i: number) => {
+  const pres = p.prescription;
+  console.group(`  [${i}] ${p.product_name}`);
+  console.log("  pdType   :", pres?.pdType   ?? "❌ MISSING");
+  console.log("  pdSingle :", pres?.pdSingle ?? "—");
+  console.log("  pdRight  :", pres?.pdRight  ?? "❌ MISSING");
+  console.log("  pdLeft   :", pres?.pdLeft   ?? "❌ MISSING");
+  console.log("  full     :", pres);
+  console.groupEnd();
+});
+console.groupEnd();
+
+console.group("🧾 cart_items[].prescription");
+cart_items.forEach((item: any, i: number) => {
+  const pres = item.prescription;
+  console.group(`  [${i}] ${item.name}`);
+  console.log("  pdType   :", pres?.pdType   ?? "❌ MISSING");
+  console.log("  pdSingle :", pres?.pdSingle ?? "—");
+  console.log("  pdRight  :", pres?.pdRight  ?? "❌ MISSING");
+  console.log("  pdLeft   :", pres?.pdLeft   ?? "❌ MISSING");
+  console.log("  full     :", pres);
+  console.groupEnd();
+});
+console.groupEnd();
+
+console.group("💾 localStorage 'prescriptions' RAW");
+try {
+  const raw = JSON.parse(localStorage.getItem('prescriptions') || '[]');
+  raw.forEach((p: any, i: number) => {
+    const d = p?.prescriptionDetails || p?.data || p;
+    console.group(`  [${i}]`);
+    console.log("  associatedProduct :", p?.associatedProduct);
+    console.log("  pdType   :", d?.pdType   ?? "❌ MISSING");
+    console.log("  pdSingle :", d?.pdSingle ?? "—");
+    console.log("  pdRight  :", d?.pdRight  ?? "❌ MISSING");
+    console.log("  pdLeft   :", d?.pdLeft   ?? "❌ MISSING");
+    console.groupEnd();
+  });
+} catch (e) { console.warn("Could not parse prescriptions", e); }
+console.groupEnd();
+
+console.groupEnd(); // 📦 end FINAL PAYLOAD
         const sessionRes = await createPaymentSession({
           order_id: orderId,
           amount: totalPayable,

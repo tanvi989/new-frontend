@@ -5,6 +5,8 @@ import DeleteDialog from "./DeleteDialog";
 import Offers from "./Offers";
 import { deleteProductFromCart, getMyPrescriptions } from "../api/retailerApis";
 import { CartItem } from "../types";
+
+import { getProductFlow } from "../utils/productFlowStorage";
 import {
   calculateItemTotal,
   calculateCartSubtotal,
@@ -14,7 +16,7 @@ import {
   getLensIndex,
   formatFrameSize,
 } from "../utils/priceUtils";
-import { getProductFlow } from "../utils/productFlowStorage";
+
 
 interface CustomerCartViewProps {
   open: boolean;

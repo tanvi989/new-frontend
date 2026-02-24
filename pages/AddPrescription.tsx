@@ -322,14 +322,18 @@ const AddPrescription: React.FC = () => {
                         productName: state?.product?.name || "Product",
                         uniqueId,
                     },
-                    prescriptionDetails: {
-                        type: "upload",
-                        name: "Captured Prescription",
-                        image_url: imageUrl,
-                        fileName: fileNameForPayload,
-                        fileSize: file.size,
-                        fileType: file.type,
-                    },
+                  prescriptionDetails: {
+    type: "upload",
+    name: "Captured Prescription",
+    image_url: imageUrl,
+    fileName: fileNameForPayload,
+    fileSize: file.size,
+    fileType: file.type,
+    pdType: pdType === "dual" ? "Dual" : "Single",
+    pdSingle: pdType === "single" && pdSingle ? pdSingle : null,
+    pdRight: pdType === "dual" && pdRight ? pdRight : null,
+    pdLeft: pdType === "dual" && pdLeft ? pdLeft : null,
+},
                 };
 
                 // Take Photo: save only to localStorage + sessionStorage (same as Upload for guests).
