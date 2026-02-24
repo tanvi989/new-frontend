@@ -106,8 +106,9 @@ const App: React.FC = () => {
 
   // Load CookieYes consent banner
   useEffect(() => {
-  // Only load if user's first page is homepage
   if (location.pathname !== '/') return;
+  if (localStorage.getItem('cookieyes-accepted')) return; // ✅ already accepted before, skip forever
+  if (document.getElementById('cookieyes')) return; // already in DOM, skip
 
   const script = document.createElement('script');
   script.id = 'cookieyes';
@@ -116,13 +117,13 @@ const App: React.FC = () => {
 
   document.head.appendChild(script);
 
-  return () => {
-    const existingScript = document.getElementById('cookieyes');
-    if (existingScript) {
-      document.head.removeChild(existingScript);
-    }
-  };
-}, []); // ✅ [] = runs only ONCE on page load
+  // ✅ Listen for when user accepts the cookie consent
+  window.addEventListener('cookieyes_consent_update', () => {
+    localStorage.setItem('cookieyes-accepted', 'true');
+  });
+
+}, [location.pathname]);
+
 
   // Define routes that should NOT use the default Navigation/Footer logic
   const isLayoutRoute = [

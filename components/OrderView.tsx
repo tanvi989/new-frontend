@@ -466,14 +466,6 @@ const OrderView: React.FC<OrderViewProps> = () => {
                         {cartItem?.product?.products?.name}
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
-                        {/* <div className="flex justify-between py-1 border-b border-gray-50">
-                          <span className="text-xs font-bold text-gray-500 uppercase">
-                            Store Skuid
-                          </span>
-                          <span className="text-sm font-medium text-[#1F1F1F] underline decoration-gray-300 underline-offset-2">
-                            {cartItem?.product?.products?.store_skuid}
-                          </span>
-                        </div> */}
                         <div className="flex justify-between py-1 border-b border-gray-50">
                           <span className="text-xs font-bold text-gray-500 uppercase">
                             Product ID
@@ -498,14 +490,8 @@ const OrderView: React.FC<OrderViewProps> = () => {
                             {cartItem.quantity}
                           </span>
                         </div>
-                        <div className="flex justify-between py-1 border-b border-gray-50">
-                          <span className="text-xs font-bold text-gray-500 uppercase">
-                            Frame Price
-                          </span>
-                          <span className="text-sm font-medium text-[#1F1F1F]">
-                            £{parseFloat(cartItem.price || 0).toFixed(2)}
-                          </span>
-                        </div>
+                        {/* Frame Price, Lens Price, and Item Total removed as requested */}
+                        
                         {cartItem.lens && (
                           <>
                             <div className="flex justify-between py-1 border-b border-gray-50">
@@ -516,16 +502,6 @@ const OrderView: React.FC<OrderViewProps> = () => {
                                 {cartItem.lens.main_category || "Standard"}
                               </span>
                             </div>
-                            {cartItem.lens.selling_price && (
-                              <div className="flex justify-between py-1 border-b border-gray-50">
-                                <span className="text-xs font-bold text-gray-500 uppercase">
-                                  Lens Price
-                                </span>
-                                <span className="text-sm font-medium text-[#1F1F1F]">
-                                  £{parseFloat(cartItem.lens.selling_price).toFixed(2)}
-                                </span>
-                              </div>
-                            )}
                             <div className="flex justify-between py-1 border-b border-gray-50">
                               <span className="text-xs font-bold text-gray-500 uppercase">
                                 Lens Coating
@@ -536,14 +512,6 @@ const OrderView: React.FC<OrderViewProps> = () => {
                             </div>
                           </>
                         )}
-                        <div className="flex justify-between py-1 border-b border-gray-50">
-                          <span className="text-xs font-bold text-gray-500 uppercase">
-                            Item Total
-                          </span>
-                          <span className="text-sm font-bold text-[#4596F3]">
-                            £{(parseFloat(cartItem.price || 0) * (cartItem.quantity || 1)).toFixed(2)}
-                          </span>
-                        </div>
                       </div>
 
                       {/* View Prescription Button */}
