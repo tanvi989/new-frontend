@@ -280,21 +280,39 @@ const SelectLensCoatings: React.FC = () => {
           state?.prescriptionTier === "standard" ? "Standard Progressive" : "Progressive",
       });
 
+      const mainCategoryValue = state?.lensType === "single" ? "Single Vision" :
+        state?.lensType === "bifocal" ? "Bifocal" :
+        state?.precisionPlus ? "Precision Progressive" :
+        state?.prescriptionTier === "advanced" ? "Premium Progressive" :
+        state?.prescriptionTier === "standard" ? "Standard Progressive" : "Progressive";
+
       setCartLensOverride(cartId, {
         lensPackage: lensPackage,
         lensPackagePrice: Number(lensPackagePrice || 0),
         lensCategory: state?.lensCategory,
         prescriptionTier: state?.prescriptionTier,
-        mainCategory: state?.lensType === "single" ? "Single Vision" :
-          state?.lensType === "bifocal" ? "Bifocal" :
-          state?.precisionPlus ? "Precision Progressive" :
-          state?.prescriptionTier === "advanced" ? "Premium Progressive" :
-          state?.prescriptionTier === "standard" ? "Standard Progressive" : "Progressive",
+        mainCategory: mainCategoryValue,
         lensType: state?.lensType,
         coatingTitle: selectedCoatingOption?.title,
         coatingPrice: Number(selectedCoatingOption?.priceValue || 0),
       }, id ?? undefined);
 
+      // ✅ Persist coating to productFlow (keyed by SKU) so Payment.tsx
+      //    getCartLensOverride always has coatingTitle + coatingPrice
+      //    even after cart_id changes (e.g. after login)
+      if (id) {
+        const existing = getProductFlow(id) || {};
+        setProductFlow(id, {
+          ...existing,
+          coatingTitle: selectedCoatingOption?.title,
+          coatingPrice: Number(selectedCoatingOption?.priceValue || 0),
+          coatingId: coatingId,
+          lensPackage: lensPackage,
+          lensPackagePrice: Number(lensPackagePrice || 0),
+          lensCategory: state?.lensCategory,
+          mainCategory: mainCategoryValue,
+        });
+      }
       try { sessionStorage.removeItem("pending_lens_selection_v1"); } catch { }
 
       try {

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import CheckoutStepper from "../components/CheckoutStepper";
 import ProductDetailsFooter from "../components/ProductDetailsFooter";
 import { setCartLensOverride } from "../utils/priceUtils";
-import { getProductFlow, saveLensSelection } from "../utils/productFlowStorage";
+import { getProductFlow, setProductFlow, saveLensSelection } from "../utils/productFlowStorage";
 import { getProductById, getProductBySku } from "../api/retailerApis";
 
 const SelectLensPackages: React.FC = () => {
@@ -624,8 +624,19 @@ const SelectLensPackages: React.FC = () => {
       priceValue = parseFloat(selectedPkg.price.replace(/[^0-9.]/g, "")) || 0;
     }
 
-    if (id) saveLensSelection(id, { selectedLensPackage: pkgId, selectedLensPrice: priceValue, lensCategory });
+     if (id) saveLensSelection(id, { selectedLensPackage: pkgId, selectedLensPrice: priceValue, lensCategory });
 
+    // ✅ Persist to productFlow so Payment.tsx getCartLensOverride always has
+    //    correct lensPackage + lensCategory even after cart_id changes (e.g. after login)
+    if (id) {
+      const existing = getProductFlow(id) || {};
+      setProductFlow(id, {
+        ...existing,
+        lensPackage: pkgId,
+        lensPackagePrice: priceValue,
+        lensCategory: lensCategory,
+      });
+    }
     const path = lensCategory === "sun"
       ? `/product/${id}/select-lens-color`
       : `/product/${id}/select-lens-coatings`;

@@ -27,7 +27,7 @@ import WhyMutlifolks from "@/components/WhyMutlifolks";
 import { Loader } from "../Loader";
 import CustomerCartView from "../CustomerCartView";
 import { CartItem } from "../../types";
-import { calculateCartSubtotal } from "../../utils/priceUtils";
+import { calculateCartSubtotal, getCartLensOverride, getCartLensOverrideBySku } from "../../utils/priceUtils";
 import { trackAddShippingInfo } from "../../utils/analytics";
 
 // Stripe **publishable** key only (never commit secret keys).
@@ -1936,36 +1936,91 @@ if (match) {
         });
 
         // Full prescription data for backend to store on the order (OD/OS, PD, prism, etc.)
-        const prescriptionsForOrder = enrichedCarts
+     // Build prescriptionsForOrder from cart_items (already has correct lens data from localStorage overrides)
+// 🔍 DEBUG — lens category check
+        console.group("🔬 LENS DEBUG — what's in cart items");
+        enrichedCarts.forEach((item: any, i: number) => {
+          console.group(`  [${i}] ${item.name || item.cart_id}`);
+          console.log("  lens raw object      :", item.lens);
+          console.log("  lens.lensCategory    :", item.lens?.lensCategory ?? "❌ MISSING");
+          console.groupEnd();
+        });
+        console.groupEnd();
+
+        // ✅ cart_items MUST be defined before prescriptionsForOrder
+        const cart_items = enrichedCarts.map((item: any) => {
+          const sku = String(item.product?.products?.skuid || item.product_id || "");
+          const override = getCartLensOverride(item.cart_id) || (sku ? getCartLensOverrideBySku(sku) : null);
+
+          const lensCategory = override?.lensCategory || item.lens?.lensCategory || item.lens?.lens_category || null;
+          const lensIndexPackage = override?.lensPackage || item.lens?.id || null;
+          const mainCategory = override?.mainCategory || item.lens?.main_category || null;
+          const lensPackagePrice = override?.lensPackagePrice ?? item.lens?.selling_price ?? 0;
+          const coatingTitle = override?.coatingTitle || item.lens?.coating || null;
+
+          const lensCategoryDisplay = lensCategory === "blue" ? "Blue Protect"
+            : lensCategory === "photo" ? "Photochromic"
+            : lensCategory === "sun" ? "Sunglasses"
+            : lensCategory === "clear" ? "Clear"
+            : lensCategory || null;
+
+          return {
+            cart_id: item.cart_id,
+            product_id: item.product_id,
+            name: item.name,
+            quantity: item.quantity ?? 1,
+            price: parseFloat(String(item.price).replace(/[^0-9.]/g, "")) || 0,
+            product: {
+              skuid: item.product?.products?.skuid,
+              name: item.product?.products?.name,
+              image: item.product?.products?.image,
+            },
+            lens: item.lens ? {
+              id: item.lens.id,
+              main_category: mainCategory,
+              selling_price: lensPackagePrice,
+              lensCategory: lensCategory,
+              lensCategoryDisplay: lensCategoryDisplay,
+              lensIndex: lensIndexPackage,
+              coating: coatingTitle,
+              title: lensIndexPackage ? `${lensIndexPackage} ${lensCategoryDisplay || "High Index"}` : null,
+            } : null,
+            prescription: item.prescription,
+            flag: item.flag,
+          };
+        });
+
+        // ✅ prescriptionsForOrder now reads from cart_items (which already has overrides applied)
+        const prescriptionsForOrder = cart_items
           .filter((item: any) => item.prescription)
           .map((item: any) => ({
             cart_id: item.cart_id,
-            product_id: item.product?.products?.skuid || item.product_id,
+            product_id: item.product?.skuid || item.product_id,
             product_name: item.name,
+            lens_category: item.lens?.lensCategory || null,
+            lens_category_display: item.lens?.lensCategoryDisplay || null,
+            lens_type: item.lens?.main_category || null,
+            lens_package: item.lens?.lensIndex || item.lens?.id || null,
+            lens_index: item.lens?.lensIndex || null,
+            coating: item.lens?.coating || null,
             prescription: item.prescription,
           }));
 
-      const cart_items = enrichedCarts.map((item: any) => ({
-  cart_id: item.cart_id,
-  product_id: item.product_id,
-  name: item.name,
-  quantity: item.quantity ?? 1,
-  // Strip £ symbol — send as number
-  price: parseFloat(String(item.price).replace(/[^0-9.]/g, "")) || 0,
-  // Only essential product fields, not full nested object
-  product: {
-    skuid: item.product?.products?.skuid,
-    name: item.product?.products?.name,
-    image: item.product?.products?.image,
-  },
-  lens: item.lens ? {
-    id: item.lens.id,
-    main_category: item.lens.main_category,
-    selling_price: item.lens.selling_price,
-  } : null,
-  prescription: item.prescription,
-  flag: item.flag,
-}));
+// 🔍 DEBUG — lens category check
+console.group("🔬 LENS DEBUG — what's in cart items");
+enrichedCarts.forEach((item: any, i: number) => {
+  console.group(`  [${i}] ${item.name || item.cart_id}`);
+  console.log("  lens raw object      :", item.lens);
+  console.log("  lens.id              :", item.lens?.id ?? "❌ MISSING");
+  console.log("  lens.main_category   :", item.lens?.main_category ?? "❌ MISSING");
+  console.log("  lens.lensCategory    :", item.lens?.lensCategory ?? "❌ MISSING");
+  console.log("  lens.lens_category   :", item.lens?.lens_category ?? "❌ MISSING");
+  console.log("  lens.title           :", item.lens?.title ?? "—");
+  console.log("  lens.selling_price   :", item.lens?.selling_price ?? "—");
+  console.groupEnd();
+});
+console.groupEnd();
+   
 console.log("💳 Sending to Stripe:", { totalPayable, listPrice, offerAmount, shippingCost });
 console.group("📦 FINAL PAYLOAD — PRE-STRIPE CHECK");
 

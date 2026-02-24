@@ -112,8 +112,11 @@ const OrderView: React.FC<OrderViewProps> = () => {
       }
       
       console.log(`OrderView: Processing prescription for cart_id ${cartId}, product_id ${productId}:`, pres);
-      if (cartId != null) byCartId.set(Number(cartId), pres);
-      if (productId != null) byProductId.set(String(productId), pres);
+      // Store full metadata entry (lens fields + prescription)
+      const entry = { ...p, prescriptionDetails: pres };
+      if (cartId != null) byCartId.set(Number(cartId), entry);
+      if (productId != null) byProductId.set(String(productId), entry);
+     
     });
     
     const accountByProduct = new Map<string, any>();
@@ -126,7 +129,16 @@ const OrderView: React.FC<OrderViewProps> = () => {
       const cartId = item.cart_id ?? item.cartId;
       const productId = item.product_id ?? item.product?.products?.skuid ?? item.product?.products?.id;
       const productIdStr = productId != null ? String(productId) : "";
-      let fromOrder = item.prescription?.prescriptionDetails || item.prescription || byCartId.get(Number(cartId)) || byProductId.get(productIdStr);
+     const metaEntry = byCartId.get(Number(cartId)) || byProductId.get(productIdStr);
+      let fromOrder = item.prescription?.prescriptionDetails || item.prescription || metaEntry?.prescriptionDetails;
+      const lensInfo = metaEntry ? {
+        lens_category: metaEntry.lens_category,
+        lens_category_display: metaEntry.lens_category_display,
+        lens_type: metaEntry.lens_type,
+        lens_package: metaEntry.lens_package,
+        lens_index: metaEntry.lens_index,
+        coating: metaEntry.coating,
+      } : null;
       
       // Fix missing protocol in image_url for item-level prescription too
       if (fromOrder?.image_url && !fromOrder.image_url.startsWith('http')) {
@@ -143,7 +155,7 @@ const OrderView: React.FC<OrderViewProps> = () => {
       } : null);
       
       console.log(`OrderView: Final prescription for cart item ${cartId}:`, prescription);
-      return prescription ? { ...item, prescription } : item;
+      return { ...item, prescription: prescription || null, lensInfo: lensInfo || item.lensInfo || null };
     });
   }, [productDetails?.order, accountPrescriptions]);
 
@@ -492,24 +504,40 @@ const OrderView: React.FC<OrderViewProps> = () => {
                         </div>
                         {/* Frame Price, Lens Price, and Item Total removed as requested */}
                         
-                        {cartItem.lens && (
+                      {(cartItem.lens || cartItem.lensInfo) && (
                           <>
-                            <div className="flex justify-between py-1 border-b border-gray-50">
-                              <span className="text-xs font-bold text-gray-500 uppercase">
-                                Lens Type
-                              </span>
-                              <span className="text-sm font-medium text-[#1F1F1F]">
-                                {cartItem.lens.main_category || "Standard"}
-                              </span>
-                            </div>
-                            <div className="flex justify-between py-1 border-b border-gray-50">
-                              <span className="text-xs font-bold text-gray-500 uppercase">
-                                Lens Coating
-                              </span>
-                              <span className="text-sm font-medium text-[#1F1F1F]">
-                                {cartItem.lens.id || "Standard"}
-                              </span>
-                            </div>
+                            {(cartItem.lensInfo?.lens_category_display || cartItem.lens?.lensCategoryDisplay) && (
+                              <div className="flex justify-between py-1 border-b border-gray-50">
+                                <span className="text-xs font-bold text-gray-500 uppercase">Lens Category</span>
+                                <span className="text-sm font-medium text-[#1F1F1F]">
+                                  {cartItem.lensInfo?.lens_category_display || cartItem.lens?.lensCategoryDisplay}
+                                </span>
+                              </div>
+                            )}
+                            {(cartItem.lensInfo?.lens_type || cartItem.lens?.main_category) && (
+                              <div className="flex justify-between py-1 border-b border-gray-50">
+                                <span className="text-xs font-bold text-gray-500 uppercase">Lens Type</span>
+                                <span className="text-sm font-medium text-[#1F1F1F]">
+                                  {cartItem.lensInfo?.lens_type || cartItem.lens?.main_category}
+                                </span>
+                              </div>
+                            )}
+                            {(cartItem.lensInfo?.lens_index || cartItem.lens?.lensIndex) && (
+                              <div className="flex justify-between py-1 border-b border-gray-50">
+                                <span className="text-xs font-bold text-gray-500 uppercase">Lens Index</span>
+                                <span className="text-sm font-medium text-[#1F1F1F]">
+                                  {cartItem.lensInfo?.lens_index || cartItem.lens?.lensIndex}
+                                </span>
+                              </div>
+                            )}
+                            {(cartItem.lensInfo?.coating || cartItem.lens?.coating) && (
+                              <div className="flex justify-between py-1 border-b border-gray-50">
+                                <span className="text-xs font-bold text-gray-500 uppercase">Coating</span>
+                                <span className="text-sm font-medium text-[#1F1F1F]">
+                                  {cartItem.lensInfo?.coating || cartItem.lens?.coating}
+                                </span>
+                              </div>
+                            )}
                           </>
                         )}
                       </div>

@@ -7,7 +7,7 @@ import { addToCart, selectLens, addPrescription, updateMyPrescription } from "..
 import { setCartLensOverride } from "../utils/priceUtils";
 import { trackAddToCart } from "@/utils/analytics";
 
-
+import { getProductFlow, setProductFlow } from "../utils/productFlowStorage";
 const LensImage = ({
   type,
 }: {
@@ -262,14 +262,21 @@ const SelectLensType: React.FC = () => {
     setSelectedCategory(category);
   };
 
-  const handleContinue = () => {
-    const category = selectedCategory;
-    if (!category) return;
-    // Bifocal has no sunglasses packages – go straight to lens color
-    const isBifocalSunglasses = category === "sun" && state?.lensType === "bifocal";
-    const path = isBifocalSunglasses
-      ? `/product/${product.skuid || product.id || id}/select-lens-color`
-      : `/product/${product.skuid || product.id || id}/select-lens-packages`;
+const handleContinue = () => {
+  const category = selectedCategory;
+  if (!category) return;
+
+  // ✅ Persist lens category to productFlow so Payment.tsx can always read it
+  if (id) {
+    const existing = getProductFlow(id) || {};
+    setProductFlow(id, { ...existing, lensCategory: category });
+  }
+
+  // Bifocal has no sunglasses packages – go straight to lens color
+  const isBifocalSunglasses = category === "sun" && state?.lensType === "bifocal";
+  const path = isBifocalSunglasses
+    ? `/product/${product.skuid || product.id || id}/select-lens-color`
+    : `/product/${product.skuid || product.id || id}/select-lens-packages`;
 
     navigate(path, {
       state: {
