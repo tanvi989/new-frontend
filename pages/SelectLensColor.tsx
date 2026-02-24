@@ -5,8 +5,7 @@ import CheckoutStepper from "../components/CheckoutStepper";
 import { addToCart } from "../api/retailerApis";
 import { trackAddToCart } from "@/utils/analytics";
 import { setCartLensOverride } from "../utils/priceUtils";
-import { getProductFlow, saveCartId } from "../utils/productFlowStorage";
-
+import { getProductFlow, setProductFlow, saveCartId } from "../utils/productFlowStorage";
 interface TintOption {
   id: string;
   name: string;
@@ -197,16 +196,40 @@ const SelectLensColor: React.FC = () => {
       console.log("selectLens response:", selectLensResponse);
 
       // Persist selection locally so Cart reflects it even if backend doesn't echo these fields back (include lens package e.g. 1.56). Pass product id so override survives cart_id change after login.
-      setCartLensOverride(cartId, {
-        lensCategory: "sun",
-        lensPackage: state?.selectedLensPackage || "1.56",
-        lensPackagePrice: Number(state?.selectedLensPrice ?? 0),
-        mainCategory: mainCategory,
-        tintType: selectedTint.name,
-        tintColor: selectedColor,
-        tintPrice: Number(selectedTint.price || 0),
-      }, id ?? product?.skuid);
+    // In SelectLensColor.tsx inside handleSaveTintSelection
+setCartLensOverride(cartId, {
+  lensCategory: "sun",
+  lensPackage: state?.selectedLensPackage || "1.56",
+  lensPackagePrice: Number(state?.selectedLensPrice ?? 0),
+  mainCategory: mainCategory,
+  tintType: selectedTint.name,
+  tintColor: selectedColor,
+  tintPrice: Number(selectedTint.price || 0),
+  // ✅ ADDED: This ensures "Mirror Tints - Green" is saved in the override
+  coatingTitle: `${selectedTint.name} - ${selectedColor}`,
+  coatingPrice: Number(selectedTint.price || 0),
+}, id ?? product?.skuid);
 
+      // ✅ Persist tint + color to productFlow (keyed by SKU)
+      // Payment.tsx reads this via getCartLensOverrideBySku → sent to backend in cart_items + prescriptionsForOrder
+      if (id) {
+        const existing = getProductFlow(id) || {};
+        setProductFlow(id, {
+          ...existing,
+          lensCategory: "sun",
+          mainCategory: mainCategory,
+          lensPackage: state?.selectedLensPackage || "1.56",
+          lensPackagePrice: Number(state?.selectedLensPrice ?? 0),
+          tintType: selectedTint.name,
+          tintColor: selectedColor,
+          tintPrice: Number(selectedTint.price || 0),
+          // Full title for display in order details
+          coatingTitle: `${selectedTint.name} - ${selectedColor}`,
+          coatingPrice: Number(selectedTint.price || 0),
+        });
+      }
+
+      // Step 3: Invalidate cart queries and navigate
       // Step 3: Invalidate cart queries and navigate
       queryClient.invalidateQueries({ queryKey: ["cart"] });
       navigate("/cart");

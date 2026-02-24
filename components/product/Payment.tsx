@@ -1948,47 +1948,53 @@ if (match) {
         console.groupEnd();
 
         // ✅ cart_items MUST be defined before prescriptionsForOrder
-        const cart_items = enrichedCarts.map((item: any) => {
-          const sku = String(item.product?.products?.skuid || item.product_id || "");
-          const override = getCartLensOverride(item.cart_id) || (sku ? getCartLensOverrideBySku(sku) : null);
+     // In Payment.tsx inside handlePlaceOrder
+const cart_items = enrichedCarts.map((item: any) => {
+  const sku = String(item.product?.products?.skuid || item.product_id || "");
+  const override = getCartLensOverride(item.cart_id) || (sku ? getCartLensOverrideBySku(sku) : null);
 
-          const lensCategory = override?.lensCategory || item.lens?.lensCategory || item.lens?.lens_category || null;
-          const lensIndexPackage = override?.lensPackage || item.lens?.id || null;
-          const mainCategory = override?.mainCategory || item.lens?.main_category || null;
-          const lensPackagePrice = override?.lensPackagePrice ?? item.lens?.selling_price ?? 0;
-          const coatingTitle = override?.coatingTitle || item.lens?.coating || null;
+  const lensCategory = override?.lensCategory || item.lens?.lensCategory || item.lens?.lens_category || null;
+  const lensIndexPackage = override?.lensPackage || item.lens?.id || null;
+  const mainCategory = override?.mainCategory || item.lens?.main_category || null;
+  const lensPackagePrice = override?.lensPackagePrice ?? item.lens?.selling_price ?? 0;
+  const coatingTitle = override?.coatingTitle || item.lens?.coating || null;
 
-          const lensCategoryDisplay = lensCategory === "blue" ? "Blue Protect"
-            : lensCategory === "photo" ? "Photochromic"
-            : lensCategory === "sun" ? "Sunglasses"
-            : lensCategory === "clear" ? "Clear"
-            : lensCategory || null;
+  const lensCategoryDisplay = lensCategory === "blue" ? "Blue Protect"
+    : lensCategory === "photo" ? "Photochromic"
+    : lensCategory === "sun" ? "Sunglasses"
+    : lensCategory === "clear" ? "Clear"
+    : lensCategory || null;
 
-          return {
-            cart_id: item.cart_id,
-            product_id: item.product_id,
-            name: item.name,
-            quantity: item.quantity ?? 1,
-            price: parseFloat(String(item.price).replace(/[^0-9.]/g, "")) || 0,
-            product: {
-              skuid: item.product?.products?.skuid,
-              name: item.product?.products?.name,
-              image: item.product?.products?.image,
-            },
-            lens: item.lens ? {
-              id: item.lens.id,
-              main_category: mainCategory,
-              selling_price: lensPackagePrice,
-              lensCategory: lensCategory,
-              lensCategoryDisplay: lensCategoryDisplay,
-              lensIndex: lensIndexPackage,
-              coating: coatingTitle,
-              title: lensIndexPackage ? `${lensIndexPackage} ${lensCategoryDisplay || "High Index"}` : null,
-            } : null,
-            prescription: item.prescription,
-            flag: item.flag,
-          };
-        });
+  return {
+    cart_id: item.cart_id,
+    product_id: item.product_id,
+    name: item.name,
+    quantity: item.quantity ?? 1,
+    price: parseFloat(String(item.price).replace(/[^0-9.]/g, "")) || 0,
+    product: {
+      skuid: item.product?.products?.skuid,
+      name: item.product?.products?.name,
+      image: item.product?.products?.image,
+    },
+    lens: item.lens ? {
+      id: item.lens.id,
+      main_category: mainCategory,
+      selling_price: lensPackagePrice,
+      lensCategory: lensCategory,
+      lensCategoryDisplay: lensCategoryDisplay,
+      lensIndex: lensIndexPackage,
+      coating: coatingTitle,
+      title: lensIndexPackage ? `${lensIndexPackage} ${lensCategoryDisplay || "High Index"}` : null,
+      
+      // ✅ CORRECTED: Read from camelCase (override.tintType), map to snake_case key (tint_type)
+      tint_color: override?.tintColor || null,
+      tint_type: override?.tintType || null,
+      tint_price: override?.tintPrice || 0,
+    } : null,
+    prescription: item.prescription,
+    flag: item.flag,
+  };
+});
 
         // ✅ prescriptionsForOrder now reads from cart_items (which already has overrides applied)
         const prescriptionsForOrder = cart_items
