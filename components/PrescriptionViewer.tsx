@@ -94,7 +94,7 @@ const PrescriptionViewer: React.FC<PrescriptionViewerProps> = ({
       <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-[600px] p-6 transform transition-all scale-100 overflow-hidden max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
           <h2 className="text-xl font-bold text-[#1F1F1F]">
-            Prescription Details
+           Prescription Details
           </h2>
           <button
             onClick={onClose}

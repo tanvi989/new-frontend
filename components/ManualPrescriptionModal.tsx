@@ -17,9 +17,13 @@ function getPdFromPrescription(prescription: any): { pdSingle?: string; pdRight?
     if (!prescription) return {};
     const d = prescription.prescriptionDetails || prescription.data || prescription;
     const root = prescription as any;
-    const pdSingle = root.pdSingle ?? root.single ?? d.pdSingle ?? d.single ?? d.totalPD ?? (d.pdOD && d.pdOS ? `${d.pdOD}/${d.pdOS}` : undefined);
-    const pdRight = root.pdRight ?? root.right ?? d.pdRight ?? d.right ?? d.pdOD;
-    const pdLeft = root.pdLeft ?? root.left ?? d.pdLeft ?? d.left ?? d.pdOS;
+   const pdRight  = root.pdRight  ?? root.pd_right_mm  ?? root.pd_right  ?? root.pdOD ?? root.right ??
+                 d.pdRight     ?? d.pd_right_mm     ?? d.pd_right     ?? d.pdOD   ?? d.right     ?? undefined;
+const pdLeft   = root.pdLeft   ?? root.pd_left_mm   ?? root.pd_left   ?? root.pdOS ?? root.left  ??
+                 d.pdLeft      ?? d.pd_left_mm      ?? d.pd_left      ?? d.pdOS   ?? d.left      ?? undefined;
+const pdSingle = root.pdSingle ?? root.pd_single_mm ?? root.pd_single ?? root.single ??
+                 d.pdSingle    ?? d.pd_single_mm    ?? d.pd_single    ?? d.single  ?? d.totalPD  ??
+                 (d.pdOD && d.pdOS ? `${d.pdOD}/${d.pdOS}` : undefined);
     const isDual = root.pdType === "Dual" || root.pdType === "dual" || !!(pdRight && pdLeft);
     return { pdSingle, pdRight, pdLeft, isDual };
 }

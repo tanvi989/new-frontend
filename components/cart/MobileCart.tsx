@@ -16,6 +16,7 @@ import { Footer } from "../Footer";
 import ManualPrescriptionModal from "../ManualPrescriptionModal";
 import { deletePrescription, removePrescription, getMyPrescriptions, getCartItemId, addPrescription } from "../../api/retailerApis";
 import { trackBeginCheckout } from "../../utils/analytics";
+import { getProductFlow } from "../../utils/productFlowStorage";
 
 interface MobileCartProps {
     cartItems: CartItem[];
@@ -102,18 +103,15 @@ const MobileCart: React.FC<MobileCartProps> = ({
         const lensAny = item.lens as any;
         const sku = itemAny?.product?.products?.skuid ?? itemAny?.product_id ?? item?.product_id;
 
-        // Check override first (by cart_id, then by SKU)
         const override = getCartLensOverride(item.cart_id) ?? (sku ? getCartLensOverrideBySku(String(sku)) : null);
 
-        // Get tier - Check prescriptionTier from override FIRST (most accurate)
         let tier = "";
-        
+
         if (override?.lensType === "single") {
             tier = "Single Vision";
         } else if (override?.lensType === "bifocal") {
             tier = "Bifocal";
-        } 
-        else if (override?.lensType === "progressive" && override?.prescriptionTier) {
+        } else if (override?.lensType === "progressive" && override?.prescriptionTier) {
             const prescriptionTier = override.prescriptionTier.toLowerCase();
             if (prescriptionTier === "precision") {
                 tier = "Precision+ Progressive";
@@ -124,11 +122,10 @@ const MobileCart: React.FC<MobileCartProps> = ({
             } else {
                 tier = "Progressive";
             }
-        }
-        else {
+        } else {
             const mainCategory = override?.mainCategory || item.lens?.main_category || "";
             const mainCategoryLower = mainCategory.toLowerCase();
-            
+
             if (mainCategoryLower.includes("single vision")) {
                 tier = "Single Vision";
             } else if (mainCategoryLower.includes("precision progressive")) {
@@ -146,7 +143,6 @@ const MobileCart: React.FC<MobileCartProps> = ({
             }
         }
 
-        // Get lens category
         let category = "";
         const lensCategory = override?.lensCategory || lensAny?.lens_category || itemAny?.lensCategory;
 
@@ -165,8 +161,7 @@ const MobileCart: React.FC<MobileCartProps> = ({
             else if (subLower.includes("sun")) category = "Sunglasses";
         }
 
-        const result = category ? `${tier}-${category}` : tier;
-        return result;
+        return category ? `${tier}-${category}` : tier;
     };
 
     const getLensIndex = (item: CartItem): { index: string; price: number } => {
@@ -176,7 +171,7 @@ const MobileCart: React.FC<MobileCartProps> = ({
         const sku = itemAny?.product?.products?.skuid ?? itemAny?.product_id ?? item?.product_id;
         const override = getCartLensOverride(item.cart_id) ?? (sku ? getCartLensOverrideBySku(String(sku)) : null);
 
-        let indexNumber = "1.61"; // default
+        let indexNumber = "1.61";
         let lensPackagePrice: number = override
             ? Number(override.lensPackagePrice ?? 0)
             : (lensAny?.selling_price && Number(lensAny.selling_price) > 0)
@@ -219,6 +214,13 @@ const MobileCart: React.FC<MobileCartProps> = ({
 
     // --- End Helper Functions ---
 
+    // ✅ FIX: Order now matches DesktopCart exactly:
+    //    1. cartItem.prescription
+    //    2. localStorage       ← was step 3, moved up
+    //    3. sessionStorage      ← was step 4, moved up
+    //    4. userPrescriptions   ← was step 2, moved down
+    // The API prescription (userPrescriptions) often lacks PD fields.
+    // localStorage has the full prescription including PD — so it must win.
     const getPrescriptionByCartId = (
         cartId: number,
         productSku?: string,
@@ -226,7 +228,8 @@ const MobileCart: React.FC<MobileCartProps> = ({
     ): any | null => {
         try {
             const activeCartIds = new Set(cartItems.map(ci => String(ci.cart_id)));
-            
+
+            // 1. Prescription stored directly on cart item (from backend)
             if (cartItem?.prescription && typeof cartItem.prescription === "object" && Object.keys(cartItem.prescription).length > 0) {
                 const pres = cartItem.prescription as any;
                 const presCartId = pres?.associatedProduct?.cartId || pres?.data?.associatedProduct?.cartId || pres?.cartId || pres?.data?.cartId;
@@ -235,61 +238,7 @@ const MobileCart: React.FC<MobileCartProps> = ({
                 }
             }
 
-            if (userPrescriptions && userPrescriptions.length > 0) {
-                const getPrescriptionDate = (p: any) => {
-                    const raw = p?.created_at ?? p?.data?.created_at ?? p?.createdAt ?? p?.data?.createdAt ?? p?.updated_at ?? p?.data?.uploadedAt ?? 0;
-                    if (typeof raw === 'number') return raw;
-                    if (typeof raw === 'string') return new Date(raw).getTime() || 0;
-                    return 0;
-                };
-
-                let matches = userPrescriptions.filter((p: any) => {
-                    if (!p) return false;
-                    const dataCartId = p?.data?.associatedProduct?.cartId;
-                    const rootCartId = p?.associatedProduct?.cartId;
-                    const directCartId = p?.data?.cartId || p?.cartId;
-                    const rootAssociatedCartId = p?.associatedProduct?.cartId;
-                    const deepDataCartId = p?.data?.data?.associatedProduct?.cartId;
-                    
-                    const matchesCartId = (dataCartId && String(dataCartId) === String(cartId)) ||
-                           (rootCartId && String(rootCartId) === String(cartId)) ||
-                           (directCartId && String(directCartId) === String(cartId)) ||
-                           (rootAssociatedCartId && String(rootAssociatedCartId) === String(cartId)) ||
-                           (deepDataCartId && String(deepDataCartId) === String(cartId));
-                    
-                    if (!matchesCartId) return false;
-                    
-                    const prescriptionCartId = rootCartId || dataCartId || directCartId || rootAssociatedCartId || deepDataCartId;
-                    return prescriptionCartId && activeCartIds.has(String(prescriptionCartId));
-                });
-
-                if (matches.length === 0 && productSku != null && productSku !== "") {
-                    const productSkuStr = String(productSku);
-                    matches = userPrescriptions.filter((p: any) => {
-                        if (!p) return false;
-                        const pCartId = p?.associatedProduct?.cartId ?? p?.data?.associatedProduct?.cartId ?? p?.data?.cartId ?? p?.cartId;
-                        if (pCartId != null && !activeCartIds.has(String(pCartId))) return false;
-                        
-                        const dataSku = p?.data?.associatedProduct?.productSku;
-                        const rootSku = p?.associatedProduct?.productSku;
-                        const deepDataSku = p?.data?.data?.associatedProduct?.productSku;
-                        return (dataSku && String(dataSku) === productSkuStr) ||
-                               (rootSku && String(rootSku) === productSkuStr) ||
-                               (deepDataSku && String(deepDataSku) === productSkuStr);
-                    });
-                }
-
-                const prescription = matches.length > 0
-                    ? (() => {
-                        const photoMatches = matches.filter((p: any) => p && p.type === "photo");
-                        const pool = photoMatches.length > 0 ? photoMatches : matches;
-                        return pool.sort((a: any, b: any) => getPrescriptionDate(b) - getPrescriptionDate(a))[0];
-                    })()
-                    : null;
-
-                if (prescription) return prescription;
-            }
-
+            // 2. localStorage (same device — has full PD data)
             try {
                 const localPrescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
                 const localMatches = localPrescriptions.filter((p: any) => {
@@ -307,6 +256,7 @@ const MobileCart: React.FC<MobileCartProps> = ({
                 }
             } catch (e) { console.error(e); }
 
+            // 3. sessionStorage (product page flow)
             try {
                 if (productSku) {
                     const sessionPrescriptions = JSON.parse(sessionStorage.getItem('productPrescriptions') || '{}');
@@ -321,6 +271,57 @@ const MobileCart: React.FC<MobileCartProps> = ({
                     }
                 }
             } catch (e) { console.error(e); }
+
+            // 4. userPrescriptions from API (checked last — may lack PD fields)
+            if (userPrescriptions && userPrescriptions.length > 0) {
+                const getPrescriptionDate = (p: any) => {
+                    const raw = p?.created_at ?? p?.data?.created_at ?? p?.createdAt ?? p?.data?.createdAt ?? p?.updated_at ?? p?.data?.uploadedAt ?? 0;
+                    if (typeof raw === 'number') return raw;
+                    if (typeof raw === 'string') return new Date(raw).getTime() || 0;
+                    return 0;
+                };
+
+                let matches = userPrescriptions.filter((p: any) => {
+                    if (!p) return false;
+                    const dataCartId = p?.data?.associatedProduct?.cartId;
+                    const rootCartId = p?.associatedProduct?.cartId;
+                    const directCartId = p?.data?.cartId || p?.cartId;
+                    const deepDataCartId = p?.data?.data?.associatedProduct?.cartId;
+
+                    const matchesCartId =
+                        (dataCartId && String(dataCartId) === String(cartId)) ||
+                        (rootCartId && String(rootCartId) === String(cartId)) ||
+                        (directCartId && String(directCartId) === String(cartId)) ||
+                        (deepDataCartId && String(deepDataCartId) === String(cartId));
+
+                    if (!matchesCartId) return false;
+
+                    const prescriptionCartId = rootCartId || dataCartId || directCartId || deepDataCartId;
+                    return prescriptionCartId && activeCartIds.has(String(prescriptionCartId));
+                });
+
+                if (matches.length === 0 && productSku != null && productSku !== "") {
+                    const productSkuStr = String(productSku);
+                    matches = userPrescriptions.filter((p: any) => {
+                        if (!p) return false;
+                        const pCartId = p?.associatedProduct?.cartId ?? p?.data?.associatedProduct?.cartId ?? p?.data?.cartId ?? p?.cartId;
+                        if (pCartId != null && !activeCartIds.has(String(pCartId))) return false;
+
+                        const dataSku = p?.data?.associatedProduct?.productSku;
+                        const rootSku = p?.associatedProduct?.productSku;
+                        const deepDataSku = p?.data?.data?.associatedProduct?.productSku;
+                        return (dataSku && String(dataSku) === productSkuStr) ||
+                            (rootSku && String(rootSku) === productSkuStr) ||
+                            (deepDataSku && String(deepDataSku) === productSkuStr);
+                    });
+                }
+
+                if (matches.length > 0) {
+                    const photoMatches = matches.filter((p: any) => p && p.type === "photo");
+                    const pool = photoMatches.length > 0 ? photoMatches : matches;
+                    return pool.sort((a: any, b: any) => getPrescriptionDate(b) - getPrescriptionDate(a))[0];
+                }
+            }
 
             return null;
         } catch (error) {
@@ -392,6 +393,84 @@ const MobileCart: React.FC<MobileCartProps> = ({
         if (!currentItem) return;
         if (change > 0 && checkForDuplicateProduct(currentItem, change)) return;
         handleQuantityChange(cartId, currentQuantity, change);
+    };
+
+    /**
+     * Builds a normalised prescription object for the viewer.
+     * ✅ Now matches desktop logic exactly — including getProductFlow fallback.
+     */
+    const buildMergedPrescription = (prescription: any, item: CartItem, productSku?: string) => {
+        // ✅ Same as desktop: check getProductFlow as additional PD source
+        const flow = getProductFlow(productSku || "");
+
+        const base      = prescription?.prescriptionDetails || {};
+        const dataLayer = prescription?.data               || {};
+        const deepBase  = dataLayer?.prescriptionDetails   || {};
+        const pd        = (item as any).product_details    || {};
+
+        const firstDefined = (...vals: any[]) => vals.find(v => v !== undefined && v !== null) ?? null;
+
+        // ✅ Priority matches desktop: prescription root → base → product_details → flow
+        const pdRight = firstDefined(
+            prescription?.pdRight, prescription?.pdOD, prescription?.pd_right, prescription?.pd_od,
+            base?.pdRight,  base?.pdOD,  base?.pd_right,
+            deepBase?.pdRight, deepBase?.pdOD, deepBase?.pd_right,
+            dataLayer?.pdRight, dataLayer?.pdOD, dataLayer?.pd_right, dataLayer?.pd_right_mm,
+            pd.pd_right_mm, pd.pd_right, pd.pdRight, pd.pdOD, pd.pd_od,
+            flow?.pdRight,
+        );
+
+        const pdLeft = firstDefined(
+            prescription?.pdLeft, prescription?.pdOS, prescription?.pd_left, prescription?.pd_os,
+            base?.pdLeft,  base?.pdOS,  base?.pd_left,
+            deepBase?.pdLeft, deepBase?.pdOS, deepBase?.pd_left,
+            dataLayer?.pdLeft, dataLayer?.pdOS, dataLayer?.pd_left, dataLayer?.pd_left_mm,
+            pd.pd_left_mm, pd.pd_left, pd.pdLeft, pd.pdOS, pd.pd_os,
+            flow?.pdLeft,
+        );
+
+        const pdSingle = firstDefined(
+            prescription?.pdSingle, prescription?.pd_single, prescription?.totalPD,
+            base?.pdSingle,  base?.pd_single,  base?.totalPD,
+            deepBase?.pdSingle, deepBase?.pd_single,
+            dataLayer?.pdSingle, dataLayer?.pd_single, dataLayer?.pd_single_mm,
+            pd.pd_single_mm, pd.pd_single, pd.pdSingle,
+            flow?.pdSingle,
+        );
+
+        const rawPdType = firstDefined(
+            prescription?.pdType, base?.pdType, deepBase?.pdType, dataLayer?.pdType,
+            flow?.pdType,
+            (pdRight != null && pdLeft != null) ? "dual" : (pdSingle != null ? "single" : null),
+        ) ?? "single";
+
+        const pdType =
+            typeof rawPdType === "string"
+                ? rawPdType.charAt(0).toUpperCase() + rawPdType.slice(1).toLowerCase()
+                : "Single";
+
+        return {
+            ...prescription,
+            pdSingle,
+            pdRight,
+            pdLeft,
+            pdType,
+            prescriptionDetails: {
+                ...deepBase,
+                ...base,
+                pdSingle,
+                pdRight,
+                pdLeft,
+                pdType,
+            },
+            data: {
+                ...dataLayer,
+                pdSingle,
+                pdRight,
+                pdLeft,
+                pdType,
+            },
+        };
     };
 
     return (
@@ -522,28 +601,21 @@ const MobileCart: React.FC<MobileCartProps> = ({
                                 const productSku = item.product?.products?.skuid || item.product_id;
                                 const prescription = getPrescriptionByCartId(item.cart_id, productSku, item);
                                 const isEditing = editingPrescriptions.has(item.cart_id);
-                                
+
                                 if (prescription) {
                                     return (
                                         <div className="flex flex-col gap-2">
-                                            <button onClick={() => {
-                                                const pd = item.product_details || {};
-                                                const pdSingle = pd.pd_single_mm ?? pd.pd_single ?? prescription?.pdSingle;
-                                                const pdRight = pd.pd_right_mm ?? pd.pd_right ?? prescription?.pdRight;
-                                                const pdLeft = pd.pd_left_mm ?? pd.pd_left ?? prescription?.pdLeft;
-                                                const base = prescription?.prescriptionDetails || prescription?.data || {};
-                                                const merged = {
-                                                    ...prescription,
-                                                    pdSingle: prescription?.pdSingle ?? base?.pdSingle ?? pdSingle,
-                                                    pdRight: prescription?.pdRight ?? base?.pdRight ?? pdRight,
-                                                    pdLeft: prescription?.pdLeft ?? base?.pdLeft ?? pdLeft,
-                                                    pdType: prescription?.pdType ?? base?.pdType ?? (pdRight != null && pdLeft != null ? "dual" : pdSingle != null ? "single" : undefined),
-                                                    prescriptionDetails: { ...base, pdSingle: base?.pdSingle ?? pdSingle, pdRight: base?.pdRight ?? pdRight, pdLeft: base?.pdLeft ?? pdLeft, pdType: base?.pdType },
-                                                    data: { ...(prescription?.data || {}), ...base, pdSingle: base?.pdSingle ?? pdSingle, pdRight: base?.pdRight ?? pdRight, pdLeft: base?.pdLeft ?? pdLeft, pdType: base?.pdType },
-                                                };
-                                                setViewPrescription(merged);
-                                                setViewPrescriptionCartId(item.cart_id);
-                                            }} className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded transition-colors w-full">View Prescription</button>
+                                            <button
+                                                onClick={() => {
+                                                    // ✅ Pass productSku so buildMergedPrescription can use getProductFlow
+                                                    const merged = buildMergedPrescription(prescription, item, productSku);
+                                                    setViewPrescription(merged);
+                                                    setViewPrescriptionCartId(item.cart_id);
+                                                }}
+                                                className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded transition-colors w-full"
+                                            >
+                                                View Prescription
+                                            </button>
                                             {!isEditing ? (
                                                 <button onClick={() => toggleEditMode(item.cart_id)} className="text-teal-700 hover:text-teal-800 text-sm font-medium underline transition-colors self-start">Edit Prescription</button>
                                             ) : (
@@ -571,27 +643,27 @@ const MobileCart: React.FC<MobileCartProps> = ({
                 </div>
             ))}
 
-            {/* Coupon Section - Manual Entry Only */}
+            {/* Coupon Section */}
             <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
                 <h3 className="text-lg font-bold text-gray-800 mb-4">Apply Coupon</h3>
                 <div className="flex gap-2 mb-4">
-                    <input 
-                        type="text" 
-                        value={cartData?.coupon?.code || couponCode} 
-                        onChange={(e) => setCouponCode(e.target.value)} 
-                        disabled={!!cartData?.coupon} 
-                        placeholder="Enter code" 
-                        className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-teal-600 disabled:bg-gray-50" 
+                    <input
+                        type="text"
+                        value={cartData?.coupon?.code || couponCode}
+                        onChange={(e) => setCouponCode(e.target.value)}
+                        disabled={!!cartData?.coupon}
+                        placeholder="Enter code"
+                        className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-teal-600 disabled:bg-gray-50"
                     />
-                    <button 
-                        onClick={handleApplyCoupon} 
-                        disabled={!couponCode || !!cartData?.coupon} 
+                    <button
+                        onClick={handleApplyCoupon}
+                        disabled={!couponCode || !!cartData?.coupon}
                         className="bg-teal-700 text-white px-4 py-2 rounded text-sm font-medium disabled:opacity-50"
                     >
                         Apply
                     </button>
                 </div>
-                
+
                 {cartData?.coupon && (
                     <div className="mt-3 flex justify-between items-center bg-green-50 p-2 rounded border border-green-100">
                         <span className="text-green-700 text-sm font-medium">Code <b>{cartData.coupon.code}</b> applied!</span>
@@ -604,7 +676,7 @@ const MobileCart: React.FC<MobileCartProps> = ({
             <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
                 <h3 className="text-lg font-bold text-gray-800 mb-4">Shipping Method</h3>
                 <div className="space-y-2">
-                    {[ { id: "standard", label: "Standard Shipping", time: "8-12 working days", price: cartData?.subtotal > 75 ? "Free" : "£6" }, { id: "express", label: "Express Shipping", time: "4-6 working days", price: "£29" } ].map((method) => (
+                    {[{ id: "standard", label: "Standard Shipping", time: "8-12 working days", price: cartData?.subtotal > 75 ? "Free" : "£6" }, { id: "express", label: "Express Shipping", time: "4-6 working days", price: "£29" }].map((method) => (
                         <label key={method.id} className="flex items-center gap-3 p-3 border border-gray-200 rounded cursor-pointer hover:bg-gray-50">
                             <div className="relative flex items-center justify-center w-5 h-5">
                                 <input type="radio" name="shipping_mobile" checked={shippingMethod === method.id} onChange={() => handleShippingChange(method.id)} className="sr-only" />
@@ -658,7 +730,25 @@ const MobileCart: React.FC<MobileCartProps> = ({
                 </div>
             </div>
 
-            <ManualPrescriptionModal open={!!viewPrescription} onClose={() => { setViewPrescription(null); setViewPrescriptionCartId(null); }} prescription={viewPrescription} cartId={viewPrescriptionCartId ?? undefined} onSavePD={viewPrescriptionCartId != null && viewPrescription && refetchCart && refetchPrescriptions ? async (pd) => { const userStr = localStorage.getItem("user"); const user = userStr ? JSON.parse(userStr) : null; const userId = user?._id ?? user?.id ?? ""; const base = viewPrescription.prescriptionDetails || viewPrescription.data || viewPrescription; const baseObj = typeof base === "object" && base ? base : {}; const updated = { ...viewPrescription, ...baseObj, ...pd, prescriptionDetails: { ...baseObj, ...pd }, data: { ...baseObj, ...pd } }; await addPrescription(userId, viewPrescription.type || "upload", viewPrescription.type || "upload", updated, viewPrescriptionCartId); refetchCart(); refetchPrescriptions(); setPrescriptionRefresh((p) => p + 1); setViewPrescription(updated); } : undefined} />
+            <ManualPrescriptionModal
+                open={!!viewPrescription}
+                onClose={() => { setViewPrescription(null); setViewPrescriptionCartId(null); }}
+                prescription={viewPrescription}
+                cartId={viewPrescriptionCartId ?? undefined}
+                onSavePD={viewPrescriptionCartId != null && viewPrescription && refetchCart && refetchPrescriptions ? async (pd) => {
+                    const userStr = localStorage.getItem("user");
+                    const user = userStr ? JSON.parse(userStr) : null;
+                    const userId = user?._id ?? user?.id ?? "";
+                    const base = viewPrescription.prescriptionDetails || viewPrescription.data || viewPrescription;
+                    const baseObj = typeof base === "object" && base ? base : {};
+                    const updated = { ...viewPrescription, ...baseObj, ...pd, prescriptionDetails: { ...baseObj, ...pd }, data: { ...baseObj, ...pd } };
+                    await addPrescription(userId, viewPrescription.type || "upload", viewPrescription.type || "upload", updated, viewPrescriptionCartId);
+                    refetchCart();
+                    refetchPrescriptions();
+                    setPrescriptionRefresh((p) => p + 1);
+                    setViewPrescription(updated);
+                } : undefined}
+            />
         </div>
     );
 };

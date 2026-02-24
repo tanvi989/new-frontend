@@ -14,6 +14,7 @@ import {
   getLensIndex,
   formatFrameSize,
 } from "../utils/priceUtils";
+import { getProductFlow } from "../utils/productFlowStorage";
 
 interface CustomerCartViewProps {
   open: boolean;
@@ -26,16 +27,127 @@ interface CustomerCartViewProps {
   discountAmount?: number;
 }
 
-// Helper: Get PD from prescription from all possible paths
-function getPdFromPrescription(prescription: any): { pdSingle?: string; pdRight?: string; pdLeft?: string; isDual?: boolean } {
+// ── FIX 1: Expanded getPdFromPrescription matching ManualPrescriptionModal ──
+// Now includes pd_right_mm, pd_left_mm, pd_single_mm, pd_right, pd_left, pd_single
+// which are the actual field names the backend sends.
+function getPdFromPrescription(prescription: any): {
+  pdSingle?: string;
+  pdRight?: string;
+  pdLeft?: string;
+  isDual?: boolean;
+} {
   if (!prescription) return {};
   const d = prescription.prescriptionDetails || prescription.data || prescription;
   const root = prescription as any;
-  const pdSingle = root.pdSingle ?? root.single ?? d.pdSingle ?? d.single ?? d.totalPD ?? (d.pdOD && d.pdOS ? `${d.pdOD}/${d.pdOS}` : undefined);
-  const pdRight = root.pdRight ?? root.right ?? d.pdRight ?? d.right ?? d.pdOD;
-  const pdLeft = root.pdLeft ?? root.left ?? d.pdLeft ?? d.left ?? d.pdOS;
-  const isDual = root.pdType === "Dual" || root.pdType === "dual" || !!(pdRight && pdLeft);
+
+  const pdRight =
+    root.pdRight  ?? root.pd_right_mm  ?? root.pd_right  ?? root.pdOD ?? root.right ??
+    d.pdRight     ?? d.pd_right_mm     ?? d.pd_right     ?? d.pdOD   ?? d.right     ?? undefined;
+
+  const pdLeft =
+    root.pdLeft   ?? root.pd_left_mm   ?? root.pd_left   ?? root.pdOS ?? root.left  ??
+    d.pdLeft      ?? d.pd_left_mm      ?? d.pd_left      ?? d.pdOS   ?? d.left      ?? undefined;
+
+  const pdSingle =
+    root.pdSingle ?? root.pd_single_mm ?? root.pd_single ?? root.single ??
+    d.pdSingle    ?? d.pd_single_mm    ?? d.pd_single    ?? d.single  ?? d.totalPD  ??
+    (d.pdOD && d.pdOS ? `${d.pdOD}/${d.pdOS}` : undefined);
+
+  const isDual =
+    root.pdType === "Dual" || root.pdType === "dual" || !!(pdRight && pdLeft);
+
   return { pdSingle, pdRight, pdLeft, isDual };
+}
+
+// ── FIX 2: Merge PD from all nested layers before rendering in the modal ──
+// Same logic as MobileCart.buildMergedPrescription — promotes PD to the top
+// level so the modal can read it regardless of where the backend buried it.
+// buildMergedPrescription mirrors MobileCart logic exactly.
+// It must receive the cart item + sku so it can check getProductFlow and
+// product_details — these are the primary PD sources for uploaded prescriptions
+// where PD is entered on a separate step and NOT stored inside the prescription
+// object itself.
+function buildMergedPrescription(prescription: any, cart?: CartItem, productSku?: string): any {
+  if (!prescription) return prescription;
+
+  const base      = prescription?.prescriptionDetails || {};
+  const dataLayer = prescription?.data               || {};
+  const deepBase  = dataLayer?.prescriptionDetails   || {};
+
+  // product_details on the cart item — backend sometimes stores PD here
+  const pd = (cart as any)?.product_details || {};
+
+  // Product flow storage — the PD entered on the "select prescription source"
+  // page is saved here, completely separate from the prescription blob
+  const flow = getProductFlow(productSku || "");
+
+  // Returns first non-null/non-undefined value, or undefined when nothing found.
+  const firstDefined = (...vals: any[]): any =>
+    vals.find((v) => v !== undefined && v !== null);
+
+  const pdRight = firstDefined(
+    prescription?.pdRight, prescription?.pdOD, prescription?.pd_right, prescription?.pd_od,
+    prescription?.pd_right_mm,
+    base?.pdRight,  base?.pdOD,  base?.pd_right, base?.pd_right_mm,
+    deepBase?.pdRight, deepBase?.pdOD, deepBase?.pd_right,
+    dataLayer?.pdRight, dataLayer?.pdOD, dataLayer?.pd_right, dataLayer?.pd_right_mm,
+    // ── Sources unique to uploaded prescriptions ──
+    pd?.pd_right_mm, pd?.pd_right, pd?.pdRight, pd?.pdOD, pd?.pd_od,
+    flow?.pdRight,
+  );
+
+  const pdLeft = firstDefined(
+    prescription?.pdLeft, prescription?.pdOS, prescription?.pd_left, prescription?.pd_os,
+    prescription?.pd_left_mm,
+    base?.pdLeft,  base?.pdOS,  base?.pd_left, base?.pd_left_mm,
+    deepBase?.pdLeft, deepBase?.pdOS, deepBase?.pd_left,
+    dataLayer?.pdLeft, dataLayer?.pdOS, dataLayer?.pd_left, dataLayer?.pd_left_mm,
+    // ── Sources unique to uploaded prescriptions ──
+    pd?.pd_left_mm, pd?.pd_left, pd?.pdLeft, pd?.pdOS, pd?.pd_os,
+    flow?.pdLeft,
+  );
+
+  const pdSingle = firstDefined(
+    prescription?.pdSingle, prescription?.pd_single, prescription?.totalPD,
+    prescription?.pd_single_mm,
+    base?.pdSingle,  base?.pd_single,  base?.totalPD, base?.pd_single_mm,
+    deepBase?.pdSingle, deepBase?.pd_single,
+    dataLayer?.pdSingle, dataLayer?.pd_single, dataLayer?.pd_single_mm,
+    // ── Sources unique to uploaded prescriptions ──
+    pd?.pd_single_mm, pd?.pd_single, pd?.pdSingle,
+    flow?.pdSingle,
+  );
+
+  const rawPdType = firstDefined(
+    prescription?.pdType, base?.pdType, deepBase?.pdType, dataLayer?.pdType,
+    flow?.pdType,
+    pdRight !== undefined && pdLeft !== undefined ? "dual" : pdSingle !== undefined ? "single" : undefined,
+  ) ?? "single";
+
+  const pdType =
+    typeof rawPdType === "string"
+      ? rawPdType.charAt(0).toUpperCase() + rawPdType.slice(1).toLowerCase()
+      : "Single";
+
+  // Only patch fields that were actually found — never overwrite with undefined.
+  const pdPatch: Record<string, any> = { pdType };
+  if (pdSingle !== undefined) pdPatch.pdSingle = pdSingle;
+  if (pdRight  !== undefined) pdPatch.pdRight  = pdRight;
+  if (pdLeft   !== undefined) pdPatch.pdLeft   = pdLeft;
+
+  return {
+    ...prescription,
+    ...pdPatch,
+    prescriptionDetails: {
+      ...deepBase,
+      ...base,
+      ...pdPatch,
+    },
+    data: {
+      ...dataLayer,
+      ...pdPatch,
+    },
+  };
 }
 
 const CustomerCartView: React.FC<CustomerCartViewProps> = ({
@@ -60,7 +172,8 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
   const { data: prescriptionsResponse } = useQuery({
     queryKey: ["prescriptions"],
     queryFn: () => getMyPrescriptions(),
-    enabled: !!localStorage.getItem("token") || !!localStorage.getItem("guest_id"),
+    enabled:
+      !!localStorage.getItem("token") || !!localStorage.getItem("guest_id"),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -112,10 +225,11 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
   const getPrescription = (cart: CartItem): any | null => {
     try {
       const cartId = cart.cart_id;
-      const productSku = (cart as any).product?.products?.skuid || cart.product_id;
+      const productSku =
+        (cart as any).product?.products?.skuid || cart.product_id;
       const activeCartIds = new Set(carts.map((c) => String(c.cart_id)));
 
-      // 1. Backend prescription
+      // 1. Backend prescription attached to cart item
       if (
         (cart as any).prescription &&
         typeof (cart as any).prescription === "object" &&
@@ -127,34 +241,80 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
           pres?.data?.associatedProduct?.cartId ??
           pres?.cartId ??
           pres?.data?.cartId;
-        if (!presCartId || (String(presCartId) === String(cartId) && activeCartIds.has(String(cartId)))) {
+        if (
+          !presCartId ||
+          (String(presCartId) === String(cartId) &&
+            activeCartIds.has(String(cartId)))
+        ) {
           return cart.prescription;
         }
       }
 
-      // 2. Local Storage
-      const local = JSON.parse(localStorage.getItem("prescriptions") || "[]");
-      const localMatch = local.find((p: any) => {
-        const pCartId = p?.associatedProduct?.cartId ?? p?.data?.associatedProduct?.cartId;
-        return pCartId && String(pCartId) === String(cartId) && activeCartIds.has(String(pCartId));
-      });
-      if (localMatch) return localMatch.prescriptionDetails || localMatch.data || localMatch;
+      // 2. Local Storage (has full PD data — checked before API)
+      try {
+        const local = JSON.parse(
+          localStorage.getItem("prescriptions") || "[]"
+        );
+        const localMatches = local.filter((p: any) => {
+          const pCartId =
+            p?.associatedProduct?.cartId ?? p?.data?.associatedProduct?.cartId;
+          return (
+            pCartId &&
+            String(pCartId) === String(cartId) &&
+            activeCartIds.has(String(pCartId))
+          );
+        });
+        if (localMatches.length > 0) {
+          const getLocalDate = (p: any) => {
+            const raw =
+              p?.createdAt ?? p?.created_at ?? p?.prescriptionDetails?.createdAt ?? 0;
+            if (typeof raw === "number") return raw;
+            if (typeof raw === "string") return new Date(raw).getTime() || 0;
+            return 0;
+          };
+          // ── Return the FULL object so buildMergedPrescription can find PD
+          // at any nested path. Previously stripping to .prescriptionDetails
+          // or .data here lost top-level PD fields like pdSingle/pdRight.
+          const best = localMatches.sort(
+            (a: any, b: any) => getLocalDate(b) - getLocalDate(a)
+          )[0];
+          return best;
+        }
+      } catch (e) {
+        console.error(e);
+      }
 
-      // 3. Session Storage
+      // 3. Session Storage (product page flow)
       if (productSku) {
-        const session = JSON.parse(sessionStorage.getItem("productPrescriptions") || "{}");
-        if (session[productSku]) {
-          const pCartId = session[productSku]?.associatedProduct?.cartId ?? session[productSku]?.data?.associatedProduct?.cartId;
-          if (pCartId == null || (String(pCartId) === String(cartId) && activeCartIds.has(String(pCartId)))) {
-            return session[productSku].prescriptionDetails || session[productSku].data || session[productSku];
+        try {
+          const session = JSON.parse(
+            sessionStorage.getItem("productPrescriptions") || "{}"
+          );
+          if (session[productSku]) {
+            const pCartId =
+              session[productSku]?.associatedProduct?.cartId ??
+              session[productSku]?.data?.associatedProduct?.cartId;
+            if (
+              pCartId == null ||
+              (String(pCartId) === String(cartId) &&
+                activeCartIds.has(String(pCartId)))
+            ) {
+              // ── Return the FULL object so buildMergedPrescription can find
+              // PD at any nested path. Do NOT unwrap to .prescriptionDetails
+              // or .data here — that strips top-level PD fields.
+              return session[productSku];
+            }
           }
+        } catch (e) {
+          console.error(e);
         }
       }
 
-      // 4. User Prescriptions from Database
+      // 4. User Prescriptions from API (checked last — may lack PD fields)
       if (userPrescriptions && userPrescriptions.length > 0) {
         const getPrescriptionDate = (p: any) => {
-          const raw = p?.created_at ?? p?.data?.created_at ?? p?.createdAt ?? 0;
+          const raw =
+            p?.created_at ?? p?.data?.created_at ?? p?.createdAt ?? 0;
           if (typeof raw === "number") return raw;
           if (typeof raw === "string") return new Date(raw).getTime() || 0;
           return 0;
@@ -165,19 +325,32 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
           const dataCartId = p?.data?.associatedProduct?.cartId;
           const rootCartId = p?.associatedProduct?.cartId;
           const directCartId = p?.data?.cartId || p?.cartId;
+          const deepDataCartId = p?.data?.data?.associatedProduct?.cartId;
+
           const matchesCartId =
             (dataCartId && String(dataCartId) === String(cartId)) ||
             (rootCartId && String(rootCartId) === String(cartId)) ||
-            (directCartId && String(directCartId) === String(cartId));
+            (directCartId && String(directCartId) === String(cartId)) ||
+            (deepDataCartId && String(deepDataCartId) === String(cartId));
+
           if (!matchesCartId) return false;
-          const prescriptionCartId = rootCartId || dataCartId || directCartId;
-          return prescriptionCartId && activeCartIds.has(String(prescriptionCartId));
+
+          const prescriptionCartId =
+            rootCartId || dataCartId || directCartId || deepDataCartId;
+          return (
+            prescriptionCartId && activeCartIds.has(String(prescriptionCartId))
+          );
         });
 
         if (matches.length > 0) {
-          const photoMatches = matches.filter((p: any) => p && p.type === "photo");
+          const photoMatches = matches.filter(
+            (p: any) => p && p.type === "photo"
+          );
           const pool = photoMatches.length > 0 ? photoMatches : matches;
-          return pool.sort((a: any, b: any) => getPrescriptionDate(b) - getPrescriptionDate(a))[0];
+          return pool.sort(
+            (a: any, b: any) =>
+              getPrescriptionDate(b) - getPrescriptionDate(a)
+          )[0];
         }
       }
 
@@ -251,7 +424,7 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                       key={cart.cart_id}
                       className="p-3 rounded-xl border border-gray-200 bg-white shadow-sm"
                     >
-                      {/* ... Item Card Content (Image, Details, Table) ... */}
+                      {/* Item Card Content */}
                       <div className="flex gap-3">
                         <div className="w-[90px] h-[90px] shrink-0 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
                           <img
@@ -362,7 +535,9 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                               Lens Coating:
                             </div>
                             <div className="w-1/2 py-2 px-2 flex justify-between items-center">
-                              <span className="text-[#525252]">{coating.name}</span>
+                              <span className="text-[#525252]">
+                                {coating.name}
+                              </span>
                               <span className="font-semibold text-[#1F1F1F]">
                                 £{Number(coating.price || 0).toFixed(2)}
                               </span>
@@ -375,12 +550,17 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                       <div className="mt-3">
                         {prescription ? (
                           <button
-                            onClick={() =>
+                            onClick={() => {
+                              // Pass cart + productSku so buildMergedPrescription
+                              // can also check product_details and getProductFlow —
+                              // the actual PD sources for uploaded prescriptions.
+                              const sku = (cart as any).product?.products?.skuid || cart.product_id;
+                              const merged = buildMergedPrescription(prescription, cart, sku ? String(sku) : "");
                               setViewingPrescription({
                                 name: productName,
-                                pres: prescription,
-                              })
-                            }
+                                pres: merged,
+                              });
+                            }}
                             className="text-xs font-bold text-white bg-[#E94D37] hover:bg-[#bf3e2b] px-3 py-1.5 rounded-md transition-colors"
                           >
                             View Prescription
@@ -488,23 +668,31 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
       />
 
       {/* ══════════════════════════════════════════════
-          PRESCRIPTION MODAL — Manual Style Format
+          PRESCRIPTION MODAL
           ══════════════════════════════════════════════ */}
       {viewingPrescription &&
         (() => {
           const rawPres = viewingPrescription.pres;
 
-          // Merge top-level and nested data
+          // Merge top-level and nested data for display fields
           const details = {
             ...rawPres,
-            ...(rawPres.prescriptionDetails || rawPres.data || {})
+            ...(rawPres.prescriptionDetails || rawPres.data || {}),
           };
 
+          // ── FIX 1: Use expanded getPdFromPrescription so all backend field
+          // names (pd_right_mm, pd_left_mm, pd_single_mm, etc.) are checked.
           const currentPd = getPdFromPrescription(rawPres);
-          const isPdf = details.image_url?.toLowerCase().endsWith('.pdf') || details.fileType === 'application/pdf';
-          const isUpload = details.type === "upload" || details.type === "photo" || !!details.image_url;
 
-          // Extract fields for manual view (support both nested od/os and flat rightSph/leftSph formats)
+          const isPdf =
+            details.image_url?.toLowerCase().endsWith(".pdf") ||
+            details.fileType === "application/pdf";
+          const isUpload =
+            details.type === "upload" ||
+            details.type === "photo" ||
+            !!details.image_url;
+
+          // Manual prescription fields (support nested od/os and flat formats)
           const od = details.od || {};
           const os = details.os || {};
 
@@ -515,18 +703,19 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
           const leftCyl = os.cyl || details.leftCyl || details.left_cyl || "";
           const leftAxis = os.axis || details.leftAxis || details.left_axis || "";
 
-          // Prism
           const odPrism = od.prism || {};
           const osPrism = os.prism || {};
 
-          // Reading/Add Power
-          const hasReadingPower = details.readingPowerRight || details.readingPowerLeft || details.addPower;
+          const hasReadingPower =
+            details.readingPowerRight ||
+            details.readingPowerLeft ||
+            details.addPower;
 
           return (
             <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/60">
               <div className="bg-white rounded-xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto flex flex-col">
 
-                {/* ── Modal Header ── */}
+                {/* Modal Header */}
                 <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shrink-0 z-10">
                   <h2 className="text-xl font-bold text-[#1F1F1F]">
                     Prescription Details
@@ -536,19 +725,24 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                     className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                     aria-label="Close"
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
                       <line x1="18" y1="6" x2="6" y2="18" />
                       <line x1="6" y1="6" x2="18" y2="18" />
                     </svg>
                   </button>
                 </div>
 
-                {/* ── Modal Body ── */}
+                {/* Modal Body */}
                 <div className="p-6 space-y-6 flex-1 overflow-y-auto">
 
-                  {/* ════════════════════════════════
-                      SECTION A: Upload Layout
-                      ════════════════════════════════ */}
+                  {/* SECTION A: Upload Layout */}
                   {isUpload ? (
                     <div className="space-y-6">
                       <div className="bg-gray-50 p-4 rounded-lg">
@@ -559,10 +753,22 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                           <div className="mb-4">
                             {isPdf ? (
                               <div className="flex flex-col items-center justify-center p-8 bg-white border border-gray-200 rounded-lg">
-                                <svg className="w-12 h-12 text-red-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                <svg
+                                  className="w-12 h-12 text-red-500 mb-2"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                                  />
                                 </svg>
-                                <p className="text-sm font-medium text-gray-900 mb-2">{details.fileName || "Prescription.pdf"}</p>
+                                <p className="text-sm font-medium text-gray-900 mb-2">
+                                  {details.fileName || "Prescription.pdf"}
+                                </p>
                               </div>
                             ) : (
                               <img
@@ -571,7 +777,6 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                                 className="max-w-full max-h-48 object-contain rounded-lg border border-gray-200 mx-auto"
                               />
                             )}
-
                             <a
                               href={details.image_url}
                               target="_blank"
@@ -589,12 +794,13 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                         )}
                       </div>
 
-                      {/* PD Display for Upload */}
+                      {/* PD for Upload */}
                       <div className="bg-gray-50 p-4 rounded-lg">
                         <p className="text-xs font-bold text-gray-500 uppercase mb-1">
                           Pupillary Distance (PD)
                         </p>
-                        {currentPd.isDual && (currentPd.pdRight || currentPd.pdLeft) ? (
+                        {currentPd.isDual &&
+                        (currentPd.pdRight || currentPd.pdLeft) ? (
                           <p className="text-base font-medium text-[#1F1F1F]">
                             R: {currentPd.pdRight} / L: {currentPd.pdLeft}
                           </p>
@@ -610,9 +816,7 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                       </div>
                     </div>
                   ) : (
-                    /* ════════════════════════════════
-                       SECTION B: Manual Prescription Layout
-                       ════════════════════════════════ */
+                    /* SECTION B: Manual Prescription Layout */
                     <>
                       {/* Prescription For */}
                       {details.prescriptionFor && (
@@ -621,7 +825,9 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                             Prescription For
                           </h3>
                           <p className="text-base font-medium text-[#1F1F1F]">
-                            {details.prescriptionFor === "self" ? "Self" : details.patientName || "Other"}
+                            {details.prescriptionFor === "self"
+                              ? "Self"
+                              : details.patientName || "Other"}
                           </p>
                         </div>
                       )}
@@ -633,27 +839,43 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                         </h3>
                         <div className="grid grid-cols-3 gap-4">
                           <div>
-                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">SPH</p>
-                            <p className="text-base font-medium text-[#1F1F1F]">{rightSph || "0.00"}</p>
+                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">
+                              SPH
+                            </p>
+                            <p className="text-base font-medium text-[#1F1F1F]">
+                              {rightSph || "0.00"}
+                            </p>
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">CYL</p>
-                            <p className="text-base font-medium text-[#1F1F1F]">{rightCyl || "0.00"}</p>
+                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">
+                              CYL
+                            </p>
+                            <p className="text-base font-medium text-[#1F1F1F]">
+                              {rightCyl || "0.00"}
+                            </p>
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">Axis</p>
-                            <p className="text-base font-medium text-[#1F1F1F]">{rightAxis || "-"}</p>
+                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">
+                              Axis
+                            </p>
+                            <p className="text-base font-medium text-[#1F1F1F]">
+                              {rightAxis || "-"}
+                            </p>
                           </div>
                         </div>
 
-                        {/* Prism for OD */}
+                        {/* Prism OD */}
                         {odPrism && (odPrism.horizontal || odPrism.vertical) && (
                           <div className="mt-4 pt-4 border-t border-gray-100">
-                            <p className="text-xs font-bold text-gray-500 uppercase mb-3">Prism</p>
+                            <p className="text-xs font-bold text-gray-500 uppercase mb-3">
+                              Prism
+                            </p>
                             <div className="grid grid-cols-2 gap-4">
                               {odPrism.horizontal && (
                                 <div>
-                                  <p className="text-xs text-gray-500 mb-1">Horizontal</p>
+                                  <p className="text-xs text-gray-500 mb-1">
+                                    Horizontal
+                                  </p>
                                   <p className="text-sm font-medium text-[#1F1F1F]">
                                     {odPrism.horizontal} {odPrism.baseHorizontal}
                                   </p>
@@ -661,7 +883,9 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                               )}
                               {odPrism.vertical && (
                                 <div>
-                                  <p className="text-xs text-gray-500 mb-1">Vertical</p>
+                                  <p className="text-xs text-gray-500 mb-1">
+                                    Vertical
+                                  </p>
                                   <p className="text-sm font-medium text-[#1F1F1F]">
                                     {odPrism.vertical} {odPrism.baseVertical}
                                   </p>
@@ -679,27 +903,43 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                         </h3>
                         <div className="grid grid-cols-3 gap-4">
                           <div>
-                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">SPH</p>
-                            <p className="text-base font-medium text-[#1F1F1F]">{leftSph || "0.00"}</p>
+                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">
+                              SPH
+                            </p>
+                            <p className="text-base font-medium text-[#1F1F1F]">
+                              {leftSph || "0.00"}
+                            </p>
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">CYL</p>
-                            <p className="text-base font-medium text-[#1F1F1F]">{leftCyl || "0.00"}</p>
+                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">
+                              CYL
+                            </p>
+                            <p className="text-base font-medium text-[#1F1F1F]">
+                              {leftCyl || "0.00"}
+                            </p>
                           </div>
                           <div>
-                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">Axis</p>
-                            <p className="text-base font-medium text-[#1F1F1F]">{leftAxis || "-"}</p>
+                            <p className="text-xs font-bold text-gray-500 uppercase mb-1">
+                              Axis
+                            </p>
+                            <p className="text-base font-medium text-[#1F1F1F]">
+                              {leftAxis || "-"}
+                            </p>
                           </div>
                         </div>
 
-                        {/* Prism for OS */}
+                        {/* Prism OS */}
                         {osPrism && (osPrism.horizontal || osPrism.vertical) && (
                           <div className="mt-4 pt-4 border-t border-gray-100">
-                            <p className="text-xs font-bold text-gray-500 uppercase mb-3">Prism</p>
+                            <p className="text-xs font-bold text-gray-500 uppercase mb-3">
+                              Prism
+                            </p>
                             <div className="grid grid-cols-2 gap-4">
                               {osPrism.horizontal && (
                                 <div>
-                                  <p className="text-xs text-gray-500 mb-1">Horizontal</p>
+                                  <p className="text-xs text-gray-500 mb-1">
+                                    Horizontal
+                                  </p>
                                   <p className="text-sm font-medium text-[#1F1F1F]">
                                     {osPrism.horizontal} {osPrism.baseHorizontal}
                                   </p>
@@ -707,7 +947,9 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                               )}
                               {osPrism.vertical && (
                                 <div>
-                                  <p className="text-xs text-gray-500 mb-1">Vertical</p>
+                                  <p className="text-xs text-gray-500 mb-1">
+                                    Vertical
+                                  </p>
                                   <p className="text-sm font-medium text-[#1F1F1F]">
                                     {osPrism.vertical} {osPrism.baseVertical}
                                   </p>
@@ -718,7 +960,7 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                         )}
                       </div>
 
-                      {/* ADD Power, PD, Birth Year Grid */}
+                      {/* Add Power / PD / Birth Year */}
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {hasReadingPower && (
                           <div className="bg-gray-50 p-4 rounded-lg">
@@ -726,10 +968,15 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                               Reading / Add Power
                             </p>
                             <div className="text-base font-medium text-[#1F1F1F]">
-                              {(details.readingPowerRight || details.readingPowerLeft) ? (
+                              {details.readingPowerRight ||
+                              details.readingPowerLeft ? (
                                 <div className="flex gap-4">
-                                  {details.readingPowerRight && <span>R: {details.readingPowerRight}</span>}
-                                  {details.readingPowerLeft && <span>L: {details.readingPowerLeft}</span>}
+                                  {details.readingPowerRight && (
+                                    <span>R: {details.readingPowerRight}</span>
+                                  )}
+                                  {details.readingPowerLeft && (
+                                    <span>L: {details.readingPowerLeft}</span>
+                                  )}
                                 </div>
                               ) : (
                                 <span>{details.addPower}</span>
@@ -742,7 +989,8 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                           <p className="text-xs font-bold text-gray-500 uppercase mb-1">
                             Pupillary Distance
                           </p>
-                          {currentPd.isDual && (currentPd.pdRight || currentPd.pdLeft) ? (
+                          {currentPd.isDual &&
+                          (currentPd.pdRight || currentPd.pdLeft) ? (
                             <p className="text-base font-medium text-[#1F1F1F]">
                               R: {currentPd.pdRight} / L: {currentPd.pdLeft}
                             </p>
@@ -751,7 +999,9 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                               {currentPd.pdSingle}
                             </p>
                           ) : (
-                            <p className="text-base font-medium text-gray-400 italic">Not provided</p>
+                            <p className="text-base font-medium text-gray-400 italic">
+                              Not provided
+                            </p>
                           )}
                         </div>
 
@@ -782,7 +1032,7 @@ const CustomerCartView: React.FC<CustomerCartViewProps> = ({
                   )}
                 </div>
 
-                {/* ── Modal Footer ── */}
+                {/* Modal Footer */}
                 <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4 shrink-0">
                   <div className="flex justify-end">
                     <button
