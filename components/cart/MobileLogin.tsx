@@ -284,7 +284,7 @@ export const MobileLogin: React.FC<MobileLoginProps> = ({
                                         }}
                                         className="text-sm text-[#1F1F1F] hover:opacity-80 underline font-bold"
                                     >
-                                        Request PIN?
+                                        Request OTP?
                                     </button>
                                 </div>
                             </form>

@@ -538,7 +538,7 @@ const Login: React.FC = () => {
                 }}
                 className="text-gray-500 font-medium text-xs hover:text-[#1F1F1F] transition-colors underline"
               >
-                Request PIN
+                Request OTP
               </button>
             </div>
 
@@ -565,7 +565,7 @@ const Login: React.FC = () => {
                 }}
                 className="text-[#1F1F1F] font-bold text-sm underline hover:opacity-80"
               >
-                Request PIN
+                Request OTP
               </button>
 
               <button

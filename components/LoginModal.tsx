@@ -305,7 +305,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                         }}
                                         className="text-sm text-[#1F1F1F] hover:opacity-80 underline font-bold"
                                     >
-                                        Request PIN?
+                                        Request OTP?
                                     </button>
                                 </div>
                             </form>

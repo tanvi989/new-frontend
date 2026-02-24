@@ -106,21 +106,23 @@ const App: React.FC = () => {
 
   // Load CookieYes consent banner
   useEffect(() => {
-    const script = document.createElement('script');
-    script.id = 'cookieyes';
-    script.type = 'text/javascript';
-    script.src = 'https://cdn-cookieyes.com/client_data/867ace6bea3c3f55f9168cd1838d01d8/script.js';
-    
-    document.head.appendChild(script);
-    
-    return () => {
-      // Cleanup on unmount
-      const existingScript = document.getElementById('cookieyes');
-      if (existingScript) {
-        document.head.removeChild(existingScript);
-      }
-    };
-  }, []);
+  // Only load if user's first page is homepage
+  if (location.pathname !== '/') return;
+
+  const script = document.createElement('script');
+  script.id = 'cookieyes';
+  script.type = 'text/javascript';
+  script.src = 'https://cdn-cookieyes.com/client_data/867ace6bea3c3f55f9168cd1838d01d8/script.js';
+
+  document.head.appendChild(script);
+
+  return () => {
+    const existingScript = document.getElementById('cookieyes');
+    if (existingScript) {
+      document.head.removeChild(existingScript);
+    }
+  };
+}, []); // ✅ [] = runs only ONCE on page load
 
   // Define routes that should NOT use the default Navigation/Footer logic
   const isLayoutRoute = [

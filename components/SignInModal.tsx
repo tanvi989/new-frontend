@@ -200,7 +200,7 @@ const SignInModal: React.FC<SignInModalProps> = ({
                                     }}
                                     className="text-sm text-gray-500 hover:text-black underline"
                                 >
-                                    Request PIN
+                                    Request OTP
                                 </button>
                             </div>
                         </form>

@@ -10,29 +10,30 @@ export function HeroSection() {
     <>
       {/* Desktop Version */}
       <section className="hidden lg:block relative w-full h-[100vh] overflow-hidden ">
-        {/* Background GIF */}
+        {/* Background Image */}
         <img
-          src="/images/herogif.gif"
+          src="/desktopbanner.webp"
           alt="Hero Background"
           width="1920"
           height="1080"
-          className="absolute inset-0 w-full h-full object-cover object-[50%_45%]"
+          // Changed 'object-[50%_45%]' to 'object-top' to anchor image to the top
+          className="absolute inset-0 w-full h-full object-cover object-top"
         />
+        
         {/* Content at very bottom */}
         <div className="relative h-full flex flex-col justify-end items-center text-center px-4 pb-8">
           <div>
-            <span className="text-2xl lg:text-4xl text-white mb-8 [word-spacing:0.1px]   line-height:[48px]">
+            <span className="text-2xl lg:text-4xl text-white mb-8 [word-spacing:0.1px] leading-[48px] block">
               Welcome to MultiFolks
               <br />
               The worlds multifocal specialists.
             </span>
-            <div
-              className="flex gap-4 justify-center mt-10"
-            >
+            
+            <div className="flex gap-4 justify-center mt-10">
               <button
                 onClick={goTo("/glasses?gender=Men")}
                 aria-label="Shop Men's Glasses"
-                className="w-56 px-4 py-3 bg-black text-white text-base lg:text-lg font-semibold rounded-full hover:bg-black transition uppercase tracking-wide"
+                className="w-56 px-4 py-3 bg-black text-white text-base lg:text-lg font-semibold rounded-full hover:bg-gray-900 transition uppercase tracking-wide"
               >
                 MEN
               </button>
@@ -50,19 +51,19 @@ export function HeroSection() {
 
       {/* Mobile Version */}
       <section className="lg:hidden relative w-full h-[100dvh] overflow-hidden">
-        {/* Background GIF */}
+        {/* Background Image */}
         <img
-          src="/images/herogif.gif"
-          alt="Hero Background"
+          src="/mobilebanner.webp"
+          alt="Hero Background Mobile"
           width="1080"
           height="1920"
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
+        
         {/* Content at very bottom */}
         <div className="relative h-full flex flex-col justify-end items-center text-center px-4 pb-6">
           <div className="mb-8 w-full max-w-sm">
-            {/* Text in 3 lines for mobile with same size as desktop */}
-            <span className="text-2xl lg:text-4xl text-white mb-6 block [word-spacing:0.1px] leading-tight">
+            <span className="text-2xl text-white mb-6 block [word-spacing:0.1px] leading-tight">
               Welcome to MultiFolks
               <br />
               The world's multifocal
@@ -71,7 +72,6 @@ export function HeroSection() {
             </span>
 
             <div className="flex gap-3 mt-8">
-              {/* You can change these paths to whatever you actually need */}
               <button
                 onClick={goTo("/glasses?gender=Men")}
                 aria-label="Shop Men's Glasses"
