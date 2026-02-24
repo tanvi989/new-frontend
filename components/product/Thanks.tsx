@@ -95,7 +95,7 @@ const Thanks: React.FC = () => {
     // Effect for sending invoice
     React.useEffect(() => {
         if (order && !invoiceSentRef.current) {
-            sendInvoice({ order_id: orderId }).then(() => {
+            sendInvoice(orderId).then(() => {
                 console.log("Invoice sent automatically");
             });
             invoiceSentRef.current = true;
@@ -103,7 +103,7 @@ const Thanks: React.FC = () => {
     }, [order, orderId]);
 
     const handleSendInvoice = () => {
-        sendInvoice({ order_id: orderId });
+        sendInvoice(orderId);
     };
 
     if (isLoading) {
@@ -344,7 +344,7 @@ const Thanks: React.FC = () => {
                             <div key={cart.cart_id} className="flex gap-4 items-center">
                                 <div className="w-[75px] h-[50px] bg-gray-50 rounded border border-gray-100 flex items-center justify-center p-1">
                                     <img
-                                        src={cart.product?.products?.image || "https://images.unsplash.com/photo-1591076482161-42ce6da69f67?auto=format&fit=crop&q=80&w=200"}
+                                        src={cart.product?.products?.image || cart.product?.image || `/api/v1/products/image/${cart.product_id}`}
                                         alt="Product"
                                         className="max-w-full max-h-full object-contain mix-blend-multiply"
                                     />

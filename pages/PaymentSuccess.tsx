@@ -215,7 +215,7 @@ const PaymentSuccess: React.FC = () => {
                         <li key={cart.cart_id} className="flex gap-2 items-center text-xs">
                           <div className="w-10 h-10 bg-gray-100 rounded border border-gray-200 flex items-center justify-center shrink-0">
                             <img
-                              src={cart.product?.products?.image || 'https://images.unsplash.com/photo-1591076482161-42ce6da69f67?auto=format&fit=crop&q=80&w=200'}
+                              src={cart.product?.products?.image || cart.product?.image || `/api/v1/products/image/${cart.product_id}`}
                               alt=""
                               className="max-w-full max-h-full object-contain mix-blend-multiply"
                             />

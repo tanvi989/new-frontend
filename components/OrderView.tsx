@@ -33,13 +33,22 @@ const OrderView: React.FC<OrderViewProps> = () => {
     localStorage.getItem("orderId") ||
     undefined;
 
+  console.log("OrderView: orderId sources - state:", state?.order_id, "searchParams:", searchParams.get("order_id"), "localStorage:", localStorage.getItem("orderId"));
+  console.log("OrderView: Final orderId:", orderId);
+
   const { isLoading, data } = useQuery({
     queryKey: ["orderdetails", orderId],
     queryFn: async () => {
-      if (!orderId) return {};
+      if (!orderId) {
+        console.log("OrderView: No orderId provided");
+        return {};
+      }
+      console.log("OrderView: Fetching order details for orderId:", orderId);
+      
       try {
         // Prefer real backend thank-you endpoint (handles live orders)
         const thankYouRes: any = await getThankYou(orderId);
+        console.log("OrderView: Thank you API response:", thankYouRes);
         if (thankYouRes?.data?.status) {
           return thankYouRes.data;
         }
@@ -49,7 +58,8 @@ const OrderView: React.FC<OrderViewProps> = () => {
 
       // Fallback to legacy/mock order-details endpoint
       try {
-        const legacyRes: any = await getOrderDetails({ order_id: orderId });
+        const legacyRes: any = await getOrderDetails(orderId);
+        console.log("OrderView: Legacy API response:", legacyRes);
         if (legacyRes?.data?.status) {
           return legacyRes.data;
         }
@@ -330,10 +340,7 @@ const OrderView: React.FC<OrderViewProps> = () => {
                     });
                   } else {
                     setLoading(true);
-                    payPartialAmount({
-                      order_id: orderId,
-                      pay_mode_code: "100",
-                    }).then((res) => {
+                    payPartialAmount(orderId, 0).then((res) => {
                       if (res?.data?.status) {
                         navigate("/thank-you", {
                           state: {
@@ -475,10 +482,7 @@ const OrderView: React.FC<OrderViewProps> = () => {
                     <div className="w-full md:w-[200px] shrink-0">
                       <div className="aspect-[4/3] w-full bg-gray-50 rounded-lg overflow-hidden border border-gray-100 flex items-center justify-center">
                         <img
-                          src={
-                            cartItem?.product?.products?.image ||
-                            PRODUCT_PLACEHOLDER
-                          }
+                          src={cartItem?.product?.products?.image || cartItem?.product?.image || `/api/v1/products/image/${cartItem.product_id}`}
                           alt={cartItem?.product?.products?.name}
                           className="w-full h-full object-contain mix-blend-multiply p-2"
                         />
