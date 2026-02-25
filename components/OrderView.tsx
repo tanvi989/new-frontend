@@ -542,72 +542,135 @@ const OrderView: React.FC<OrderViewProps> = () => {
                         )}
                       </div>
 
-                      {/* View Prescription Button */}
-                      {cartItem?.prescription && (
-                        <div className="mt-4 pt-4 border-t border-gray-100">
-                          <button
-                            onClick={() => {
-                              setSelectedPrescription(cartItem.prescription);
-                              setShowPrescriptionViewer(true);
-                            }}
-                            className="px-4 py-2 bg-[#232320] text-white rounded-lg font-semibold text-sm hover:bg-black transition-colors shadow-sm"
-                          >
-                            👁️ View Prescription
-                          </button>
-                          {cartItem?.prescription_mode && (
-                            <span className="ml-3 text-xs text-gray-500">
-                              Added via: {cartItem.prescription_mode}
-                            </span>
-                          )}
-                        </div>
-                      )}
+                   
+                      {/* Prescription Preview - Full Details */}
+{cartItem?.prescription && (
+  <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+    <h4 className="text-sm font-bold text-blue-800 mb-3">Prescription Details</h4>
 
-                      {/* Prescription Preview */}
-                      {cartItem?.prescription && (
-                        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                          <h4 className="text-sm font-bold text-blue-800 mb-3">Prescription Details</h4>
-                          <div className="flex items-start gap-4">
-                            {cartItem.prescription.image_url && (
-                              <img
-                                src={cartItem.prescription.image_url}
-                                alt="Prescription"
-                                className="w-20 h-20 object-cover rounded border border-blue-300"
-                              />
-                            )}
-                            <div className="flex-1 text-sm text-blue-700">
-                              <div className="font-medium">{cartItem.prescription.name || 'Prescription'}</div>
-                              <div className="text-xs text-blue-600 mt-1">
-                                Type: {cartItem.prescription.type || 'Upload'}
-                              </div>
-                              {cartItem.prescription.fileName && (
-                                <div className="text-xs text-blue-600">
-                                  File: {cartItem.prescription.fileName}
-                                </div>
-                              )}
-                              {/* Show PD values ONLY for manual prescriptions */}
-                              {cartItem.prescription.type === 'manual' && (
-                                <div className="mt-2 p-2 bg-blue-100 rounded border border-blue-200">
-                                  <div className="text-xs font-bold text-blue-800 mb-1">PD Values</div>
-                                  <div className="grid grid-cols-2 gap-2 text-xs">
-                                    <div>
-                                      <span className="font-medium">Right PD:</span> {cartItem.prescription.pdRight || 'N/A'}
-                                    </div>
-                                    <div>
-                                      <span className="font-medium">Left PD:</span> {cartItem.prescription.pdLeft || 'N/A'}
-                                    </div>
-                                    {cartItem.prescription.pdSingle && (
-                                      <div className="col-span-2">
-                                        <span className="font-medium">Single PD:</span> {cartItem.prescription.pdSingle}
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+    {/* Name / Type / Meta */}
+    <div className="flex items-start gap-4 mb-3">
+      {cartItem.prescription.image_url && (
+        <img
+          src={cartItem.prescription.image_url}
+          alt="Prescription"
+          className="w-20 h-20 object-cover rounded border border-blue-300"
+        />
+      )}
+      <div className="flex-1 text-sm text-blue-700">
+        <div className="font-semibold text-blue-900">{cartItem.prescription.name || 'Prescription'}</div>
+        <div className="text-xs text-blue-600 mt-0.5">Type: {cartItem.prescription.type || 'Upload'}</div>
+        {cartItem.prescription.prescriptionFor && (
+          <div className="text-xs text-blue-600">For: {cartItem.prescription.prescriptionFor}</div>
+        )}
+        {cartItem.prescription.birthYear && (
+          <div className="text-xs text-blue-600">Birth Year: {cartItem.prescription.birthYear}</div>
+        )}
+           {cartItem.prescription.fileName && (
+          <div className="text-xs text-blue-600">File: {cartItem.prescription.fileName}</div>
+        )}
+
+        {/* PD below file info - visible for all prescription types */}
+        {(cartItem.prescription.pdType || cartItem.prescription.pdRight || cartItem.prescription.pdLeft || cartItem.prescription.pdSingle) && (
+          <div className="mt-2 pt-2 border-t border-blue-100">
+            <div className="text-xs text-blue-600">
+              PD Type: <span className="font-medium">{cartItem.prescription.pdType || 'N/A'}</span>
+            </div>
+            {cartItem.prescription.pdType === 'Dual' ? (
+              <div className="text-xs text-blue-600">
+                PD: <span className="font-medium">{cartItem.prescription.pdRight || 'N/A'} (R) / {cartItem.prescription.pdLeft || 'N/A'} (L)</span>
+              </div>
+            ) : (
+              <div className="text-xs text-blue-600">
+                PD: <span className="font-medium">{cartItem.prescription.pdSingle || 'N/A'}</span>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+
+    {cartItem.prescription.type === 'manual' && (
+      <>
+        {/* OD / OS Full Table */}
+        <div className="overflow-x-auto mb-3">
+          <table className="w-full text-xs border-collapse">
+            <thead>
+              <tr className="bg-blue-200 text-blue-900">
+                <th className="px-2 py-1.5 text-left font-bold">Eye</th>
+                <th className="px-2 py-1.5 text-center font-bold">SPH</th>
+                <th className="px-2 py-1.5 text-center font-bold">CYL</th>
+                <th className="px-2 py-1.5 text-center font-bold">Axis</th>
+                <th className="px-2 py-1.5 text-center font-bold">Prism H</th>
+                <th className="px-2 py-1.5 text-center font-bold">Base H</th>
+                <th className="px-2 py-1.5 text-center font-bold">Prism V</th>
+                <th className="px-2 py-1.5 text-center font-bold">Base V</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartItem.prescription.od && (
+                <tr className="bg-white border-b border-blue-100">
+                  <td className="px-2 py-1.5 font-bold text-blue-800">OD (Right)</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.od.sph || '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.od.cyl || '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.od.axis ?? '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.od.prism?.horizontal ?? '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.od.prism?.baseHorizontal ?? '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.od.prism?.vertical ?? '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.od.prism?.baseVertical ?? '—'}</td>
+                </tr>
+              )}
+              {cartItem.prescription.os && (
+                <tr className="bg-blue-50">
+                  <td className="px-2 py-1.5 font-bold text-blue-800">OS (Left)</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.os.sph || '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.os.cyl || '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.os.axis ?? '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.os.prism?.horizontal ?? '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.os.prism?.baseHorizontal ?? '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.os.prism?.vertical ?? '—'}</td>
+                  <td className="px-2 py-1.5 text-center">{cartItem.prescription.os.prism?.baseVertical ?? '—'}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Add Power + PD */}
+        <div className="grid grid-cols-2 gap-3">
+          {(cartItem.prescription.addPower || cartItem.prescription.readingPowerRight || cartItem.prescription.readingPowerLeft) && (
+            <div className="p-2 bg-white rounded border border-blue-200">
+              <div className="text-xs font-bold text-blue-800 mb-1">Reading / Add Power</div>
+              {cartItem.prescription.addPower && (
+                <div className="text-xs text-blue-700">Add Power: <span className="font-medium">{cartItem.prescription.addPower}</span></div>
+              )}
+              {cartItem.prescription.readingPowerRight && (
+                <div className="text-xs text-blue-700">Right: <span className="font-medium">{cartItem.prescription.readingPowerRight}</span></div>
+              )}
+              {cartItem.prescription.readingPowerLeft && (
+                <div className="text-xs text-blue-700">Left: <span className="font-medium">{cartItem.prescription.readingPowerLeft}</span></div>
+              )}
+            </div>
+          )}
+
+          <div className="p-2 bg-white rounded border border-blue-200">
+            <div className="text-xs font-bold text-blue-800 mb-1">Pupillary Distance (PD)</div>
+            <div className="text-xs text-blue-700">Type: <span className="font-medium">{cartItem.prescription.pdType || 'N/A'}</span></div>
+            {cartItem.prescription.pdType === 'Dual' ? (
+              <>
+                <div className="text-xs text-blue-700">Right PD: <span className="font-medium">{cartItem.prescription.pdRight || 'N/A'}</span></div>
+                <div className="text-xs text-blue-700">Left PD: <span className="font-medium">{cartItem.prescription.pdLeft || 'N/A'}</span></div>
+              </>
+            ) : (
+              <div className="text-xs text-blue-700">Single PD: <span className="font-medium">{cartItem.prescription.pdSingle || 'N/A'}</span></div>
+            )}
+          </div>
+        </div>
+      </>
+    )}
+  </div>
+)}
+ </div> {/* ← ADD THIS: closes <div className="flex-1 w-full"> Info Section */}
 
                     {/* Image Section */}
                     <div className="w-full md:w-[200px] shrink-0">

@@ -6,7 +6,7 @@ import { Loader } from '../Loader';
 import { clearOrderRelatedStorage } from '../../utils/productFlowStorage';
 
 const ORDER_STEPS = [
-    { key: 'processing', label: 'Processing' },
+    { key: 'processing', label: 'Confirmed' },
     { key: 'dispatched', label: 'Dispatched' },
     { key: 'shipped', label: 'Shipped' },
     { key: 'delivered', label: 'Delivered' },
@@ -290,7 +290,7 @@ const Thanks: React.FC = () => {
                             <div className="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200 text-sm text-[#525252] space-y-2 animate-in fade-in slide-in-from-top-1 duration-200">
                                 <p className="font-medium text-[#1F1F1F]">What happens next?</p>
                                 <ul className="list-disc list-inside space-y-1 text-xs">
-                                    <li><strong>Processing:</strong> We’re preparing your order and checking prescription details.</li>
+                                    <li><strong>Confirmed:</strong> We’re preparing your order and checking prescription details.</li>
                                     <li><strong>Dispatched:</strong> Your order has been handed to our shipping partner.</li>
                                     <li><strong>Shipped:</strong> Your order is on its way. You may receive tracking details by email.</li>
                                     <li><strong>Delivered:</strong> Your order has been delivered. Enjoy your new glasses!</li>
