@@ -127,7 +127,7 @@ const FRAME_COLOR_MAP: { [key: string]: string } = {
 
 const FILTER_OPTIONS = {
   Size: ["Large", "Medium", "Small"],
-  Brand: ["Berg", "K+", "Leon", "Miyama"],
+  Brand: ["Berg", "K+", "Leon", "Miyama", "Multifolks"],
   Styles: ["Full Frame", "Half Frame", "Rimless"],
   Gender: ["Men", "Women"],
 

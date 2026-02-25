@@ -31,11 +31,18 @@ const Orders: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F3F0E7] font-sans pb-12">
       {/* Hero Banner with Models */}
-      <div className="relative w-full h-[250px] md:h-[350px] overflow-hidden">
+      <div className="relative w-full h-[300px] md:h-[350px] overflow-hidden flex items-center justify-center">
+        {/* Mobile Banner */}
+        <img
+          src="recent banner-mobile.jpg"
+          alt="Banner"
+          className="w-full h-auto object-contain object-center md:hidden"
+        />
+        {/* Desktop Banner */}
         <img
           src="recent banner.jpg"
           alt="Banner"
-          className="w-full h-full object-cover object-top"
+          className="w-full h-auto object-contain object-center hidden md:block"
         />
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-pink-500/30 via-cyan-400/20 to-purple-500/20 mix-blend-overlay"></div>
