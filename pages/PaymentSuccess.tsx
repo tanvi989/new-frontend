@@ -65,7 +65,7 @@ const PaymentSuccess: React.FC = () => {
           const authToken = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
           console.log('[PaymentSuccess] Using auth token:', authToken ? 'Present' : 'Missing');
           
-          const response = await fetch('/api/v1/orders/' + urlOrderId + '/send-confirmation-email', {
+          const response = await fetch('https://testbackend.multifolks.com/api/v1/orders/' + urlOrderId + '/send-confirmation-email', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ const PaymentSuccess: React.FC = () => {
           const authToken = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
           console.log('[PaymentSuccess] Using auth token:', authToken ? 'Present' : 'Missing');
           
-          const response = await fetch('/api/v1/orders/' + order_id + '/send-confirmation-email', {
+          const response = await fetch('https://testbackend.multifolks.com/api/v1/orders/' + order_id + '/send-confirmation-email', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

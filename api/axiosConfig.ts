@@ -24,9 +24,7 @@ if (ENV_API_TARGET && (ENV_API_TARGET.includes("http//") || !/^https?:\/\//.test
 // No restrictions - all frontend domains can access backend directly
 const host = typeof window !== "undefined" ? window.location.hostname : "";
 const useRelativeApi = false;  // Always use direct API calls
-const RESOLVED_BASE_URL = ENV_API_TARGET
-  ? (ENV_API_TARGET.replace(/\/+$/, "") + "/")
-  : (API_BASE_URL.replace(/\/+$/, "") + "/");
+const RESOLVED_BASE_URL = API_BASE_URL.replace(/\/+$/, "") + "/";  // Always use backend URL
 
 console.log('[API] Base URL:', RESOLVED_BASE_URL || "(relative – proxy to backend)");
 
