@@ -220,7 +220,7 @@ export const getOrderDetails = (orderId: string) => axios.get(`/api/v1/orders/${
 // --- Order confirmation email ---
 export const sendOrderConfirmationEmail = async (orderId: string): Promise<{ success: boolean; message?: string }> => {
   try {
-    const authToken = localStorage.getItem('authToken') || localStorage.getItem('token') || '';
+    const authToken = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
     console.log('[sendConfirmationEmail] Using auth token:', authToken ? 'Present' : 'Missing');
     
     const response = await axios.post(`/api/v1/orders/${orderId}/send-confirmation-email`, {}, {

@@ -58,11 +58,11 @@ const PaymentSuccess: React.FC = () => {
     if (urlOrderId && !sessionStorage.getItem(PENDING_ORDER_SYNC_KEY)) {
       console.log('[PaymentSuccess] Found order_id in URL, sending confirmation email...');
       console.log('[PaymentSuccess] URL Order ID:', urlOrderId);
-      console.log('[PaymentSuccess] Auth Token:', localStorage.getItem('authToken') ? 'Present' : 'Missing');
+      console.log('[PaymentSuccess] Auth Token:', localStorage.getItem('token') ? 'Present' : 'Missing');
       
       const sendConfirmationEmail = async () => {
         try {
-          const authToken = localStorage.getItem('authToken') || localStorage.getItem('token') || '';
+          const authToken = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
           console.log('[PaymentSuccess] Using auth token:', authToken ? 'Present' : 'Missing');
           
           const response = await fetch('/api/v1/orders/' + urlOrderId + '/send-confirmation-email', {
@@ -109,7 +109,7 @@ const PaymentSuccess: React.FC = () => {
         console.log('[PaymentSuccess] Order ID:', order_id);
         
         try {
-          const authToken = localStorage.getItem('authToken') || localStorage.getItem('token') || '';
+          const authToken = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
           console.log('[PaymentSuccess] Using auth token:', authToken ? 'Present' : 'Missing');
           
           const response = await fetch('/api/v1/orders/' + order_id + '/send-confirmation-email', {
