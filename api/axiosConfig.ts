@@ -20,21 +20,13 @@ if (ENV_API_TARGET && (ENV_API_TARGET.includes("http//") || !/^https?:\/\//.test
   ENV_API_TARGET = "";
 }
 
-// Use relative URL when same-origin so the server can proxy to backend → avoids CORS (backend sends duplicate Access-Control-Allow-Origin).
-// Localhost: Vite dev server proxies. Production (live.multifolks.com / multifolks.com): your server must proxy /api/v1, /accounts, /retailer to livebackend.multifolks.com.
+// Use direct API calls for all domains since backend CORS is completely open
+// No restrictions - all frontend domains can access backend directly
 const host = typeof window !== "undefined" ? window.location.hostname : "";
-const useRelativeApi =
-  host === "localhost" ||
-  host === "127.0.0.1" ||
-  host === "live.multifolks.com" ||
-  host === "www.multifolks.com" ||
-  host === "multifolks.com" ||
-  host === "test.multifolks.com";  // Add test domain
-const RESOLVED_BASE_URL = useRelativeApi
-  ? ""
-  : ENV_API_TARGET
-    ? (ENV_API_TARGET.replace(/\/+$/, "") + "/")
-    : (API_BASE_URL.replace(/\/+$/, "") + "/");
+const useRelativeApi = false;  // Always use direct API calls
+const RESOLVED_BASE_URL = ENV_API_TARGET
+  ? (ENV_API_TARGET.replace(/\/+$/, "") + "/")
+  : (API_BASE_URL.replace(/\/+$/, "") + "/");
 
 console.log('[API] Base URL:', RESOLVED_BASE_URL || "(relative – proxy to backend)");
 
