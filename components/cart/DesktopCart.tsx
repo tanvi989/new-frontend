@@ -233,7 +233,7 @@ const DesktopCart: React.FC = () => {
         queryFn: () => getMyPrescriptions(),
         enabled: authData.isAuthenticated || !!localStorage.getItem("guest_id"),
         staleTime: 5 * 60 * 1000, // 5 minutes
-        cacheTime: 10 * 60 * 1000, // 10 minutes
+        gcTime: 10 * 60 * 1000, // 10 minutes (replaced cacheTime)
         refetchOnWindowFocus: false, // Prevent refetch on window focus
     });
 
@@ -276,7 +276,7 @@ const DesktopCart: React.FC = () => {
             }
         },
         staleTime: 5 * 60 * 1000, // Increased to 5 minutes
-        cacheTime: 10 * 60 * 1000, // Cache for 10 minutes
+        gcTime: 10 * 60 * 1000, // Cache for 10 minutes (replaced cacheTime)
         refetchOnMount: false, // Changed to false to prevent refetch on mount
         refetchOnWindowFocus: false, // Prevent refetch on window focus
         refetchOnReconnect: true, // Allow refetch on reconnect
@@ -547,7 +547,7 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
 
         // ✅ update only if cartId missing
         if (!existingCartId) {
-            updateMyPrescriptionCartId(viewPrescription.id, String(selectedCartId));
+            updateMyPrescriptionCartId(String(viewPrescription.id), String(selectedCartId));
         }
     }, [selectedCartId, viewPrescription]);
 
@@ -613,7 +613,7 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                 const savedPrescriptions = JSON.parse(localStorage.getItem('prescriptions') || '[]');
                 const sessionPrescriptions = JSON.parse(sessionStorage.getItem('productPrescriptions') || '{}');
                 
-                const productSku = product.skuid || product.id;
+                const productSku = (product as any).skuid || (product as any).store_skuid || item.product_id;
                 const cartPrescription = savedPrescriptions.find((p: any) => 
                     p?.associatedProduct?.cartId === String(item.cart_id) ||
                     p?.associatedProduct?.productSku === productSku
@@ -631,7 +631,7 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                 lensPackagePrice: lensPackagePrice,
                 coatingPrice: coatingInfo?.price || 0,
                 lensPackage: lensOverride?.lensPackage || lensAny?.lens_package,
-                coatingTitle: coatingInfo?.title || lensAny?.coating,
+                coatingTitle: coatingInfo?.name || lensAny?.coating,
                 mainCategory: lensOverride?.mainCategory ?? lensAny?.main_category,
                 lensType: lensOverride?.lensType,
                 lensCategory: lensOverride?.lensCategory || lensAny?.lens_category,
@@ -1305,7 +1305,9 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                                                                 <tr>
                                                                     <td className="p-3 font-bold text-[#1F1F1F] border-r border-gray-200">Lens Coating:</td>
                                                                     <td className="p-3 text-[#525252] truncate">{getLensCoating(item).name}</td>
-                                                                    <td className="p-3 text-right font-bold text-[#1F1F1F] whitespace-nowrap bg-gray-50 rounded-[1px]">£{Number(getLensCoating(item).price || 0).toFixed(2)}</td>
+                                                                    <td className="p-3 text-right font-bold text-[#1F1F1F] whitespace-nowrap bg-gray-50 rounded-[1px]">
+                                                                        {getLensCoating(item).displayPrice || ''}
+                                                                    </td>
                                                                 </tr>
                                                             )}
                                                         </tbody>
@@ -1330,9 +1332,9 @@ alert(err.response?.data?.detail || "Failed to apply coupon");
                                                                                     onClick={() => {
                                                                                         const flow = getProductFlow(productSku || "");
                                                                                         const pd = item.product_details || {};
-                                                                                        const pdSingle = pd.pd_single_mm ?? pd.pd_single ?? prescription?.pdSingle;
-                                                                                        const pdRight = pd.pd_right_mm ?? pd.pd_right ?? prescription?.pdRight;
-                                                                                        const pdLeft = pd.pd_left_mm ?? pd.pd_left ?? prescription?.pdLeft;
+                                                                                        const pdSingle = (pd as any).pd_single_mm ?? (pd as any).pd_single ?? (prescription as any).pdSingle;
+                                                                                        const pdRight = (pd as any).pd_right_mm ?? (pd as any).pd_right ?? (prescription as any).pdRight;
+                                                                                        const pdLeft = (pd as any).pd_left_mm ?? (pd as any).pd_left ?? (prescription as any).pdLeft;
                                                                                         const hasFlowPd = flow && (flow.pdSingle || flow.pdRight || flow.pdLeft);
                                                                                         const base = prescription?.prescriptionDetails || prescription?.data || {};
                                                                                         const merged = {

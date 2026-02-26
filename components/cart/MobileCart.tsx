@@ -569,7 +569,7 @@ const MobileCart: React.FC<MobileCartProps> = ({
                                     <tr className="border-b border-gray-200">
                                         <td className="py-3 px-2 font-bold text-[#1F1F1F] border-r border-gray-200">Lens Coating:</td>
                                         <td className="py-3 px-2 text-[#525252] truncate">{getLensCoating(item).name}</td>
-                                        <td className="py-3 px-2 text-right font-bold text-[#1F1F1F] whitespace-nowrap bg-gray-50 rounded-[1px]">£{Number(getLensCoating(item).price || 0).toFixed(2)}</td>
+                                        <td className="py-3 px-2 text-right font-bold text-[#1F1F1F] whitespace-nowrap bg-gray-50 rounded-[1px]">{getLensCoating(item).displayPrice || ''}</td>
                                     </tr>
                                 )}
                                 <tr className="border-b border-gray-200">

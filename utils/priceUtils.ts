@@ -140,7 +140,7 @@ export const getLensPackagePrice = (item: CartItem): number => {
     return toNumber(itemLevel ?? lensLevel ?? 0, 0);
 };
 
-export const getLensCoating = (item: CartItem): { name: string; price: number } => {
+export const getLensCoating = (item: CartItem): { name: string; price: number; displayPrice?: string } => {
     const itemAny = item as any;
     const lensAny = (itemAny?.lens ?? itemAny?.lens_data ?? itemAny?.lensData) as any;
     const cartId = (itemAny?.cart_id ?? itemAny?.id) as any;
@@ -149,9 +149,11 @@ export const getLensCoating = (item: CartItem): { name: string; price: number } 
     // Highest priority: explicit selection override (by cart_id, then by SKU so it survives login)
     const override = getCartLensOverride(cartId) ?? (sku ? getCartLensOverrideBySku(String(sku)) : null);
     if (override?.coatingTitle || override?.coatingPrice != null) {
+        const coatingPrice = toNumber(override.coatingPrice ?? 0, 0);
         return {
             name: String(override.coatingTitle || "Coating"),
-            price: toNumber(override.coatingPrice ?? 0, 0),
+            price: coatingPrice,
+            displayPrice: coatingPrice > 0 ? `£${coatingPrice.toFixed(2)}` : undefined
         };
     }
 
@@ -172,7 +174,11 @@ export const getLensCoating = (item: CartItem): { name: string; price: number } 
     if (itemAny?.coatingId || itemAny?.coating || itemAny?.coatingPrice != null || itemAny?.coating_price != null) {
         const coatingName = itemAny?.coatingTitle || itemAny?.coating || "Coating";
         const coatingPrice = toNumber(itemAny?.coatingPrice ?? itemAny?.coating_price ?? 0, 0);
-        const result = { name: coatingName, price: coatingPrice };
+        const result = { 
+            name: coatingName, 
+            price: coatingPrice,
+            displayPrice: coatingPrice > 0 ? `£${coatingPrice.toFixed(2)}` : undefined
+        };
         console.log("✅ getLensCoating result (from item coating):", result);
         return result;
     }
@@ -186,13 +192,22 @@ export const getLensCoating = (item: CartItem): { name: string; price: number } 
             else if (c.includes("Water Resistant")) coatingPrice = 10;
             else if (c.includes("Scratch Resistant")) coatingPrice = 15;
         }
-        const result = { name: String(lensAny.coating), price: coatingPrice };
+        const result = { 
+            name: String(lensAny.coating), 
+            price: coatingPrice,
+            displayPrice: coatingPrice > 0 ? `£${coatingPrice.toFixed(2)}` : undefined
+        };
         return result;
     }
 
     // 2.5 If price exists on lens but name doesn't, still show price
     if (lensAny?.coating_price != null) {
-        const result = { name: "Coating", price: toNumber(lensAny.coating_price, 0) };
+        const coatingPrice = toNumber(lensAny.coating_price, 0);
+        const result = { 
+            name: "Coating", 
+            price: coatingPrice,
+            displayPrice: coatingPrice > 0 ? `£${coatingPrice.toFixed(2)}` : undefined
+        };
         return result;
     }
 
@@ -203,7 +218,11 @@ export const getLensCoating = (item: CartItem): { name: string; price: number } 
         if (coatingMatch) {
             const coatingName = coatingMatch[1];
             const coatingPrice = toNumber(lensAny?.coating_price ?? itemAny?.coatingPrice ?? 0, 0);
-            const result = { name: coatingName, price: coatingPrice };
+            const result = { 
+                name: coatingName, 
+                price: coatingPrice,
+                displayPrice: coatingPrice > 0 ? `£${coatingPrice.toFixed(2)}` : undefined
+            };
             console.log("✅ getLensCoating result (from lens title):", result);
             return result;
         }
@@ -223,14 +242,22 @@ export const getLensCoating = (item: CartItem): { name: string; price: number } 
             const coatingPrice = toNumber(itemAny.coatingPrice ?? lensAny?.coating_price ??
                 (coating === "Anti Reflective Coating" ? 0 :
                     coating === "Water Resistant" ? 10 : 15), 0);
-            const result = { name: coating, price: coatingPrice };
+            const result = { 
+                name: coating, 
+                price: coatingPrice,
+                displayPrice: coatingPrice > 0 ? `£${coatingPrice.toFixed(2)}` : undefined
+            };
             console.log("✅ getLensCoating result (from sub_category):", result);
             return result;
         }
     }
 
     // Default to Anti Reflective Coating
-    const defaultResult = { name: "Anti Reflective Coating", price: 0 };
+    const defaultResult = { 
+        name: "Anti Reflective Coating", 
+        price: 0,
+        displayPrice: undefined
+    };
     console.log("✅ getLensCoating result (default):", defaultResult);
     return defaultResult;
 };

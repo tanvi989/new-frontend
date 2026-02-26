@@ -118,7 +118,7 @@ const FRAME_COLOR_MAP: { [key: string]: string } = {
   "Rose Gold": "#B76E79",
   "Royal Blue": "#4169E1",
   Silver: "#C0C0C0",
-  Tortoise: "#8B4513",
+  Tortoise: "#9C9E31",
   White: "#FFFFFF",
   Transparent: "#FFFFFF",
   "White Transparent": "rgba(255, 255, 255, 0.3)",
