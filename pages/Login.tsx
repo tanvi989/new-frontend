@@ -67,10 +67,10 @@ const Login: React.FC = () => {
           await authService.requestPin(email);
           setMessage({
             type: "success",
-            text: "Welcome back! Enter password or the PIN sent to your email.",
+            text: "Welcome back! Enter password or the ONE TIME PASSWORD sent to your email.",
           });
         } catch (pinError) {
-          console.error("Failed to send PIN:", pinError);
+          console.error("Failed to send ONE TIME PASSWORD:", pinError);
           setMessage({
             type: "success",
             text: "Welcome back! Please enter your password.",
@@ -512,7 +512,7 @@ const Login: React.FC = () => {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Enter 6-digit PIN"
+                    placeholder="Enter 6-digit ONE TIME PASSWORD"
                     value={pin}
                     onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                     className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3.5 text-[#1F1F1F] font-medium placeholder:text-gray-400 focus:outline-none focus:border-[#232320] focus:ring-1 focus:ring-[#232320] transition-colors tracking-widest text-center text-lg"
@@ -528,17 +528,17 @@ const Login: React.FC = () => {
                 type="button"
                 onClick={async () => {
                   try {
-                    setMessage({ type: "success", text: "Sending PIN..." });
+                    setMessage({ type: "success", text: "Sending ONE TIME PASSWORD..." });
                     await authService.requestPin(email);
-                    setMessage({ type: "success", text: `PIN has been sent to ${email}` });
+                    setMessage({ type: "success", text: `ONE TIME PASSWORD has been sent to ${email}` });
                   } catch (err: any) {
                     console.error(err);
-                    setMessage({ type: "error", text: getApiErrorMessage(err, "Failed to send PIN") });
+                    setMessage({ type: "error", text: getApiErrorMessage(err, "Failed to send ONE TIME PASSWORD") });
                   }
                 }}
                 className="text-gray-500 font-medium text-xs hover:text-[#1F1F1F] transition-colors underline"
               >
-                Request OTP
+                request one time password
               </button>
             </div>
 
@@ -555,17 +555,17 @@ const Login: React.FC = () => {
                 type="button"
                 onClick={async () => {
                   try {
-                    setMessage({ type: "success", text: "Sending PIN..." });
+                    setMessage({ type: "success", text: "Sending ONE TIME PASSWORD..." });
                     await authService.requestPin(email);
-                    setMessage({ type: "success", text: `PIN has been sent to ${email}` });
+                    setMessage({ type: "success", text: `ONE TIME PASSWORD has been sent to ${email}` });
                   } catch (err: any) {
                     console.error(err);
-                    setMessage({ type: "error", text: getApiErrorMessage(err, "Failed to send PIN") });
+                    setMessage({ type: "error", text: getApiErrorMessage(err, "Failed to send ONE TIME PASSWORD") });
                   }
                 }}
                 className="text-[#1F1F1F] font-bold text-sm underline hover:opacity-80"
               >
-                Request OTP
+                request one time password
               </button>
 
               <button
@@ -573,7 +573,7 @@ const Login: React.FC = () => {
                 onClick={async () => {
                   if (loginMethod === "password") {
                     setLoginMethod("pin");
-                    setMessage({ type: "success", text: "Enter the PIN sent to your email." });
+                    setMessage({ type: "success", text: "Enter the ONE TIME PASSWORD sent to your email." });
                   } else {
                     setLoginMethod("password");
                   }
@@ -581,7 +581,7 @@ const Login: React.FC = () => {
                 className="text-gray-500 font-medium text-sm hover:text-black hidden"
               >
                 {/* Hidden toggle for now, prioritizing explicit send button */}
-                {loginMethod === "password" ? "Login with PIN" : "Login with Password"}
+                {loginMethod === "password" ? "Login with ONE TIME PASSWORD" : "Login with Password"}
               </button>
 
             </div>

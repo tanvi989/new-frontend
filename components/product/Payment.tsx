@@ -320,7 +320,6 @@ const AddressForm = React.forwardRef<
   // Check if form is valid
   const isFormValid = formData.fullName.trim() !== '' &&
     formData.email.trim() !== '' &&
-    formData.mobile.trim() !== '' &&
     formData.addressLine.trim() !== '' &&
     formData.city.trim() !== '' &&
     formData.state.trim() !== '' &&
@@ -338,24 +337,6 @@ const AddressForm = React.forwardRef<
     }
   }, [user]);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   // Notify parent of form validity changes
   useEffect(() => {
     if (onFormValidityChange) {
@@ -634,7 +615,7 @@ const AddressForm = React.forwardRef<
               </div>
               <div className="relative border border-gray-300 rounded-sm bg-white p-1 focus-within:border-[#1F1F1F] transition-colors">
                 <label className="block text-[10px] font-bold text-gray-400 uppercase ml-2 mt-1">
-                  ENTER MOBILE <span className="text-red-500">*</span>
+                  ENTER MOBILE
                 </label>
                 <input
                   type="tel"
@@ -643,7 +624,6 @@ const AddressForm = React.forwardRef<
                   onChange={handleInputChange}
                   className="w-full px-2 pb-1 text-sm font-bold text-[#1F1F1F] outline-none placeholder:text-gray-300 bg-transparent border-none focus:ring-0 p-0 h-6"
                   placeholder="Enter Mobile"
-                  required
                 />
               </div>
             </div>
@@ -753,7 +733,7 @@ const AddressForm = React.forwardRef<
         </div>
       </div>
 
-      {/* Mobile Layout - Matching Screenshot */}
+      {/* Mobile Layout */}
       <div className="md:hidden">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-bold text-[#333]">
@@ -830,7 +810,6 @@ const AddressForm = React.forwardRef<
                 value={formData.mobile}
                 onChange={handleInputChange}
                 className="w-full px-2 py-1 text-sm font-medium outline-none border-none bg-transparent"
-                required
               />
             </div>
           </div>

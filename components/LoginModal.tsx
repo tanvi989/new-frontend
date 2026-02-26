@@ -297,15 +297,15 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                                 await authService.requestPin(email);
                                                 setStep("pin");
                                             } catch (err: any) {
-                                                console.error("Failed to send PIN:", err);
-                                                setError("Failed to send PIN. Please try again.");
+                                                console.error("Failed to send ONE TIME PASSWORD:", err);
+                                                setError("Failed to send ONE TIME PASSWORD. Please try again.");
                                             } finally {
                                                 setLoading(false);
                                             }
                                         }}
                                         className="text-sm text-[#1F1F1F] hover:opacity-80 underline font-bold"
                                     >
-                                        Request OTP?
+                                        request one time password
                                     </button>
                                 </div>
                             </form>
@@ -313,7 +313,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                             <form onSubmit={async (e) => {
                                 e.preventDefault();
                                 if (!pin || pin.length !== 6) {
-                                    setError("Please enter a valid 6-digit PIN");
+                                    setError("Please enter a valid 6-digit ONE TIME PASSWORD");
                                     return;
                                 }
                                 if (!newPassword || newPassword.length < 6) {
@@ -356,11 +356,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                     </button>
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="forgot-pin-input" className="sr-only">PIN</label>
+                                    <label htmlFor="forgot-pin-input" className="sr-only">ONE TIME PASSWORD</label>
                                     <input
                                         id="forgot-pin-input"
                                         type="text"
-                                        placeholder="Enter 6-digit PIN"
+                                        placeholder="Enter 6-digit ONE TIME PASSWORD"
                                         value={pin}
                                         onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                                         className="w-full h-[48px] bg-white border border-[#CED4DA] rounded px-4 py-2 text-[16px] text-[#1F1F1F] font-medium placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1F1F1F] focus:ring-0 transition-all"
@@ -437,7 +437,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                             <form onSubmit={async (e) => {
                                 e.preventDefault();
                                 if (!pin || pin.length !== 6) {
-                                    setError("Please enter a valid 6-digit PIN");
+                                    setError("Please enter a valid 6-digit ONE TIME PASSWORD");
                                     return;
                                 }
 
@@ -450,14 +450,14 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                         await syncLocalCartToBackend();
                                         setSuccessMessage("Login successful");
                                     } else {
-                                        setError(response.message || "Invalid PIN");
+                                        setError(response.message || "Invalid ONE TIME PASSWORD");
                                     }
                                 } catch (err: any) {
-                                    console.error("PIN verification error:", err);
+                                    console.error("ONE TIME PASSWORD verification error:", err);
                                     setError(
                                         err?.response?.data?.detail?.msg ||
                                         err?.response?.data?.message ||
-                                        "Invalid PIN. Please try again."
+                                        "Invalid ONE TIME PASSWORD. Please try again."
                                     );
                                 } finally {
                                     setLoading(false);
@@ -466,10 +466,10 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                 {/* Title */}
                                 <div className="text-center mb-1">
                                     <h2 className="text-[28.8px] font-bold text-[#1F1F1F] mb-1 font-sans">
-                                        PIN Sent
+                                        ONE TIME PASSWORD SENT
                                     </h2>
                                     <p className="text-[16px] text-[#6C757D]">
-                                        PIN sent to
+                                        ONE TIME PASSWORD sent to
                                     </p>
                                     <p className="text-[16px] text-[#6C757D]">
                                         {email}
@@ -483,9 +483,9 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                     </button>
                                 </div>
 
-                                {/* PIN Input */}
+                                {/* ONE TIME PASSWORD Input */}
                                 <div className="mb-4">
-                                    <label htmlFor="pin-input" className="sr-only">PIN</label>
+                                    <label htmlFor="pin-input" className="sr-only">ONE TIME PASSWORD</label>
                                     <input
                                         id="pin-input"
                                         type="text"
