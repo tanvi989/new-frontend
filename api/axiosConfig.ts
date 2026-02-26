@@ -28,7 +28,8 @@ const useRelativeApi =
   host === "127.0.0.1" ||
   host === "live.multifolks.com" ||
   host === "www.multifolks.com" ||
-  host === "multifolks.com";
+  host === "multifolks.com" ||
+  host === "test.multifolks.com";  // Add test domain
 const RESOLVED_BASE_URL = useRelativeApi
   ? ""
   : ENV_API_TARGET
