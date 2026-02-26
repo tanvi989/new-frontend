@@ -187,7 +187,6 @@ export const getVtoImageUrl = (skuid: string) => `${VTO_IMAGE_BASE}/${skuid}_VTO
 // --- Payment / Thanks ---
 export const getPaymentStatus = (sessionId: string) => Promise.resolve({ data: { status: true } });
 export const sendInvoice = (orderId: string) => axios.post(`/api/v1/orders/${orderId}/send-confirmation-email`).then((r) => ({ data: r.data }));
-export const sendOrderConfirmationEmail = (orderId: string) => axios.post(`/api/v1/orders/${orderId}/send-confirmation-email`).then((r) => ({ data: r.data }));
 
 // --- Other stubs ---
 export const updateInventory = (data: any) => axios.put("/retailer/product-inventory", data);
@@ -217,6 +216,32 @@ export const updateUserAddress = (id: string, data: any) => Promise.resolve({ da
 
 // --- Order details ---
 export const getOrderDetails = (orderId: string) => axios.get(`/api/v1/orders/${orderId}`).then((r) => ({ data: r.data }));
+
+// --- Order confirmation email ---
+export const sendOrderConfirmationEmail = async (orderId: string): Promise<{ success: boolean; message?: string }> => {
+  try {
+    const authToken = localStorage.getItem('authToken') || localStorage.getItem('token') || '';
+    console.log('[sendConfirmationEmail] Using auth token:', authToken ? 'Present' : 'Missing');
+    
+    const response = await axios.post(`/api/v1/orders/${orderId}/send-confirmation-email`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken,
+      },
+    });
+    
+    if (response.data?.success) {
+      console.log('[sendConfirmationEmail] Order confirmation email sent successfully');
+      return { success: true, message: 'Confirmation email sent' };
+    } else {
+      console.error('[sendConfirmationEmail] Failed to send confirmation email:', response.data);
+      return { success: false, message: response.data?.message || 'Failed to send email' };
+    }
+  } catch (error) {
+    console.error('[sendConfirmationEmail] Error sending confirmation email:', error);
+    return { success: false, message: 'Error sending confirmation email' };
+  }
+};
 
 // --- Cart prescription link ---
 export const updateMyPrescriptionCartId = (prescriptionId: string, cartId: number) =>

@@ -52,6 +52,46 @@ const PaymentSuccess: React.FC = () => {
     });
   }, [queryClient]);
 
+  // Send confirmation email when order_id is in URL (direct payment success)
+  useEffect(() => {
+    const urlOrderId = searchParams.get('order_id');
+    if (urlOrderId && !sessionStorage.getItem(PENDING_ORDER_SYNC_KEY)) {
+      console.log('[PaymentSuccess] Found order_id in URL, sending confirmation email...');
+      console.log('[PaymentSuccess] URL Order ID:', urlOrderId);
+      console.log('[PaymentSuccess] Auth Token:', localStorage.getItem('authToken') ? 'Present' : 'Missing');
+      
+      const sendConfirmationEmail = async () => {
+        try {
+          const authToken = localStorage.getItem('authToken') || localStorage.getItem('token') || '';
+          console.log('[PaymentSuccess] Using auth token:', authToken ? 'Present' : 'Missing');
+          
+          const response = await fetch('/api/v1/orders/' + urlOrderId + '/send-confirmation-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + authToken,
+            },
+          });
+          
+          console.log('[PaymentSuccess] Response status:', response.status);
+          const responseData = await response.json();
+          console.log('[PaymentSuccess] Response data:', responseData);
+          
+          if (response.ok) {
+            console.log('[PaymentSuccess] Order confirmation email sent successfully');
+          } else {
+            console.error('[PaymentSuccess] Failed to send confirmation email:', response.status);
+            console.error('[PaymentSuccess] Failed response:', await response.text());
+          }
+        } catch (error) {
+          console.error('[PaymentSuccess] Error sending confirmation email:', error);
+        }
+      };
+      
+      sendConfirmationEmail();
+    }
+  }, [searchParams]);
+
   // Sync order with cart + totals
   useEffect(() => {
     try {
@@ -62,6 +102,42 @@ const PaymentSuccess: React.FC = () => {
       if (!order_id) return;
       sessionStorage.removeItem(PENDING_ORDER_SYNC_KEY);
       updateOrderWithCart(order_id, payload).catch(() => {});
+      
+      // Call order confirmation email endpoint
+      const sendConfirmationEmail = async () => {
+        console.log('[PaymentSuccess] Attempting to send confirmation email...');
+        console.log('[PaymentSuccess] Order ID:', order_id);
+        
+        try {
+          const authToken = localStorage.getItem('authToken') || localStorage.getItem('token') || '';
+          console.log('[PaymentSuccess] Using auth token:', authToken ? 'Present' : 'Missing');
+          
+          const response = await fetch('/api/v1/orders/' + order_id + '/send-confirmation-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + authToken,
+            },
+          });
+          
+          console.log('[PaymentSuccess] Response status:', response.status);
+          console.log('[PaymentSuccess] Response data:', await response.json());
+          
+          if (response.ok) {
+            console.log('[PaymentSuccess] Order confirmation email sent successfully');
+            return { success: true, message: 'Confirmation email sent' };
+          } else {
+            console.error('[PaymentSuccess] Failed to send confirmation email:', response.status);
+            console.error('[PaymentSuccess] Failed response:', await response.text());
+            return { success: false, message: 'Failed to send email' };
+          }
+        } catch (error) {
+          console.error('[PaymentSuccess] Error sending confirmation email:', error);
+          return { success: false, message: 'Error sending confirmation email' };
+        }
+      };
+      
+      sendConfirmationEmail();
     } catch (_) {}
   }, []);
 
