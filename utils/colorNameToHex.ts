@@ -16,7 +16,7 @@ export const COLOR_NAME_TO_HEX: Record<string, string> = {
     // Browns
     "Brown": "#8B4513",
     "Reddish brown": "#A0522D",
-    "Tortoise": "#8B4513",
+    "Tortoise": "#9C9E31",
 
     // Blues
     "Blue": "#0066CC",

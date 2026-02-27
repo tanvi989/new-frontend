@@ -217,6 +217,16 @@ export function MeasurementsTab({ onViewMeasurements, previewWidth = 384, previe
 
   return (
     <div className="space-y-4 animate-fadeIn">
+      {/* Alignment Loader Overlay */}
+      {isAligning && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-8 shadow-2xl max-w-sm mx-4 text-center">
+            <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-4" />
+            <p className="text-lg font-semibold text-gray-900 mb-2">We are aligning frame on your face</p>
+            <p className="text-sm text-gray-600">Please wait while we ensure perfect alignment...</p>
+          </div>
+        </div>
+      )}
       {/* Instruction + Face with test frame */}
       <div className={isCompact ? 'space-y-3 flex flex-col items-center' : 'space-y-3 text-left'}>
         <div className="flex flex-wrap items-center justify-center gap-2 w-full">

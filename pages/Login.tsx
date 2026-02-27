@@ -67,10 +67,10 @@ const Login: React.FC = () => {
           await authService.requestPin(email);
           setMessage({
             type: "success",
-            text: "Welcome back! Enter password or the ONE TIME PASSWORD sent to your email.",
+            text: "Welcome back! Enter password or the OTP sent to your email.",
           });
         } catch (pinError) {
-          console.error("Failed to send ONE TIME PASSWORD:", pinError);
+          console.error("Failed to send OTP:", pinError);
           setMessage({
             type: "success",
             text: "Welcome back! Please enter your password.",
@@ -528,17 +528,17 @@ const Login: React.FC = () => {
                 type="button"
                 onClick={async () => {
                   try {
-                    setMessage({ type: "success", text: "Sending ONE TIME PASSWORD..." });
+                    setMessage({ type: "success", text: "Sending OTP..." });
                     await authService.requestPin(email);
-                    setMessage({ type: "success", text: `ONE TIME PASSWORD has been sent to ${email}` });
+                    setMessage({ type: "success", text: `OTP has been sent to ${email}` });
                   } catch (err: any) {
                     console.error(err);
-                    setMessage({ type: "error", text: getApiErrorMessage(err, "Failed to send ONE TIME PASSWORD") });
+                    setMessage({ type: "error", text: getApiErrorMessage(err, "Failed to send OTP") });
                   }
                 }}
                 className="text-gray-500 font-medium text-xs hover:text-[#1F1F1F] transition-colors underline"
               >
-                request one time password
+                request OTP
               </button>
             </div>
 
@@ -555,17 +555,17 @@ const Login: React.FC = () => {
                 type="button"
                 onClick={async () => {
                   try {
-                    setMessage({ type: "success", text: "Sending ONE TIME PASSWORD..." });
+                    setMessage({ type: "success", text: "Sending OTP..." });
                     await authService.requestPin(email);
-                    setMessage({ type: "success", text: `ONE TIME PASSWORD has been sent to ${email}` });
+                    setMessage({ type: "success", text: `OTP has been sent to ${email}` });
                   } catch (err: any) {
                     console.error(err);
-                    setMessage({ type: "error", text: getApiErrorMessage(err, "Failed to send ONE TIME PASSWORD") });
+                    setMessage({ type: "error", text: getApiErrorMessage(err, "Failed to send OTP") });
                   }
                 }}
                 className="text-[#1F1F1F] font-bold text-sm underline hover:opacity-80"
               >
-                request one time password
+                request OTP
               </button>
 
               <button
@@ -573,7 +573,7 @@ const Login: React.FC = () => {
                 onClick={async () => {
                   if (loginMethod === "password") {
                     setLoginMethod("pin");
-                    setMessage({ type: "success", text: "Enter the ONE TIME PASSWORD sent to your email." });
+                    setMessage({ type: "success", text: "Enter the OTP sent to your email." });
                   } else {
                     setLoginMethod("password");
                   }
@@ -581,7 +581,7 @@ const Login: React.FC = () => {
                 className="text-gray-500 font-medium text-sm hover:text-black hidden"
               >
                 {/* Hidden toggle for now, prioritizing explicit send button */}
-                {loginMethod === "password" ? "Login with ONE TIME PASSWORD" : "Login with Password"}
+                {loginMethod === "password" ? "Login with OTP" : "Login with Password"}
               </button>
 
             </div>

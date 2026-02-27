@@ -141,7 +141,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                         {step === "email" && (
                             <div className="mb-8">
                                 <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-3 font-sans leading-tight tracking-tight">
-                                    Welcome to Multifolks
+                                    Welcome to MultiFolks
                                 </h2>
                                 <p className="text-[#757575] text-[15px] leading-relaxed font-medium">
                                     Enter your email to  Login / Signup
@@ -199,7 +199,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                 {/* Title and Subtitle */}
                                 <div className="mb-2">
                                     <h2 className="text-[28px] font-bold text-[#1F1F1F] mb-1 font-sans leading-tight tracking-tight">
-                                        Login to Multifolks
+                                        Login to MultiFolks
                                     </h2>
                                     <p className="text-[#757575] text-[15px] leading-relaxed font-medium">
                                         Welcome Back
@@ -297,8 +297,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                                 await authService.requestPin(email);
                                                 setStep("pin");
                                             } catch (err: any) {
-                                                console.error("Failed to send ONE TIME PASSWORD:", err);
-                                                setError("Failed to send ONE TIME PASSWORD. Please try again.");
+                                                console.error("Failed to send OTP:", err);
+                                                setError("Failed to send OTP. Please try again.");
                                             } finally {
                                                 setLoading(false);
                                             }
@@ -313,7 +313,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                             <form onSubmit={async (e) => {
                                 e.preventDefault();
                                 if (!pin || pin.length !== 6) {
-                                    setError("Please enter a valid 6-digit ONE TIME PASSWORD");
+                                    setError("Please enter a valid 6-digit OTP");
                                     return;
                                 }
                                 if (!newPassword || newPassword.length < 6) {
@@ -356,11 +356,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                     </button>
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="forgot-pin-input" className="sr-only">ONE TIME PASSWORD</label>
+                                    <label htmlFor="forgot-pin-input" className="sr-only">OTP</label>
                                     <input
                                         id="forgot-pin-input"
                                         type="text"
-                                        placeholder="Enter 6-digit ONE TIME PASSWORD"
+                                        placeholder="Enter 6-digit OTP"
                                         value={pin}
                                         onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))}
                                         className="w-full h-[48px] bg-white border border-[#CED4DA] rounded px-4 py-2 text-[16px] text-[#1F1F1F] font-medium placeholder:text-[#A3A3A3] focus:outline-none focus:border-[#1F1F1F] focus:ring-0 transition-all"
@@ -437,7 +437,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                             <form onSubmit={async (e) => {
                                 e.preventDefault();
                                 if (!pin || pin.length !== 6) {
-                                    setError("Please enter a valid 6-digit ONE TIME PASSWORD");
+                                    setError("Please enter a valid 6-digit OTP");
                                     return;
                                 }
 
@@ -450,14 +450,14 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                         await syncLocalCartToBackend();
                                         setSuccessMessage("Login successful");
                                     } else {
-                                        setError(response.message || "Invalid ONE TIME PASSWORD");
+                                        setError(response.message || "Invalid OTP");
                                     }
                                 } catch (err: any) {
-                                    console.error("ONE TIME PASSWORD verification error:", err);
+                                    console.error("OTP verification error:", err);
                                     setError(
                                         err?.response?.data?.detail?.msg ||
                                         err?.response?.data?.message ||
-                                        "Invalid ONE TIME PASSWORD. Please try again."
+                                        "Invalid OTP. Please try again."
                                     );
                                 } finally {
                                     setLoading(false);
@@ -466,10 +466,10 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                                 {/* Title */}
                                 <div className="text-center mb-1">
                                     <h2 className="text-[28.8px] font-bold text-[#1F1F1F] mb-1 font-sans">
-                                        ONE TIME PASSWORD SENT
+                                        OTP SENT
                                     </h2>
                                     <p className="text-[16px] text-[#6C757D]">
-                                        ONE TIME PASSWORD sent to
+                                        OTP sent to
                                     </p>
                                     <p className="text-[16px] text-[#6C757D]">
                                         {email}
@@ -485,7 +485,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
                                 {/* ONE TIME PASSWORD Input */}
                                 <div className="mb-4">
-                                    <label htmlFor="pin-input" className="sr-only">ONE TIME PASSWORD</label>
+                                    <label htmlFor="pin-input" className="sr-only">OTP</label>
                                     <input
                                         id="pin-input"
                                         type="text"
@@ -550,7 +550,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
                                 {/* Terms */}
                                 <p className="text-[12.8px] text-center text-[#212529] leading-relaxed">
-                                    By continuing, you agree to Multifolks's{" "}
+                                    By continuing, you agree to MultiFolks's{" "}
                                     <a href="/terms" className="underline hover:text-black">Terms of Use</a>
                                     {" "}and{" "}
                                     <a href="/privacy" className="underline hover:text-black">Privacy Policy</a>.

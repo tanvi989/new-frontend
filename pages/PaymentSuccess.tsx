@@ -10,7 +10,7 @@ const PENDING_ORDER_SYNC_KEY = 'multifolks_pending_order_sync';
 
 const ORDER_STEPS = [
   { key: 'processing', label: 'Confirmed' },
-  { key: 'dispatched', label: 'Dispatched' },
+  { key: 'dispatched', label: 'Processing' },
   { key: 'shipped', label: 'Shipped' },
   { key: 'delivered', label: 'Delivered' },
 ];
@@ -19,7 +19,6 @@ const PaymentSuccess: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
-  const [countdown, setCountdown] = useState(10);
   const [showMore, setShowMore] = useState(false);
   const orderId = searchParams.get('order_id');
 
@@ -65,7 +64,7 @@ const PaymentSuccess: React.FC = () => {
           const authToken = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
           console.log('[PaymentSuccess] Using auth token:', authToken ? 'Present' : 'Missing');
           
-          const response = await fetch('https://mainbackend.multifolks.com/api/v1/orders/' + urlOrderId + '/send-confirmation-email', {
+          const response = await fetch('https://testbackend.multifolks.com/api/v1/orders/' + urlOrderId + '/send-confirmation-email', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -112,7 +111,7 @@ const PaymentSuccess: React.FC = () => {
           const authToken = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
           console.log('[PaymentSuccess] Using auth token:', authToken ? 'Present' : 'Missing');
           
-          const response = await fetch('https://testbackend.multifolks.com/api/v1/orders/' + order_id + '/send-confirmation-email', {
+          const response = await fetch('https://mainbackend.multifolks.com/api/v1/orders/' + order_id + '/send-confirmation-email', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -164,19 +163,6 @@ const PaymentSuccess: React.FC = () => {
     });
   }, [searchParams]);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          navigate('/orders');
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [navigate]);
 
   const handleViewOrders = () => navigate('/orders');
   const handleContinueShopping = () => navigate('/glasses');
@@ -270,7 +256,7 @@ const PaymentSuccess: React.FC = () => {
                   <p className="font-medium text-[#1F1F1F] mb-2">What happens next?</p>
                   <ul className="list-disc list-inside space-y-1 text-xs">
                     <li><strong>Confirmed</strong> We’re preparing your order and checking prescription details.</li>
-                    <li><strong>Dispatched:</strong> Your order has been handed to our shipping partner.</li>
+                    <li><strong>Processing:</strong> Your order is being prepared and will be handed to our shipping partner soon.</li>
                     <li><strong>Shipped:</strong> Your order is on its way. You may receive tracking details by email.</li>
                     <li><strong>Delivered:</strong> Your order has been delivered. Enjoy your new glasses!</li>
                   </ul>
@@ -283,26 +269,6 @@ const PaymentSuccess: React.FC = () => {
                   </div>
                 )}
 
-                {order?.order?.cart?.length > 0 && (
-                  <div>
-                    <p className="font-medium text-[#1F1F1F] mb-2">Order items</p>
-                    <ul className="space-y-2">
-                      {order.order.cart.map((cart: any) => (
-                        <li key={cart.cart_id} className="flex gap-2 items-center text-xs">
-                          <div className="w-10 h-10 bg-gray-100 rounded border border-gray-200 flex items-center justify-center shrink-0">
-                            <img
-                              src={cart.product?.products?.image || cart.product?.image || `/api/v1/products/image/${cart.product_id}`}
-                              alt=""
-                              className="max-w-full max-h-full object-contain mix-blend-multiply"
-                            />
-                          </div>
-                          <span className="font-medium text-[#313131]">{cart.product?.products?.naming_system || cart.product?.products?.brand}</span>
-                          {cart.product?.products?.framecolor && <span className="text-gray-500">— {cart.product.products.framecolor}</span>}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
 
                 {subtotal != null && orderTotal != null && (
                   <div className="pt-2 border-t border-gray-200">
@@ -325,9 +291,6 @@ const PaymentSuccess: React.FC = () => {
             )}
           </div>
 
-          <p className="text-center text-gray-500 text-xs mb-6">
-            Redirecting to your orders in {countdown} seconds...
-          </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <button
