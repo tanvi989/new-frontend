@@ -53,6 +53,7 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
   const [processingStep, setProcessingStep] = useState('');
   const [glassesDetected, setGlassesDetected] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
+  const [isFaceDetectionInitializing, setIsFaceDetectionInitializing] = useState(true);
   /** After AI remove: show this photo and "Go ahead" before continuing to measurements */
   const [removedPreviewUrl, setRemovedPreviewUrl] = useState<string | null>(null);
   /** Step 4 tab: measurements | frames (Virtual Try-On) – controlled so MeasurementsTab can switch to frames */
@@ -215,6 +216,24 @@ const GetMyFitPopup: React.FC<GetMyFitPopupProps> = ({ open, onClose, initialSte
       if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
     }
   }, [open, initialStep ?? '1']);
+
+  // Handle face detection initialization state
+  useEffect(() => {
+    if (open && currentStep === '3' && isFaceDetectionInitializing) {
+      // Hide initializing state after 3 seconds or when face is detected
+      const timer = setTimeout(() => {
+        setIsFaceDetectionInitializing(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [open, currentStep, isFaceDetectionInitializing, faceValidationState.faceDetected]);
+
+  // Auto-hide initializing state when face is detected
+  useEffect(() => {
+    if (faceValidationState.faceDetected && isFaceDetectionInitializing) {
+      setIsFaceDetectionInitializing(false);
+    }
+  }, [faceValidationState.faceDetected, isFaceDetectionInitializing]);
 
   // Initialize camera when step 3 is active
   useEffect(() => {

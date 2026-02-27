@@ -23,6 +23,8 @@ interface FaceGuideOverlayProps {
   isMobile?: boolean;
   /** When true, hide blue eye line and eye reticles (match perfect-fit-cam simple overlay). */
   hideEyeLine?: boolean;
+  /** When true, show loading indicator while face detection initializes */
+  isInitializing?: boolean;
 }
 
 /**
@@ -39,11 +41,57 @@ export function FaceGuideOverlay({
   containerSize,
   isMobile = false,
   hideEyeLine = false,
+  isInitializing = false,
 }: FaceGuideOverlayProps) {
   return (
     <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+      {/* Loading indicator while face detection initializes */}
+      {isInitializing && !faceDetected && (
+        <div className="absolute top-20 left-0 right-0 text-center px-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/90 text-white rounded-full backdrop-blur-md">
+            <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <span className="text-sm font-medium">Initializing face detection...</span>
+          </div>
+        </div>
+      )}
       {/* Virtual Lines / Face Contour – hidden when hideEyeLine (match perfect-fit-cam mobile) */}
-      {!hideEyeLine && faceDetected && landmarks && containerSize && containerSize.width > 0 && containerSize.height > 0 && (
+      {!hideEyeLine && containerSize && containerSize.width > 0 && containerSize.height > 0 && (
+        <>
+          {/* Preview blue line - shows early before face detection */}
+          {!faceDetected && (
+            <svg
+              className="absolute inset-0 w-full h-full pointer-events-none z-20 face-guide-svg"
+              viewBox={`0 0 ${containerSize.width} ${containerSize.height}`}
+            >
+              {/* Preview horizontal line at estimated eye level */}
+              <line
+                x1={0}
+                y1={containerSize.height * 0.4} // Approximate eye level
+                x2={containerSize.width}
+                y2={containerSize.height * 0.4}
+                stroke="hsl(199, 89%, 48%, 0.6)"
+                strokeWidth={2}
+                strokeDasharray="8,4"
+                className="animate-pulse"
+              />
+              {/* Preview text */}
+              <text
+                x={containerSize.width / 2}
+                y={containerSize.height * 0.4 - 25}
+                fill="hsl(199, 89%, 48%, 0.8)"
+                fontSize={12}
+                fontWeight="bold"
+                textAnchor="middle"
+                className="uppercase tracking-widest animate-pulse"
+                style={{ fontFamily: 'inherit', textShadow: '0 0 8px rgba(0,0,0,0.5)' }}
+              >
+                Align eyes with this line
+              </text>
+            </svg>
+          )}
+          
+          {/* Full face detection overlay - shows when face is detected */}
+          {faceDetected && landmarks && (
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none z-20 face-guide-svg"
           viewBox={`0 0 ${containerSize.width} ${containerSize.height}`}
@@ -162,6 +210,8 @@ export function FaceGuideOverlay({
             strokeWidth="1"
           />
         </svg>
+          )}
+        </>
       )}
 
       {/* Center guide oval – exact same as perfect-fit-cam */}
