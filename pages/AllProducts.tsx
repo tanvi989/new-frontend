@@ -1574,6 +1574,61 @@ return withWidth.slice(0, 200).map(({ product }) => product);
       {/* --- Bottom Sections --- */}
       <NamingSystemSection />
 
+      {/* Mobile Bottom Filter/Sort Bar - Fixed at bottom */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-black text-white z-50 shadow-2xl">
+        <div className="flex items-center justify-around">
+          {/* Filter Button */}
+          <button
+            onClick={() => setShowMobileFilter(true)}
+            className="flex-1 flex items-center justify-center gap-2 py-4 hover:bg-white/10 transition-colors"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+              />
+            </svg>
+            <span className="font-medium">Filter</span>
+            {totalActiveFilters > 0 && (
+              <span className="w-5 h-5 flex items-center justify-center bg-white text-black text-xs rounded-full">
+                {totalActiveFilters}
+              </span>
+            )}
+          </button>
+
+          {/* Divider */}
+          <div className="w-px h-8 bg-white/20"></div>
+
+          {/* Sort Button */}
+          <button
+            onClick={() => setShowMobileSort(true)}
+            className="flex-1 flex items-center justify-center gap-2 py-4 hover:bg-white/10 transition-colors"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
+              />
+            </svg>
+            <span className="font-medium">Sort</span>
+          </button>
+        </div>
+      </div>
+
       {/* Mobile Filter/Sort Modals */}
       <MobileFilterSortModal
         type="filter"
