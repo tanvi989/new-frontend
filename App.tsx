@@ -105,24 +105,7 @@ const App: React.FC = () => {
   const location = useLocation();
 
   // Load CookieYes consent banner
-  useEffect(() => {
-  if (location.pathname !== '/') return;
-  if (localStorage.getItem('cookieyes-accepted')) return; // ✅ already accepted before, skip forever
-  if (document.getElementById('cookieyes')) return; // already in DOM, skip
 
-  const script = document.createElement('script');
-  script.id = 'cookieyes';
-  script.type = 'text/javascript';
-  script.src = 'https://cdn-cookieyes.com/client_data/867ace6bea3c3f55f9168cd1838d01d8/script.js';
-
-  document.head.appendChild(script);
-
-  // ✅ Listen for when user accepts the cookie consent
-  window.addEventListener('cookieyes_consent_update', () => {
-    localStorage.setItem('cookieyes-accepted', 'true');
-  });
-
-}, [location.pathname]);
 
 
   // Define routes that should NOT use the default Navigation/Footer logic
