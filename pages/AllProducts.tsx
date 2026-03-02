@@ -490,16 +490,17 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["allProducts", selectedFilters, currentPage, fitEnabled],
+    queryKey: ["allProducts", selectedFilters, currentPage, fitEnabled, sortBy],
 
     queryFn: async () => {
-      // When MFit is enabled, fetch ALL products to find best matches
-      // When MFit is disabled, use pagination for performance
+      // When MFit is enabled OR sorting is applied, fetch ALL products for accurate sorting
+      // When MFit is disabled AND no sorting, use pagination for performance
+      const needsAllProducts = fitEnabled || sortBy !== SORT_OPTIONS[0];
       const params: any = {
-        limit: fitEnabled ? 2000 : 48, // Fetch all for MFit, paginate for normal browsing
+        limit: needsAllProducts ? 2000 : 48, // Fetch all for sorting/MFit, paginate for normal browsing
       };
 
-      if (!fitEnabled) {
+      if (!needsAllProducts) {
         params.page = currentPage;
       }
 
@@ -563,6 +564,9 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
       console.log("📊 Request Parameters:", params);
       console.log("📦 Current Page:", currentPage);
       console.log("📦 Items Per Page:", itemsPerPage);
+      console.log("🔄 Sort By:", sortBy);
+      console.log("🎯 MFit Enabled:", fitEnabled);
+      console.log("📦 Needs All Products:", needsAllProducts);
       
       const startTime = performance.now();
       const response = await getAllProducts(params);
@@ -573,10 +577,10 @@ const AllProducts: React.FC<AllProductsProps> = ({ mobileLayout = false }) => {
       console.log("  - Start Time:", startTime.toFixed(2), "ms");
       console.log("  - End Time:", endTime.toFixed(2), "ms");
       console.log("  - Request Duration:", requestTime.toFixed(2), "ms");
-      console.log("  - Speed:", requestTime < 500 ? "🟢 FAST" : requestTime < 1000 ? "� MEDIUM" : "🔴 SLOW");
+      console.log("  - Speed:", requestTime < 500 ? "🟢 FAST" : requestTime < 1000 ? "🟡 MEDIUM" : "🔴 SLOW");
       console.log("  - Cached:", response.request?.responseURL === undefined ? "✅ YES" : "❌ NO");
       
-      console.log("� Backend Response:", response);
+      console.log("📥 Backend Response:", response);
       console.log("📥 Pagination Info:", response.data?.pagination);
       
       // Use backend data directly (no client-side filtering needed)
@@ -837,18 +841,9 @@ return withWidth.slice(0, 200).map(({ product }) => product);
       }
       return result;
     }
-    // Normal Mode: Use pagination logic
-    let result = [...filteredAndSortedProducts];
-    if (sortBy === "Price Low To High") {
-      result.sort((a: any, b: any) => a.price - b.price);
-    } else if (sortBy === "Price High To Low") {
-      result.sort((a: any, b: any) => b.price - a.price);
-    } else if (sortBy === "Newly Added") {
-      result.sort((a: any, b: any) => b.id - a.id);
-    } else if (sortBy === "Most Popular") {
-      result.sort((a: any, b: any) => (b.price || 0) - (a.price || 0));
-    }
-    return result;
+    // Normal Mode: Use filteredAndSortedProducts which already has sorting applied to all products
+    // The pagination will be applied later to this sorted list
+    return filteredAndSortedProducts;
   }, [effectiveTopMfit, topMfitProducts, sortBy, filteredAndSortedProducts]);
 
   // --- PAGINATION LOGIC ---
@@ -863,12 +858,23 @@ return withWidth.slice(0, 200).map(({ product }) => product);
   // Split Logic: Mobile (Infinite) vs Desktop (Paginated)
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  // Use backend pagination data for 80% faster performance
-  const totalProducts = productsDataResponse?.pagination?.total || gridSourceProducts.length;
-  const totalPages = productsDataResponse?.pagination?.pages || Math.ceil(gridSourceProducts.length / itemsPerPage);
+  
+  // Determine if we should use client-side pagination (when all products are fetched)
+  const needsAllProducts = fitEnabled || sortBy !== SORT_OPTIONS[0];
+  
+  // Use backend pagination data for performance when paginated, otherwise use client-side data
+  const totalProducts = needsAllProducts 
+    ? gridSourceProducts.length 
+    : (productsDataResponse?.pagination?.total || gridSourceProducts.length);
+  const totalPages = needsAllProducts 
+    ? Math.ceil(gridSourceProducts.length / itemsPerPage)
+    : (productsDataResponse?.pagination?.pages || Math.ceil(gridSourceProducts.length / itemsPerPage));
+  
   const paginatedProducts = isMobile
     ? gridSourceProducts.slice(0, visibleMobileCount)
-    : gridSourceProducts; // Already paginated from backend
+    : (needsAllProducts 
+        ? gridSourceProducts.slice(startIndex, endIndex)  // Client-side pagination
+        : gridSourceProducts); // Backend pagination (already paginated)
 
   // Infinite Scroll Observer for Mobile
   useEffect(() => {
